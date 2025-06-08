@@ -48,18 +48,10 @@ const Navigation: React.FC<NavigationProps> = ({
     onToggleSidebar,
     sidebarRef,
 }) => {
-    const { isAuthenticated, setIsAuthenticated } = useAuth();
+    const { logout } = useAuth();
     const router = useRouter();
     const { theme, setTheme } = useTheme();
-
-    const handleLogout = () => {
-        // Simulate logout
-        setIsAuthenticated(false);
-        localStorage.removeItem('isAuthenticated');
-        setTimeout(() => {
-            router.push('/login');
-        }, 1000);
-    };
+    const { isAuthenticated } = useAuth();
 
     const toggleTheme = () => {
         setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -101,7 +93,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     {isAuthenticated ? (
                         <button
                             className='space-y-2 p-4 mb-8 w-full text-white bg-amber-600 rounded cursor-pointer transition-all duration-300 hover:bg-amber-500'
-                            onClick={handleLogout}
+                            onClick={logout}
                         >
                             Logout
                         </button>

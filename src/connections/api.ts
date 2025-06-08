@@ -1,3 +1,5 @@
+import { s } from "framer-motion/client";
+
 const API_BASE_URL = 'http://localhost:5006/api';
 
 const getAuthToken = () => {
@@ -32,7 +34,7 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
             const contentType = response.headers.get('Content-Type');
             if (contentType && contentType.includes('application/json')) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'API request failed');
+                throw new Error(errorData.error || errorData.message || 'API request failed');
             } else {
                 const text = await response.text();
                 console.error('Non-JSON error response:', text);
