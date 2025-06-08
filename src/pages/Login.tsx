@@ -8,30 +8,39 @@ import Link from 'next/link';
 
 
 const Login: React.FC = () => {
-    const { setIsAuthenticated } = useAuth();
+    const { login } = useAuth();
     const router = useRouter();
     const [usernameOrEmail, setUsernameOrEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
     const [success, setSuccess] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError('');
+        setSuccess('');
+        setIsLoading(true);
         if (!usernameOrEmail || !password) {
             setError('Please fill in all fields.');
+            setIsLoading(false);
             return;
         }
         // Simulate login
         try {
-            // Replace with actual API call
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            setSuccess('Login successful!');
-            setError('');
-            setIsAuthenticated(true);
-            // Redirect to user dashboard
-            router.push('/user-dashboard');
+            const success = await login(usernameOrEmail, password);
+            if (success) {
+                setSuccess('Login successful! Redirecting...');
+                setTimeout(() => {
+                    router.push('/user-dashboard');
+                }, 2000);
+            } else {
+                setError('Invalid username/email or password.');
+            }
         } catch (err) {
             setError('Login failed. Please check your credentials.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
