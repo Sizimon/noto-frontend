@@ -7,50 +7,63 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 const Register: React.FC = () => {
-    const { setIsAuthenticated } = useAuth();
+    const { register } = useAuth();
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
     const [success, setSuccess] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const router = useRouter();
 
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError('');
+        setSuccess('');
+        setIsLoading(true);
         if (password !== confirmPassword) {
             setError('Passwords do not match.');
+            setIsLoading(false);
             return;
         }
 
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,18}$/;
         if (!passwordRegex.test(password)) {
             setError('Password must be 6-18 characters long and contain at least one letter, one number, and one special character.');
+            setIsLoading(false);
             return;
         }
 
         if (!email.includes('@')) {
             setError('Invalid email address.');
+            setIsLoading(false);
             return;
         } // In the future check if email is already in use
 
         if (username.length < 3) {
             setError('Username must be at least 3 characters long.');
+            setIsLoading(false);
             return;
-        } // In the future check if username is already taken
+        }
+        // In the future check if username is already taken
 
-        // Simulate an API call
+        // Call API to register user
         try {
-            // Replace with actual API call
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            setSuccess('Registration successful!');
-            setError('');
-            setIsAuthenticated(true);
-            // Redirect to login or dashboard
-            router.push('/user-dashboard');
+            const success = await register(username, email, password);
+            if (success) {
+                setSuccess('Registration successful! Redirecting...');
+                setTimeout(() => {
+                    router.push('/user-dashboard');
+                }, 2000);
+            } else {
+                setError('Registration failed. Please try again.');
+            }
         } catch (err) {
             setError('Registration failed. Please try again.');
+        } finally {
+            setIsLoading(false);
         }
     };
 

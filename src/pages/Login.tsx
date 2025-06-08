@@ -58,7 +58,8 @@ const Login: React.FC = () => {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium">Password:</label>
+                            <label className="block text-sm font-medium"
+                            >Password:</label>
                             <input
                                 type="password"
                                 value={password}
