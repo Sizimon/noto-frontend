@@ -32,7 +32,7 @@ const cards = [
 ]
 
 const UserDashboard: React.FC = () => {
-    const [userContent, setUserContent] = useState<boolean>(true);
+    const [userContent, setUserContent] = useState<boolean>(false);
     const [showModal, setShowModal] = useState<boolean>(false);
 
     const tagsRef = useRef<HTMLDivElement>(null);
@@ -61,13 +61,20 @@ const UserDashboard: React.FC = () => {
 
     return (
         <Layout>
-            <div className="flex flex-col w-full text-zinc-800 dark:text-white items-center justify-center min-h-screen bg-white dark:bg-zinc-900 py-12">
-                <div className="justify-center items-center text-center">
+            <div className="
+                flex flex-col w-full text-zinc-800 items-center justify-center min-h-screen bg-white py-12
+                dark:text-white dark:bg-zinc-900
+            ">
+                <div className="flex flex-col justify-center items-center text-center w-full">
                     <h1 className='text-4xl md:text-6xl'>In<span className='text-amber-600'>Time</span>Tasks</h1>
                     <h1 className="text-lg md:text-3xl font-bold md:my-4">WELCOME BACK, <span className='text-amber-600'>User</span></h1>
                     <RecentlyViewed />
                 </div>
-                <div className='bg-zinc-100 dark:bg-zinc-950 w-11/12 p-4 rounded-lg'>
+                <div className='
+                    bg-zinc-100 w-11/12 p-4 rounded-lg
+                    dark:bg-zinc-950
+                    md:w-10/12
+                '>
                     {userContent ? (
                         /* This will be a for loop to display every user created task */
                         <div className='flex flex-col items-center'>

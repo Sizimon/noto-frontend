@@ -17,23 +17,45 @@ const cards = [
         icon: <MdOutlineViewKanban className="text-lg md:text-xl" />,
         type: "TYPE",
         label: "Portfolio Kanban"
-    }
+    },
+    {
+        icon: <FaRegListAlt className="text-md md:text-lg" />,
+        type: "TYPE",
+        label: "Sunday List"
+    },
+    {
+        icon: <FaRegListAlt className="text-md md:text-lg" />,
+        type: "TYPE",
+        label: "Sunday List"
+    },
+    {
+        icon: <FaRegListAlt className="text-md md:text-lg" />,
+        type: "TYPE",
+        label: "Sunday List"
+    },
 ]
 
 const RecentlyViewed: React.FC = () => {
 
     return (
-        <div className='flex flex-col bg-zinc-200 dark:bg-zinc-950 p-4 rounded-lg shadow-lg m-4 md:m-0 md:mb-4'>
-            <div className='flex space-x-2 items-center text-amber-600 mb-4'>
+        <div className='
+            flex flex-col bg-zinc-200 p-4 rounded-lg shadow-lg w-11/12 my-4
+          dark:bg-zinc-950
+            md:m-0 md:mb-4 md:max-w-2xl
+        '>
+            <div className='flex space-x-2 items-center text-amber-600'>
                 <FaRegClock className='text-sm' />
                 <p className='text-sm'>Recently viewed</p>
             </div>
-            <div className='flex flex-row items-center justify-center space-x-2'>
+            <div className='flex flex-row items-center justify-start space-x-2 overflow-x-scroll py-4 px-2'>
                 {cards.map((card, index) => (
                     <div
                         key={index}
-                        className='flex flex-col items-center rounded-sm cursor-pointer flex-1 min-w-0 max-w-xs h-32 bg-zinc-100 dark:bg-zinc-900 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg'
-                    >
+                        className='
+                        flex flex-col items-center rounded-sm cursor-pointer flex-1 min-w-32 max-w-xs h-32 bg-zinc-100 
+                        dark:bg-zinc-900 
+                        transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg
+                    '>
                         <div className='w-full text-center rounded-t-sm bg-zinc-300 dark:bg-zinc-800 py-2'>
                             <div className='flex items-center justify-center text-amber-600 text-sm'>
                                 {card.icon}

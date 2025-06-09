@@ -34,6 +34,7 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
             const contentType = response.headers.get('Content-Type');
             if (contentType && contentType.includes('application/json')) {
                 const errorData = await response.json();
+                console.error('API error response:', errorData);
                 throw new Error(errorData.error || errorData.message || 'API request failed');
             } else {
                 const text = await response.text();
@@ -65,3 +66,21 @@ export const authAPI = {
         }),
 };
 
+export const tasksAPI = {
+    create: (type: string) => 
+        apiRequest('/tasks', {
+            method: 'POST',
+            body: JSON.stringify({ type }),
+        }),
+    getById:(id: string) =>
+        apiRequest(`/tasks/${id}`),
+};
+
+export const userAPI = {
+    getProfile: () => apiRequest('/user/profile'),
+    updateProfile: (data: any) =>
+        apiRequest('/user/profile', {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+};
