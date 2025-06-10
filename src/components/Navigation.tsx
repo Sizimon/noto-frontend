@@ -72,11 +72,19 @@ const Navigation: React.FC<NavigationProps> = ({
                 {/* Navigation Links */}
                 <nav className={`p-4 ${sidebarOpen ? 'block' : 'hidden'}`}>
                     <ul className="space-y-2">
-                        <SidebarLink href="/">Home</SidebarLink>
-                        <SidebarLink href="/about">About</SidebarLink>
-                        <SidebarLink href="/user-dashboard">User Dashboard</SidebarLink>
-                        <SidebarLink href="/login">Login</SidebarLink>
-                        <SidebarLink href="/register">Register</SidebarLink>
+                        { isAuthenticated ? (
+                        <ul className="space-y-2">
+                            <SidebarLink href="/">Home</SidebarLink>
+                            <SidebarLink href="/about">About</SidebarLink>
+                        </ul>
+                        ) : (
+                        <ul className="space-y-2">
+                            <SidebarLink href="/">Home</SidebarLink>
+                            <SidebarLink href="/about">About</SidebarLink>
+                            <SidebarLink href="/login">Login</SidebarLink>
+                            <SidebarLink href="/register">Register</SidebarLink>
+                        </ul>
+                        )}
                     </ul>
                 </nav>
             </div>

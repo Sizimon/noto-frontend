@@ -35,7 +35,8 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
         >
             <motion.div
                 className='
-                bg-white text-white dark:bg-zinc-900 dark:text-white rounded-lg shadow-lg p-4 w-10/12
+                bg-white text-zinc-600 rounded-lg shadow-lg p-4 w-10/12
+                dark:bg-zinc-900 dark:text-white
                 md:w-2/5'
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
@@ -55,7 +56,8 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
                             <motion.div
                                 key={task.type}
                                 className='
-                                flex flex-col items-center justify-center space-y-2 cursor-pointer bg-zinc-800 p-4 my-2 w-full rounded-xl border-1 border-zinc-800/0
+                                flex flex-col items-center justify-center space-y-2 cursor-pointer p-4 my-2 w-full rounded-xl border-1 border-zinc-800/0 bg-zinc-200
+                                dark:bg-zinc-800
                                 md:w-1/3
                                 transition-all duration-150 hover:border-1 hover:border-amber-600
                                 '

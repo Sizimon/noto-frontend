@@ -20,10 +20,31 @@ export default function TaskPage() {
     }
 
     return (
-        <div className="p-8">
-            <h1 className="text-2xl font-bold mb-4">{task.title}</h1>
-            <p>Type: {task.type}</p>
-            <div className="mt-4">{task.content}</div>
+        <div className="
+            flex flex-col items-center justify-start min-h-screen p-4 w-full bg-zinc-200 pt-12
+            dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-900
+            ">
+            <div className='
+            flex items-center justify-center w-full max-w-3xl
+            md:items-start md:justify-start 
+            '>
+                <input 
+                    className="
+                    border-b-1 border-zinc-300 bg-zinc-200 text-zinc-600 text-xl focus:outline-none max-w-screen text-center pb-2
+                    md:text-left md:max-w-3xl md:text-3xl md:focus:text-3xl
+                    dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-800
+                    " 
+                    placeholder={`${task.title}`}
+                    value={task.title}
+                    onChange={(e) => setTask({ ...task, title: e.target.value })}
+                />      
+            </div>
+            <div className="
+            mt-4 text-zinc-600
+            dark:text-zinc-300
+            ">
+                {task.content ? task.content : 'No content available...'}
+            </div>
         </div>
     );
 }
