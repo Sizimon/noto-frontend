@@ -46,7 +46,9 @@ const Login: React.FC = () => {
 
     return (
         <Layout>
-            <div className="grid grid-cols-2 grid-flow-col dark:text-white items-center justify-center h-screen bg-white dark:bg-zinc-800">
+            <div className="
+                grid grid-cols-2 grid-flow-col items-center justify-center h-screen bg-white text-zinc-600
+                dark:text-zinc-300 dark:bg-zinc-800">
                 <div className="flex flex-col items-center justify-center text-center px-24">
                     <h1 className='text-6xl'>In<span className='text-amber-600'>Time</span>Tasks</h1>
                     <p className='text-2xl'>Helping you stay on track, quick & easy, your workflow tool & notebook.</p>
@@ -55,7 +57,12 @@ const Login: React.FC = () => {
                     <h1 className="text-2xl font-bold mb-4">Login</h1>
                     {error && <p className="text-red-500 text-center px-24 pb-4">{error}</p>}
                     {success && <p className="text-green-500">{success}</p>}
-                    <form onSubmit={handleLogin} className="flex flex-col space-y-4 bg-zinc-100 dark:bg-zinc-950 p-8 rounded-lg w-4/6">
+                    <form 
+                        onSubmit={handleLogin} 
+                        className="
+                            flex flex-col space-y-4 bg-zinc-100 p-8 rounded-lg w-4/6
+                            dark:bg-zinc-950
+                        ">
                         <div>
                             <label className="block text-sm font-medium">Username/Email:</label>
                             <input
@@ -79,8 +86,10 @@ const Login: React.FC = () => {
                         </div>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-500"
-                        >
+                            className="
+                                px-4 py-2 bg-amber-600 text-white rounded 
+                                hover:bg-amber-500
+                            ">
                             Login
                         </button>
                         <p className='text-center'>

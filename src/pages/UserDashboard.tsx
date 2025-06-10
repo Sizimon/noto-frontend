@@ -32,7 +32,7 @@ const cards = [
 ]
 
 const UserDashboard: React.FC = () => {
-    const [userContent, setUserContent] = useState<boolean>(false);
+    const [userContent, setUserContent] = useState<boolean>(true);
     const [showModal, setShowModal] = useState<boolean>(false);
 
     const tagsRef = useRef<HTMLDivElement>(null);

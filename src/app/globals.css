@@ -30,3 +30,38 @@ body {
 .ProseMirror:focus {
   outline: none;
 }
+
+.ProseMirror code {
+  color: #ea580c !important;
+}
+
+.ProseMirror h1 { font-size: 2rem; font-weight: bold; margin: 1em 0 0.5em 0; }
+.ProseMirror h2 { font-size: 1.5rem; font-weight: bold; margin: 1em 0 0.5em 0; }
+.ProseMirror h3 { font-size: 1.25rem; font-weight: bold; margin: 1em 0 0.5em 0; }
+
+
+.ProseMirror ul {
+  list-style-type: disc;
+  margin-left: 2em;
+  margin-bottom: 1em;
+}
+.ProseMirror ol {
+  list-style-type: decimal;
+  margin-left: 2em;
+  margin-bottom: 1em;
+}
+.ProseMirror li {
+  margin-bottom: 0.25em;
+}
+
+.ProseMirror blockquote {
+  border-left: 4px solid #fbbf24;
+  padding-left: 1em;
+  color: #64748b;
+  margin: 1em 0;
+  font-style: italic;
+}
+
+.ProseMirror p {
+  margin: 0.5em 0;
+}
