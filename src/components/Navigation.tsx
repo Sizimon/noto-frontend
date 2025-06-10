@@ -93,14 +93,14 @@ const Navigation: React.FC<NavigationProps> = ({
             <div className={`text-center ${sidebarOpen ? 'flex flex-col items-center justify-center' : 'hidden'} mb-8`}>
                 <div className="w-4/6">
                     <button
-                        className='space-y-2 p-4 mb-4 w-full bg-zinc-300 dark:bg-zinc-900 rounded cursor-pointer transition-all duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-800'
+                        className='space-y-2 p-4 mb-4 w-full bg-zinc-300 dark:bg-zinc-900 rounded-full cursor-pointer transition-all duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-800'
                         onClick={toggleTheme}
                     >
                         Toggle {theme === 'dark' ? 'Light' : 'Dark'} Mode
                     </button>
                     {isAuthenticated ? (
                         <button
-                            className='space-y-2 p-4 mb-8 w-full text-white bg-amber-600 rounded cursor-pointer transition-all duration-300 hover:bg-amber-500'
+                            className='space-y-2 p-4 mb-8 w-full text-white bg-amber-600 rounded-full cursor-pointer transition-all duration-300 hover:bg-amber-500'
                             onClick={logout}
                         >
                             Logout

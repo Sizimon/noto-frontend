@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { tasksAPI } from '@/connections/api';
+import TipTapEditor from '@/components/TipTapEditor';
 
 export default function TaskPage() {
     const params = useParams();
@@ -17,6 +18,10 @@ export default function TaskPage() {
 
     if (!task) {
         return <div>Loading...</div>;
+    }
+
+    const handleContentChange = (newContent: string) => {
+        setTask((prev: any) => ({ ...prev, content: newContent }));
     }
 
     return (
@@ -40,10 +45,14 @@ export default function TaskPage() {
                 />      
             </div>
             <div className="
-            mt-4 text-zinc-600
+            flex items-center justify-center mt-4 text-zinc-600 w-full
             dark:text-zinc-300
             ">
-                {task.content ? task.content : 'No content available...'}
+                <TipTapEditor 
+                    content={task.content ? task.content : null} 
+                    onChange={handleContentChange} 
+                    
+                />
             </div>
         </div>
     );
