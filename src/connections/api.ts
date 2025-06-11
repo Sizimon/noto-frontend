@@ -72,8 +72,10 @@ export const tasksAPI = {
             method: 'POST',
             body: JSON.stringify({ type }),
         }),
-    getById:(id: string) =>
-        apiRequest(`/tasks/${id}`),
+    // getById:(id: string) =>
+    //     apiRequest(`/tasks/${id}`),
+    getAll: () =>
+        apiRequest('/tasks/fetch'),
 };
 
 export const userAPI = {

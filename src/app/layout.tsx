@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { AuthProvider } from "@/context/AuthProvider";
 import CustomThemeProvider from "@/theme/ThemeProvider";
 import "./globals.css";
+import { TasksProvider } from "@/context/TasksProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +19,9 @@ export default function RootLayout({
       <body>
         <CustomThemeProvider>
           <AuthProvider>
+            <TasksProvider>
             {children}
+            </TasksProvider>
           </AuthProvider>
         </CustomThemeProvider>
       </body>

@@ -1,38 +1,20 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useOnClickOutside } from '../hooks/onClickOutside';
 import Layout from '../Layout';
 import RecentlyViewed from '../components/RecentlyViewed';
 import { FaRegListAlt, FaRegStickyNote, FaCaretDown } from "react-icons/fa";
-import { MdOutlineViewKanban } from "react-icons/md";
+import { useRouter } from 'next/navigation';
 import { IoCreateOutline } from "react-icons/io5";
-
+import { useTasks } from '../context/TasksProvider';
 import CreateTaskModal from '../components/CreateTaskModal';
 
-const cards = [
-    {
-        icon: <FaRegStickyNote className="text-xl" />,
-        title: "Cron SSL",
-        label: "Basic Cron to automatically renew SSL every 3 months.",
-        tags: ["cron", "ssl", "renew"],
-    },
-    {
-        icon: <FaRegListAlt className="text-xl" />,
-        title: "Environment Setup",
-        label: "Checklist to setup your dev environment.",
-        tags: ["setup", "environment", "dev"],
-    },
-    {
-        icon: <MdOutlineViewKanban className="text-2xl" />,
-        title: "Portfolio Development Kanban",
-        label: "List of tasks to continue developing my portfolio.",
-        tags: ["portfolio", "development", "kanban"],
-    },
-]
 
 const UserDashboard: React.FC = () => {
-    const [userContent, setUserContent] = useState<boolean>(true);
+    const { allTasks, refreshTasks } = useTasks();
+
+    const router = useRouter();
     const [showModal, setShowModal] = useState<boolean>(false);
 
     const tagsRef = useRef<HTMLDivElement>(null);
@@ -59,6 +41,10 @@ const UserDashboard: React.FC = () => {
         setSortMenuOpen(!sortMenuOpen);
     }
 
+    const handleTaskClick = (card: any) => {
+        router.push(`/tasks/${card.id}`);
+    }
+
     return (
         <Layout>
             <div className="
@@ -75,7 +61,7 @@ const UserDashboard: React.FC = () => {
                     dark:bg-zinc-950
                     md:w-10/12
                 '>
-                    {userContent ? (
+                    {allTasks.length > 0 ? (
                         /* This will be a for loop to display every user created task */
                         <div className='flex flex-col items-center'>
                             <div className="flex flex-col items-center justify-center w-full mb-4 md:flex-row md:gap-4">
@@ -163,22 +149,23 @@ const UserDashboard: React.FC = () => {
                                 </div>
                             </div>
                             <div className='grid grid-cols-1 grid-flow-row md:grid-cols-3 justify-items-center w-full md:px-4 md:space-x-4'>
-                                {cards.map((card, index) => (
+                                {allTasks.map((card, index) => (
                                     <div
-                                        key={index}
+                                        key={card.id || index}
                                         className='flex flex-col items-center text-center p-4 rounded-lg shadow-lg mb-4 bg-zinc-200 dark:bg-zinc-900 w-full md:w-10/12'
+                                        onClick={() => handleTaskClick(card)}
                                     >
                                         <div className='flex flex-col items-center w-full justify-between mb-4 text-amber-600'>
                                             <div>
                                                 <div className='flex items-center justify-center'>
-                                                    {card.icon}
+                                                    {card.type}
                                                 </div>
                                                 <div className='flex items-center'>
                                                     <h2 className='text-lg font-bold truncate'>{card.title}</h2>
                                                 </div>
                                             </div>
                                         </div>
-                                        <p className='text-sm'>{card.label}</p>
+                                        <p className='text-sm'>{card.content}</p>
                                     </div>
                                 ))}
                             </div>

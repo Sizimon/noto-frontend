@@ -2,19 +2,21 @@
 
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { tasksAPI } from '@/connections/api';
+import { useTasks } from '@/context/TasksProvider';
 import TipTapEditor from '@/components/TipTapEditor';
 
 export default function TaskPage() {
     const params = useParams();
     const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
+    const { allTasks } = useTasks();
     const [task, setTask] = useState<any>(null);
 
     useEffect(() => {
         if (id) {
-            tasksAPI.getById(id as string).then(setTask).catch(() => setTask(null));
+            const foundTask = allTasks.find((t) => t.id === id);
+            setTask(foundTask || null);
         }
-    }, [id]);
+    }, [id, allTasks]);
 
     if (!task) {
         return <div>Loading...</div>;
