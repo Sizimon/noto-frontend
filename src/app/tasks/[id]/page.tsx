@@ -1,9 +1,11 @@
 'use client'
 
 import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTasks } from '@/context/TasksProvider';
 import TipTapEditor from '@/components/TipTapEditor';
+
+import { tasksAPI } from '@/connections/api';
 
 export default function TaskPage() {
     const params = useParams();
@@ -22,8 +24,28 @@ export default function TaskPage() {
         return <div>Loading...</div>;
     }
 
-    const handleContentChange = (newContent: string) => {
-        setTask((prev: any) => ({ ...prev, content: newContent }));
+    const handleTaskEdit = async (newTitle: string, newContent: string) => {
+        setTask((prev: any) => ({ ...prev, title: newTitle, content: newContent }));
+        if (!id) return;
+        try {
+            await tasksAPI.edit(id, {
+                title: newTitle,
+                content: newContent,
+            });
+        } catch (error) {
+            console.error('Error updating task:', error);
+        }
+    }
+
+    const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
+    const triggerAutoSave = (newTitle: string, newContent: string) => {
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current);
+        }
+        debounceRef.current = setTimeout(() => {
+            handleTaskEdit(newTitle, newContent);
+        }, 2000);
     }
 
     return (
@@ -43,7 +65,11 @@ export default function TaskPage() {
                     " 
                     placeholder={`${task.title}`}
                     value={task.title}
-                    onChange={(e) => setTask({ ...task, title: e.target.value })}
+                    onChange={(e) => {
+                        const newTitle = e.target.value;
+                        setTask({ ...task, title: newTitle });
+                        triggerAutoSave(newTitle, task.content);
+                    }}
                 />      
             </div>
             <div className="
@@ -52,7 +78,10 @@ export default function TaskPage() {
             ">
                 <TipTapEditor 
                     content={task.content ? task.content : null} 
-                    onChange={handleContentChange} 
+                    onChange={(newContent) => {
+                        setTask({ ...task, content: newContent });
+                        triggerAutoSave(task.title, newContent);
+                    }} 
                     
                 />
             </div>

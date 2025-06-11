@@ -1,9 +1,13 @@
 'use client';
 
+import React, { useEffect } from 'react';
+
+// TipTap Editor
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
-import React, { useEffect } from 'react';
+
+// Icons
 import { FaBold, FaItalic, FaHeading, FaStrikethrough, FaQuoteLeft, FaList, FaListOl } from "react-icons/fa";
 import { FaT, FaCode } from "react-icons/fa6";
 

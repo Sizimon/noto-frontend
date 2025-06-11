@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { tasksAPI } from '@/connections/api';
 
+
+// Defines what a Task should look like (may need to be adjusted in the future)
 interface Task {
     id: string;
     title: string;
@@ -14,12 +16,12 @@ interface Task {
 }
 
 interface TasksContextType {
-    allTasks: Task[];
-    setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+    allTasks: Task[]; // Array of all tasks with each task needing to match the Task interface
+    setAllTasks: React.Dispatch<React.SetStateAction<Task[]>>; // Function to update the tasks state
     refreshTasks: () => Promise<void>;
 }
 
-const TasksContext = createContext<TasksContextType | undefined>(undefined);
+const TasksContext = createContext<TasksContextType | undefined>(undefined); 
 
 export const TasksProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [allTasks, setAllTasks] = useState<Task[]>([]);

@@ -5,6 +5,7 @@ import { useOnClickOutside } from '../hooks/onClickOutside';
 import Layout from '../Layout';
 import RecentlyViewed from '../components/RecentlyViewed';
 import { FaRegListAlt, FaRegStickyNote, FaCaretDown } from "react-icons/fa";
+import { MdOutlineViewKanban } from "react-icons/md";
 import { useRouter } from 'next/navigation';
 import { IoCreateOutline } from "react-icons/io5";
 import { useTasks } from '../context/TasksProvider';
@@ -152,13 +153,20 @@ const UserDashboard: React.FC = () => {
                                 {allTasks.map((card, index) => (
                                     <div
                                         key={card.id || index}
-                                        className='flex flex-col items-center text-center p-4 rounded-lg shadow-lg mb-4 bg-zinc-200 dark:bg-zinc-900 w-full md:w-10/12'
+                                        className='
+                                        flex flex-col items-center text-center p-4 rounded-lg shadow-lg mb-4 bg-zinc-200 w-full cursor:pointer
+                                        dark:bg-zinc-900
+                                        md:w-10/12
+                                        transition-all duration-300 hover:shadow-xl hover:scale-105
+                                        '
                                         onClick={() => handleTaskClick(card)}
                                     >
                                         <div className='flex flex-col items-center w-full justify-between mb-4 text-amber-600'>
                                             <div>
                                                 <div className='flex items-center justify-center'>
-                                                    {card.type}
+                                                    {card.type === 'note' && <FaRegStickyNote className='text-2xl md:text-3xl' />}
+                                                    {card.type === 'list' && <FaRegListAlt className='text-2xl md:text-3xl' />}
+                                                    {card.type === 'kanban' && <MdOutlineViewKanban className='text-2xl md:text-3xl' />}
                                                 </div>
                                                 <div className='flex items-center'>
                                                     <h2 className='text-lg font-bold truncate'>{card.title}</h2>

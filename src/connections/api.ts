@@ -1,7 +1,6 @@
-import { s } from "framer-motion/client";
-
 const API_BASE_URL = 'http://localhost:5006/api';
 
+// Utility function to get the auth token from localStorage
 const getAuthToken = () => {
     if (typeof window !== 'undefined') {
         return localStorage.getItem('token');
@@ -72,10 +71,13 @@ export const tasksAPI = {
             method: 'POST',
             body: JSON.stringify({ type }),
         }),
-    // getById:(id: string) =>
-    //     apiRequest(`/tasks/${id}`),
     getAll: () =>
         apiRequest('/tasks/fetch'),
+    edit: (id: string, data: any) =>
+        apiRequest(`/tasks/edit/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        })
 };
 
 export const userAPI = {
