@@ -149,7 +149,7 @@ const UserDashboard: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='grid grid-cols-1 grid-flow-row md:grid-cols-3 justify-items-center w-full md:px-4 md:space-x-4'>
+                            <div className='grid grid-cols-1 grid-flow-row md:grid-cols-4 justify-items-center w-full md:px-4 md:space-x-4'>
                                 {allTasks.map((card, index) => (
                                     <div
                                         key={card.id || index}
@@ -173,7 +173,11 @@ const UserDashboard: React.FC = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <p className='text-sm'>{card.content}</p>
+                                        <ul className='flex flex-row space-x-4 text-xs text-zinc-600 dark:text-zinc-300'>
+                                            <li>Tag 1</li>
+                                            <li>Tag 2</li>
+                                            <li>Tag 3</li>
+                                        </ul>
                                     </div>
                                 ))}
                             </div>

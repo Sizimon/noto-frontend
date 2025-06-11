@@ -13,12 +13,13 @@ const TipTapEditor = dynamic(() => import('@/components/TipTapEditor'), {
 import { tasksAPI } from '@/connections/api';
 
 export default function TaskPage() {
-    const debounceRef = useRef<NodeJS.Timeout | null>(null);
-    const params = useParams();
-    const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
-    const { allTasks, setAllTasks } = useTasks();
-    const [task, setTask] = useState<any>(null);
+    const debounceRef = useRef<NodeJS.Timeout | null>(null); // Ref to hold the debounce timeout
+    const params = useParams(); // Get the URL parameters (e.g., task ID)
+    const id = Array.isArray(params?.id) ? params.id[0] : params?.id; // If id is an array, take the first element; otherwise, use the id directly
+    const { allTasks, setAllTasks } = useTasks(); // Access the tasks context to get all tasks and the function to update them
+    const [task, setTask] = useState<any>(null); // State to hold the current task
 
+    // Effect to find the task by ID when the component mounts or when the ID changes and set it to state.
     useEffect(() => {
         if (id) {
             const foundTask = allTasks.find((t) => t.id === id);
@@ -30,6 +31,7 @@ export default function TaskPage() {
         return <div>Loading...</div>;
     }
 
+    // Function to handle task editing, which updates the task title and content
     const handleTaskEdit = async (newTitle: string, newContent: string) => {
         setTask((prev: any) => ({ ...prev, title: newTitle, content: newContent }));
         if (!id) return;
@@ -51,6 +53,7 @@ export default function TaskPage() {
         }
     }
 
+    // Function to trigger auto-save after a delay when the title or content changes
     const triggerAutoSave = (newTitle: string, newContent: string) => {
         if (debounceRef.current) {
             clearTimeout(debounceRef.current);

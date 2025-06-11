@@ -45,7 +45,7 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
         return response.json();
     } catch (error) {
         console.error('API request error:', error);
-        throw error; // Propagate error to caller
+        throw error;
     }
 
 };
@@ -58,6 +58,7 @@ export const authAPI = {
             method: 'POST',
             body: JSON.stringify({ usernameOrEmail, password }),
         }),
+    
     register: (username: string, email: string, password: string) =>
         apiRequest('/auth/register', {
             method: 'POST',
@@ -71,8 +72,10 @@ export const tasksAPI = {
             method: 'POST',
             body: JSON.stringify({ type }),
         }),
+
     getAll: () =>
         apiRequest('/tasks/fetch'),
+
     edit: (id: string, data: any) =>
         apiRequest(`/tasks/edit/${id}`, {
             method: 'PUT',
