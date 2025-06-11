@@ -3,14 +3,20 @@
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState, useRef } from 'react';
 import { useTasks } from '@/context/TasksProvider';
-import TipTapEditor from '@/components/TipTapEditor';
+import dynamic from 'next/dynamic';
+
+const TipTapEditor = dynamic(() => import('@/components/TipTapEditor'), {
+    ssr: false,
+    loading: () => <div>Loading editor...</div>,
+});
 
 import { tasksAPI } from '@/connections/api';
 
 export default function TaskPage() {
+    const debounceRef = useRef<NodeJS.Timeout | null>(null);
     const params = useParams();
     const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
-    const { allTasks } = useTasks();
+    const { allTasks, setAllTasks } = useTasks();
     const [task, setTask] = useState<any>(null);
 
     useEffect(() => {
@@ -28,16 +34,22 @@ export default function TaskPage() {
         setTask((prev: any) => ({ ...prev, title: newTitle, content: newContent }));
         if (!id) return;
         try {
+            // Call the API to update the task with the new title and content
             await tasksAPI.edit(id, {
                 title: newTitle,
                 content: newContent,
             });
+            
+            // Update the task in context state to maintain consistency
+            setAllTasks((prevTasks: any[]) =>
+                prevTasks.map((t) => 
+                    t.id === id ? { ...t, title: newTitle, content: newContent } : t
+                )
+            );
         } catch (error) {
             console.error('Error updating task:', error);
         }
     }
-
-    const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
     const triggerAutoSave = (newTitle: string, newContent: string) => {
         if (debounceRef.current) {
@@ -68,6 +80,7 @@ export default function TaskPage() {
                     onChange={(e) => {
                         const newTitle = e.target.value;
                         setTask({ ...task, title: newTitle });
+                        // Trigger auto-save after a delay only for title changes
                         triggerAutoSave(newTitle, task.content);
                     }}
                 />      
@@ -77,12 +90,13 @@ export default function TaskPage() {
             dark:text-zinc-300
             ">
                 <TipTapEditor 
+                    key={task.id}
                     content={task.content ? task.content : null} 
                     onChange={(newContent) => {
                         setTask({ ...task, content: newContent });
+                        // Trigger auto-save after a delay for content changes
                         triggerAutoSave(task.title, newContent);
                     }} 
-                    
                 />
             </div>
         </div>
