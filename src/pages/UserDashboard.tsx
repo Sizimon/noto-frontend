@@ -28,7 +28,9 @@ const UserDashboard: React.FC = () => {
     useOnClickOutside(sortRef, () => setSortMenuOpen(false));
 
     const [tagsMenuOpen, setTagsMenuOpen] = useState<boolean>(false);
+
     const [sortMenuOpen, setSortMenuOpen] = useState<boolean>(false);
+    const [sortOrder, setSortOrder] = useState<string>('alphabetical');
 
     const handleModalOpen = () => {
         setShowModal(true);
@@ -55,6 +57,23 @@ const UserDashboard: React.FC = () => {
         const filteredResult = allTasks.filter(task => task.title.toLowerCase().includes(value.toLowerCase()));
         setFilteredTasks(filteredResult);
     }
+
+    const sortTasks = (tasks: any[], order: string) => {
+        switch (order) {
+            case 'alphabetical':
+                return tasks.sort((a, b) => a.title.localeCompare(b.title));
+            case 'date':
+                return tasks.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+            case 'favorite':
+                return tasks.filter(task => task.isFavorite);
+        }
+    }
+
+    useEffect(() => {
+        // Whenever allTasks or sortOrder changes, we re-filter and sort the tasks
+        const sortedTasks = sortTasks([...allTasks], sortOrder);
+        setFilteredTasks(sortedTasks ?? []);
+    }, [allTasks, sortOrder]);
 
     console.log('All Tasks:', allTasks);
 
@@ -114,16 +133,32 @@ const UserDashboard: React.FC = () => {
                                             ref={sortRef}
                                             >
                                                 <label className="flex items-center gap-1 text-xs">
-                                                    <input type="radio" name="sort" value="date" className="accent-amber-600" /> A-Z
+                                                    <input 
+                                                        type="radio" 
+                                                        name="sort" 
+                                                        value="alphabetical" 
+                                                        className="accent-amber-600"
+                                                        defaultChecked={sortOrder === 'alphabetical'}
+                                                        onChange={() => setSortOrder('alphabetical')} /> A-Z
                                                 </label>
                                                 <label className="flex items-center gap-1 text-xs">
-                                                    <input type="radio" name="sort" value="name" className="accent-amber-600" /> Date Created
+                                                    <input 
+                                                        type="radio" 
+                                                        name="sort" 
+                                                        value="date" 
+                                                        className="accent-amber-600" 
+                                                        checked={sortOrder === 'date'}
+                                                        onChange={() => setSortOrder('date')}
+                                                         /> Date Created
                                                 </label>
                                                 <label className="flex items-center gap-1 text-xs">
-                                                    <input type="radio" name="sort" value="priority" className="accent-amber-600" /> Last Updated
-                                                </label>
-                                                <label className="flex items-center gap-1 text-xs">
-                                                    <input type="radio" name="sort" value="priority" className="accent-amber-600" /> Priority
+                                                    <input 
+                                                        type="radio" 
+                                                        name="sort" 
+                                                        value="favorite" 
+                                                        className="accent-amber-600" 
+                                                        checked={sortOrder === 'favorite'}
+                                                        onChange={() => setSortOrder('favorite')} /> Filter by favorites.
                                                 </label>
                                             </div>
                                         )}
