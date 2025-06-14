@@ -18,7 +18,7 @@ const RecentlyViewed: React.FC = () => {
 
     return (
         <div className='
-            flex flex-col bg-zinc-200 p-4 rounded-lg shadow-lg w-11/12 my-4
+            flex flex-col bg-zinc-100 p-4 rounded-lg shadow-lg w-11/12 my-4
           dark:bg-zinc-950
             md:m-0 md:mb-4 md:max-w-2xl
         '>
@@ -36,13 +36,10 @@ const RecentlyViewed: React.FC = () => {
                         transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg
                     '>
                     <div className='
-                        rounded-full w-24 h-24 flex items-center justify-center bg-zinc-100 
-                        dark:bg-zinc-800'
+                        rounded-full w-24 h-24 flex items-center justify-center bg-amber-600'
                     >
-                        <div className='
-                            w-full text-center rounded-full bg-zinc-100 py-2
-                            dark:bg-zinc-800'>
-                            <div className='flex items-center justify-center text-amber-600 text-xs rounded-full'>
+                        <div className='w-full text-center'>
+                            <div className='flex items-center justify-center text-zinc-100 text-xs rounded-full'>
                                 {card.title}
                             </div>
                         </div>
