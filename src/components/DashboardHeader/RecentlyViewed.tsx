@@ -31,19 +31,22 @@ const RecentlyViewed: React.FC = () => {
                     <div
                         key={index}
                         className='
-                        flex flex-col items-center rounded-sm cursor-pointer flex-1 min-w-32 max-w-xs h-32 bg-zinc-100 
+                        flex flex-col items-center cursor-pointer rounded-full 
                         dark:bg-zinc-900 
                         transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg
                     '>
-                        <div className='w-full text-center rounded-t-sm bg-zinc-300 dark:bg-zinc-800 py-2'>
-                            <div className='flex items-center justify-center text-amber-600 text-sm'>
+                    <div className='
+                        rounded-full w-24 h-24 flex items-center justify-center bg-zinc-100 
+                        dark:bg-zinc-800'
+                    >
+                        <div className='
+                            w-full text-center rounded-full bg-zinc-100 py-2
+                            dark:bg-zinc-800'>
+                            <div className='flex items-center justify-center text-amber-600 text-xs rounded-full'>
                                 {card.title}
-                                <p>{card.title}</p>
                             </div>
                         </div>
-                        <div className='m-auto p-1 md:p-4 w-full text-center text-sm'>
-                            <p>{card.label}</p>
-                        </div>
+                    </div>
                     </div>
                 ))}
             </div>
