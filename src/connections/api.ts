@@ -85,14 +85,20 @@ export const tasksAPI = {
         }),
 
     getAll: () =>
-        apiRequest('/tasks/fetch'),
-
+        apiRequest('/tasks/fetch', {
+            method: 'GET',
+        }),
     edit: (id: string, data: any) =>
         apiRequest(`/tasks/edit/${id}`, {
             method: 'PUT',
             body: JSON.stringify(data),
+        }),
+    createTag: (id: string, tag: string) =>
+        apiRequest(`/tasks/${id}/tags`, {
+            method: 'POST',
+            body: JSON.stringify({ tag }),
         })
-};
+    };
 
 export const userAPI = {
     getProfile: () => apiRequest('/user/profile'),
