@@ -29,7 +29,7 @@ export const TasksProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const refreshTasks = async () => {
         try {
             const data = await tasksAPI.getAll();
-            setAllTasks(data.all);
+            setAllTasks(data.notepads);
         } catch (error) {
             console.error('Error fetching tasks:', error);
         }
