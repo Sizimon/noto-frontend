@@ -9,14 +9,18 @@ import { MdOutlineViewKanban } from "react-icons/md";
 import { useRouter } from 'next/navigation';
 import { IoCreateOutline } from "react-icons/io5";
 import { useTasks } from '../context/TasksProvider';
+import { useAuth } from '../context/AuthProvider';
 import CreateTaskModal from '../components/CreateTaskModal';
 
 
 const UserDashboard: React.FC = () => {
     const { allTasks, refreshTasks } = useTasks();
+    const { user } = useAuth();
 
     const router = useRouter();
     const [showModal, setShowModal] = useState<boolean>(false);
+
+    const [filteredTasks, setFilteredTasks] = useState<any[]>(allTasks); // This will be updated based on search or filter criteria
 
     const tagsRef = useRef<HTMLDivElement>(null);
     useOnClickOutside(tagsRef, () => setTagsMenuOpen(false));
@@ -46,6 +50,14 @@ const UserDashboard: React.FC = () => {
         router.push(`/tasks/${card.id}`);
     }
 
+    const handleSearchChange = (value: string) => {
+        // Implement search functionality here
+        const filteredResult = allTasks.filter(task => task.title.toLowerCase().includes(value.toLowerCase()));
+        setFilteredTasks(filteredResult);
+    }
+
+    console.log('All Tasks:', allTasks);
+
     return (
         <Layout>
             <div className="
@@ -54,7 +66,7 @@ const UserDashboard: React.FC = () => {
             ">
                 <div className="flex flex-col justify-center items-center text-center w-full">
                     <h1 className='text-4xl md:text-6xl'>In<span className='text-amber-600'>Time</span>Tasks</h1>
-                    <h1 className="text-lg md:text-3xl font-bold md:my-4">WELCOME BACK, <span className='text-amber-600'>User</span></h1>
+                    <h1 className="text-lg md:text-3xl font-bold md:my-4">WELCOME BACK, <span className='text-amber-600'>{user?.username}</span></h1>
                     <RecentlyViewed />
                 </div>
                 <div className='
@@ -76,6 +88,7 @@ const UserDashboard: React.FC = () => {
                                     <input
                                         type="text"
                                         placeholder="Search..."
+                                        onChange={(e) => handleSearchChange(e.target.value)}
                                         className="border rounded p-2 text-xs border-none bg-zinc-200 dark:bg-zinc-900 dark:border-zinc-700 outline-none focus:ring-1 focus:ring-amber-500 transition-all duration-300"
                                     />
                                 </div>
@@ -150,7 +163,7 @@ const UserDashboard: React.FC = () => {
                                 </div>
                             </div>
                             <div className='grid grid-cols-1 grid-flow-row md:grid-cols-4 justify-items-center w-full md:px-4 md:space-x-4'>
-                                {allTasks.map((card, index) => (
+                                {filteredTasks.map((card, index) => (
                                     <div
                                         key={card.id || index}
                                         className='
