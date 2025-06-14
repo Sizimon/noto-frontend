@@ -1,41 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { FaRegListAlt, FaRegStickyNote, FaRegClock } from "react-icons/fa";
-import { MdOutlineViewKanban } from "react-icons/md";
+import { useTasks } from '@/context/TasksProvider';
+import { FaRegClock } from "react-icons/fa";
+import { useAuth } from '@/context/AuthProvider';
 
-const cards = [
-    {
-        icon: <FaRegStickyNote className="text-md md:text-lg" />,
-        type: "TYPE",
-        label: "Cron to update SSL"
-    },
-    {
-        icon: <FaRegListAlt className="text-md md:text-lg" />,
-        type: "TYPE",
-        label: "Sunday List"
-    },
-    {
-        icon: <MdOutlineViewKanban className="text-lg md:text-xl" />,
-        type: "TYPE",
-        label: "Portfolio Kanban"
-    },
-    {
-        icon: <FaRegListAlt className="text-md md:text-lg" />,
-        type: "TYPE",
-        label: "Sunday List"
-    },
-    {
-        icon: <FaRegListAlt className="text-md md:text-lg" />,
-        type: "TYPE",
-        label: "Sunday List"
-    },
-    {
-        icon: <FaRegListAlt className="text-md md:text-lg" />,
-        type: "TYPE",
-        label: "Sunday List"
-    },
-]
 
 const RecentlyViewed: React.FC = () => {
+    const { user } = useAuth();
+    const { allTasks } = useTasks();
+    const [cards, setCards] = useState<any[]>([]);
+
+    useEffect(() => {
+        if (user) {
+            const recentlyViewedTasks = user.lastViewed.map((id: string) => allTasks.find(task => task.id === id)).filter(Boolean);
+            setCards(recentlyViewedTasks);
+        }
+    }, [user, allTasks]);
 
     return (
         <div className='
@@ -58,8 +37,8 @@ const RecentlyViewed: React.FC = () => {
                     '>
                         <div className='w-full text-center rounded-t-sm bg-zinc-300 dark:bg-zinc-800 py-2'>
                             <div className='flex items-center justify-center text-amber-600 text-sm'>
-                                {card.icon}
-                                <p>{card.type}</p>
+                                {card.title}
+                                <p>{card.title}</p>
                             </div>
                         </div>
                         <div className='m-auto p-1 md:p-4 w-full text-center text-sm'>
