@@ -101,7 +101,10 @@ export const tasksAPI = {
     };
 
 export const userAPI = {
-    getProfile: () => apiRequest('/user/profile'),
+    updateHistory: (data: [any]) => apiRequest('/user/history', {
+        method: 'PUT',
+        body: JSON.stringify(data),
+    }),
     updateProfile: (data: any) =>
         apiRequest('/user/profile', {
             method: 'PUT',
