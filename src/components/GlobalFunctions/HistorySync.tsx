@@ -9,9 +9,9 @@ const HistorySync = () => {
             const user = JSON.parse(userStr);
             if (!Array.isArray(user.lastViewed)) return;
             try {
-                await userAPI.updateHistory(user.lastViewed);
+                await userAPI.updateLastViewed(user.lastViewed);
             } catch (error) {
-                console.error('Error updating user history:', error);
+                console.error('Error updating user last viewed:', error);
             }
         }
         sync();

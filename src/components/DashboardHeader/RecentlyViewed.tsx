@@ -10,9 +10,14 @@ const RecentlyViewed: React.FC = () => {
     const [cards, setCards] = useState<any[]>([]);
 
     useEffect(() => {
-        if (user) {
-            const recentlyViewedTasks = user.lastViewed.map((id: string) => allTasks.find(task => task.id === id)).filter(Boolean);
+        if (user && Array.isArray(user.lastViewed)) {
+            const recentlyViewedTasks = user.lastViewed
+                .map((id: string) => allTasks.find(task => task.id === id))
+                .filter(Boolean);
             setCards(recentlyViewedTasks);
+        } else {
+            setCards([]); // Reset cards if user or lastViewed is not available
+            console.warn('User or lastViewed is not available');
         }
     }, [user, allTasks]);
 

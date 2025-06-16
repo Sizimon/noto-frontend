@@ -1,5 +1,3 @@
-import { useAuth } from '../context/AuthProvider';
-
 const API_BASE_URL = 'http://localhost:5006/api';
 
 // Utility function to get the auth token from localStorage
@@ -30,15 +28,6 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
 
         console.log('response status:', response.status);
         console.log('response headers:', response.headers);
-
-        // if (response.status === 401) {
-        //     // Handle unauthorized access / expired token
-        //     if (typeof window !== 'undefined') {
-        //         localStorage.removeItem('token');
-        //         localStorage.removeItem('user');
-        //         window.location.href = '/login'; // Redirect to login page
-        //     }
-        // }
 
         if (!response.ok) {
             const contentType = response.headers.get('Content-Type');
@@ -101,13 +90,8 @@ export const tasksAPI = {
     };
 
 export const userAPI = {
-    updateHistory: (data: [any]) => apiRequest('/user/history', {
+    updateLastViewed: (data: [any]) => apiRequest('/user/last-viewed', {
         method: 'PUT',
-        body: JSON.stringify(data),
+        body: JSON.stringify({ lastViewed: data}),
     }),
-    updateProfile: (data: any) =>
-        apiRequest('/user/profile', {
-            method: 'PUT',
-            body: JSON.stringify(data),
-        }),
 };

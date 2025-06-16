@@ -2,6 +2,7 @@
 
 import { AuthProvider, useAuth } from './AuthProvider';
 import { TasksProvider } from './TasksProvider';
+import HistorySync from '@/components/GlobalFunctions/HistorySync';
 
 function InnerProviders({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
@@ -20,6 +21,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
       <InnerProviders>
+        <HistorySync />
         {children}
       </InnerProviders>
     </AuthProvider>

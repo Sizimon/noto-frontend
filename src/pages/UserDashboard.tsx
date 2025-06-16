@@ -18,7 +18,7 @@ import { useOnClickOutside } from '../hooks/onClickOutside';
 
 const UserDashboard: React.FC = () => {
     const { allTasks, refreshTasks } = useTasks();
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
     const router = useRouter();
 
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -51,9 +51,13 @@ const UserDashboard: React.FC = () => {
     }
 
     const handleTaskClick = (card: any) => {
+        // Navigate to the task details page
+        router.push(`/tasks/${card.id}`);
+        
+
+        // Update localStorage with the last viewed task
         const userStorage = localStorage.getItem('user');
         let user = userStorage ? JSON.parse(userStorage) : null;
-
         if (user) {
             if (!Array.isArray(user.lastViewed)) user.lastViewed = [];
 
@@ -61,9 +65,8 @@ const UserDashboard: React.FC = () => {
             user.lastViewed.unshift(card.id); // Add the task to the front of the array
             if (user.lastViewed.length > 10) user.lastViewed.pop(); // Limit to the last 10 viewed tasks
             localStorage.setItem('user', JSON.stringify(user)); // Update the user in local storage
+            setTimeout(() => setUser({ ...user }), 150); //  150ms DELAY | Update the user state in context
         }
-        
-        router.push(`/tasks/${card.id}`);
     }
 
     const handleSearchChange = (value: string) => {
