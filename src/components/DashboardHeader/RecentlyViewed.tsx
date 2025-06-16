@@ -10,8 +10,8 @@ const RecentlyViewed: React.FC = () => {
     const [cards, setCards] = useState<any[]>([]);
 
     useEffect(() => {
-        if (user && Array.isArray(user.lastViewed)) {
-            const recentlyViewedTasks = user.lastViewed
+        if (user && Array.isArray(user.lastViewedTasks)) {
+            const recentlyViewedTasks = user.lastViewedTasks
                 .map((id: string) => allTasks.find(task => task.id === id))
                 .filter(Boolean);
             setCards(recentlyViewedTasks);

@@ -59,13 +59,13 @@ const UserDashboard: React.FC = () => {
         const userStorage = localStorage.getItem('user');
         let user = userStorage ? JSON.parse(userStorage) : null;
         if (user) {
-            if (!Array.isArray(user.lastViewed)) user.lastViewed = [];
+            if (!Array.isArray(user.lastViewedTasks)) user.lastViewedTasks = [];
 
-            user.lastViewed = user.lastViewed.filter((id: string) => id !== card.id); // Remove the task if it already exists
-            user.lastViewed.unshift(card.id); // Add the task to the front of the array
-            if (user.lastViewed.length > 10) user.lastViewed.pop(); // Limit to the last 10 viewed tasks
+            user.lastViewedTasks = user.lastViewedTasks.filter((id: string) => id !== card.id); // Remove the task if it already exists
+            user.lastViewedTasks.unshift(card.id); // Add the task to the front of the array
+            if (user.lastViewedTasks.length > 10) user.lastViewed.pop(); // Limit to the last 10 viewed tasks
             localStorage.setItem('user', JSON.stringify(user)); // Update the user in local storage
-            setTimeout(() => setUser({ ...user }), 150); //  150ms DELAY | Update the user state in context
+            setTimeout(() => setUser({ ...user }), 750); //  750ms DELAY | Update the user state in context
         }
     }
 

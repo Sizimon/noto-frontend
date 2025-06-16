@@ -29,6 +29,17 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
         console.log('response status:', response.status);
         console.log('response headers:', response.headers);
 
+        if (response.status === 401) {
+            // Remove invalid token and user
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            // Redirect to login
+            if (typeof window !== 'undefined') {
+                window.location.href = '/login';
+                return;
+            }
+        }
+
         if (!response.ok) {
             const contentType = response.headers.get('Content-Type');
             if (contentType && contentType.includes('application/json')) {
@@ -92,6 +103,6 @@ export const tasksAPI = {
 export const userAPI = {
     updateLastViewed: (data: [any]) => apiRequest('/user/last-viewed', {
         method: 'PUT',
-        body: JSON.stringify({ lastViewed: data}),
+        body: JSON.stringify({ lastViewedTasks: data}),
     }),
 };

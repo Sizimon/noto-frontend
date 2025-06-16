@@ -7,9 +7,9 @@ const HistorySync = () => {
             const userStr = localStorage.getItem('user');
             if (!userStr) return;
             const user = JSON.parse(userStr);
-            if (!Array.isArray(user.lastViewed)) return;
+            if (!Array.isArray(user.lastViewedTasks)) return;
             try {
-                await userAPI.updateLastViewed(user.lastViewed);
+                await userAPI.updateLastViewed(user.lastViewedTasks);
             } catch (error) {
                 console.error('Error updating user last viewed:', error);
             }

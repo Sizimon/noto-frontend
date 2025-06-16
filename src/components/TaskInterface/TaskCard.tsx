@@ -21,7 +21,9 @@ export default function TaskCard({
                     </div>
                 </div>
             </div>
-            <ul className='flex flex-row justify-start items-start space-x-4 text-xs rounded-b-lg p-2 bg-zinc-100 text-zinc-600 dark:text-zinc-300 w-full'>
+            <ul className='flex flex-row justify-start items-start space-x-4 text-xs rounded-b-lg p-2 bg-zinc-100 text-zinc-600 w-full
+            dark:text-zinc-300 dark:bg-zinc-800
+            '>
                 {!card.tags || card.tags.length === 0 ? (
                     creatingTagForId === card.id ? (
                         <form onSubmit={e => {
