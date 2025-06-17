@@ -31,24 +31,29 @@ const RecentlyViewed: React.FC = () => {
                 <FaRegClock className='text-sm' />
                 <p className='text-sm'>Recently viewed</p>
             </div>
-            <div className='flex flex-row items-center justify-start space-x-2 overflow-x-scroll py-4 px-2'>
+            <div className="flex flex-row items-center justify-start space-x-4 overflow-x-auto py-4 px-2">
                 {cards.map((card, index) => (
                     <div
                         key={index}
-                        className='
-                        flex flex-col items-center cursor-pointer rounded-full 
-                        dark:bg-zinc-900 
-                        transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg
-                    '>
-                    <div className='
-                        rounded-full w-24 h-24 flex items-center justify-center bg-amber-600'
+                        className="
+                flex flex-col items-center cursor-pointer
+                transition-transform duration-200 hover:scale-105
+            "
+                        title={card.title}
                     >
-                        <div className='w-full text-center'>
-                            <div className='flex items-center justify-center text-zinc-100 text-xs rounded-full'>
+                        <div
+                            className="
+                    flex items-center justify-center
+                    w-20 h-20 md:w-28 md:h-28
+                    rounded-full bg-amber-600 shadow-lg
+                    overflow-hidden
+                    transition-all duration-200
+                "
+                        >
+                            <span className="text-white text-xs font-bold text-center px-2 uppercase line-clamp-3">
                                 {card.title}
-                            </div>
+                            </span>
                         </div>
-                    </div>
                     </div>
                 ))}
             </div>

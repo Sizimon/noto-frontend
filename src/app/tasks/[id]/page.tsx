@@ -75,11 +75,12 @@ export default function TaskPage() {
                 <input 
                     className="
                     border-b-1 border-zinc-300 bg-zinc-200 text-zinc-600 text-xl focus:outline-none max-w-screen text-center pb-2
-                    md:text-left md:max-w-3xl md:text-3xl md:focus:text-3xl
+                    md:text-left md:w-full md:text-3xl md:focus:text-3xl
                     dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-800
                     " 
                     placeholder={`${task.title}`}
                     value={task.title}
+                    maxLength={55}
                     onChange={(e) => {
                         const newTitle = e.target.value;
                         setTask({ ...task, title: newTitle });

@@ -23,6 +23,7 @@ const UserDashboard: React.FC = () => {
 
     const [showModal, setShowModal] = useState<boolean>(false);
     const [filteredTasks, setFilteredTasks] = useState<any[]>(allTasks); // This will be updated based on search or filter criteria
+    const [noteMenuOpen, setNoteMenuOpen] = useState<string>('');
     const [tagsMenuOpen, setTagsMenuOpen] = useState<boolean>(false);
     const [sortMenuOpen, setSortMenuOpen] = useState<boolean>(false);
     const [sortOrder, setSortOrder] = useState<string>('alphabetical');
@@ -40,6 +41,11 @@ const UserDashboard: React.FC = () => {
         setNewTag(''); // Reset the new tag input
         setCreatingTagForId(null); // Close the tag creation input
 
+    }
+
+    const handleNoteMenuToggle = (taskId: string) => {
+        setNoteMenuOpen(taskId);
+        console.log(`Note menu toggled for task ID: ${taskId}`);
     }
 
     const handleTagsMenuToggle = () => {
@@ -133,7 +139,8 @@ const UserDashboard: React.FC = () => {
                                 setCreatingTagForId={setCreatingTagForId}
                                 newTag={newTag}
                                 setNewTag={setNewTag}
-                                handleCreateTag={handleCreateTag}
+                                noteMenuOpen={noteMenuOpen}
+                                handleNoteMenuToggle={handleNoteMenuToggle}
                                 handleTaskClick={handleTaskClick}
                             />
                         </div>

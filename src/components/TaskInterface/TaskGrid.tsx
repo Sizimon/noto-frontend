@@ -1,10 +1,19 @@
 import TaskCard from './TaskCard';
 
 export default function TaskGrid({
-    filteredTasks, creatingTagForId, setCreatingTagForId, newTag, setNewTag, handleCreateTag, handleTaskClick
+    filteredTasks,
+    creatingTagForId,
+    setCreatingTagForId,
+    newTag,
+    setNewTag,
+    handleCreateTag,
+    handleTaskClick,
+    noteMenuOpen,
+    setNoteMenuOpen,
+    handleNoteMenuToggle
 }: any) {
     return (
-        <div className='grid grid-cols-1 grid-flow-row md:grid-cols-5 justify-items-center w-full md:px-4 md:space-x-4'>
+        <div className='grid grid-flow-row justify-items-center w-full'>
             {filteredTasks.length > 0 ? (
                 filteredTasks.map((card: any, index: number) => (
                     <TaskCard
@@ -14,6 +23,9 @@ export default function TaskGrid({
                         setCreatingTagForId={setCreatingTagForId}
                         newTag={newTag}
                         setNewTag={setNewTag}
+                        noteMenuOpen={noteMenuOpen}
+                        setNoteMenuOpen={setNoteMenuOpen}
+                        handleNoteMenuToggle={handleNoteMenuToggle}
                         handleCreateTag={handleCreateTag}
                         handleTaskClick={handleTaskClick}
                     />
