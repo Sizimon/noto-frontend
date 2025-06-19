@@ -34,6 +34,8 @@ const UserDashboard: React.FC = () => {
     useOnClickOutside(tagsRef, () => setTagsMenuOpen(false));
     const sortRef = useRef<HTMLDivElement>(null);
     useOnClickOutside(sortRef, () => setSortMenuOpen(false));
+    const noteMenuRef = useRef<HTMLDivElement>(null);
+    useOnClickOutside(noteMenuRef, () => setNoteMenuOpen('')); // Close the note menu when clicking outside
 
     const handleCreateTag = (taskId: string) => {
         // Create API call to create a new tag for the task !!! IMPORTANT !!!
@@ -44,7 +46,11 @@ const UserDashboard: React.FC = () => {
     }
 
     const handleNoteMenuToggle = (taskId: string) => {
-        setNoteMenuOpen(taskId);
+        if (noteMenuOpen === taskId) {
+            setNoteMenuOpen(''); // Close the note menu if it's already open for this task
+        } else {
+            setNoteMenuOpen(taskId); // Open the note menu for the clicked task
+        }
         console.log(`Note menu toggled for task ID: ${taskId}`);
     }
 
@@ -141,6 +147,7 @@ const UserDashboard: React.FC = () => {
                                 setNewTag={setNewTag}
                                 noteMenuOpen={noteMenuOpen}
                                 handleNoteMenuToggle={handleNoteMenuToggle}
+                                noteMenuRef={noteMenuRef}
                                 handleTaskClick={handleTaskClick}
                             />
                         </div>

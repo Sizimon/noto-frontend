@@ -10,7 +10,8 @@ export default function TaskGrid({
     handleTaskClick,
     noteMenuOpen,
     setNoteMenuOpen,
-    handleNoteMenuToggle
+    handleNoteMenuToggle,
+    noteMenuRef
 }: any) {
     return (
         <div className='grid grid-flow-row justify-items-center w-full'>
@@ -26,6 +27,7 @@ export default function TaskGrid({
                         noteMenuOpen={noteMenuOpen}
                         setNoteMenuOpen={setNoteMenuOpen}
                         handleNoteMenuToggle={handleNoteMenuToggle}
+                        noteMenuRef={noteMenuRef}
                         handleCreateTag={handleCreateTag}
                         handleTaskClick={handleTaskClick}
                     />

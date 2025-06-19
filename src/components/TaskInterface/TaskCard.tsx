@@ -1,9 +1,9 @@
-import { FaRegStickyNote } from "react-icons/fa";
+import { FaRegStickyNote, FaRegStar, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import React from "react";
 
 export default function TaskCard({
-    card, noteMenuOpen, handleNoteMenuToggle, handleTaskClick
+    card, noteMenuOpen, handleNoteMenuToggle, handleTaskClick, noteMenuRef
 }: any) {
     return (
         <div
@@ -16,6 +16,7 @@ export default function TaskCard({
                 md:w-10/12
                 `}
             onClick={() => handleTaskClick(card)}
+            ref={noteMenuRef}
         >
             <div className='flex items-center justify-center col-span-1 py-2 h-full'>
                 {card.type === 'note' && <FaRegStickyNote className='text-2xl md:text-3xl' />}
@@ -30,7 +31,11 @@ export default function TaskCard({
                     className='bg-zinc-100 text-amber-600 p-1 rounded-full cursor-pointer'
                     onClick={(e) => {
                         e.stopPropagation(); // Prevent the click from propagating to the card
-                        handleNoteMenuToggle(card.id);
+                        if (card.id === noteMenuOpen) {
+                            handleNoteMenuToggle(''); // Close the menu if it's already open
+                        } else {
+                            handleNoteMenuToggle(card.id); // Open the menu for the clicked card
+                        }
                     }}
                 >
                     <FaEllipsisVertical />
@@ -38,8 +43,9 @@ export default function TaskCard({
                 {card.id === noteMenuOpen && (
                     <div className='absolute right-0 top-10 bg-white dark:bg-zinc-800 shadow-lg rounded-lg p-2 w-32 z-30'>
                         <ul className='space-y-2'>
-                            <li className='cursor-pointer hover:text-amber-600'>Edit</li>
-                            <li className='cursor-pointer hover:text-amber-600'>Delete</li>
+                            <span className='flex flex-row justify-center items-center cursor-pointer hover:text-amber-600'><li>Set Favorite</li><FaRegStar className='inline-block ml-1' /></span>
+                            <span className='flex flex-row justify-center items-center cursor-pointer hover:text-amber-600'><li>Add Tags</li><FaRegEdit className='inline-block ml-1' /></span>
+                            <span className='flex flex-row justify-center items-center cursor-pointer hover:text-amber-600'><li>Delete Note</li><FaRegTrashAlt className='inline-block ml-1' /></span>
                         </ul>
                     </div>
                 )}
