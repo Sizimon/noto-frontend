@@ -8,12 +8,13 @@ export default function TaskCard({
     return (
         <div
             key={card.id}
-            className='
+            className={`
+                ${card.id === noteMenuOpen ? 'z-20' : 'hover:shadow-xl hover:scale-[101%]'}
                 grid grid-flow-col grid-cols-16 items-center text-center mb-4 rounded-lg shadow-lg bg-zinc-200 w-full
-                transition-all duration-300 hover:shadow-xl hover:scale-[101%]
+                transition-all duration-300 ease-in-out
                 dark:bg-zinc-900 
                 md:w-10/12
-                '
+                `}
             onClick={() => handleTaskClick(card)}
         >
             <div className='flex items-center justify-center col-span-1 py-2 h-full'>
@@ -35,7 +36,7 @@ export default function TaskCard({
                     <FaEllipsisVertical />
                 </button>
                 {card.id === noteMenuOpen && (
-                    <div className='absolute right-0 top-10 bg-white dark:bg-zinc-800 shadow-lg rounded-lg p-2 w-32 z-10'>
+                    <div className='absolute right-0 top-10 bg-white dark:bg-zinc-800 shadow-lg rounded-lg p-2 w-32 z-30'>
                         <ul className='space-y-2'>
                             <li className='cursor-pointer hover:text-amber-600'>Edit</li>
                             <li className='cursor-pointer hover:text-amber-600'>Delete</li>
