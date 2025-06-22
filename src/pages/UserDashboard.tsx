@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Layout from '../Layout';
 import DashboardHeader from '@/components/DashboardHeader/DashboardHeader';
@@ -12,30 +12,34 @@ import CreateTaskModal from '../components/CreateTaskModal';
 import { useRouter } from 'next/navigation';
 import { useTasks } from '../context/TasksProvider';
 import { useAuth } from '../context/AuthProvider';
-import { useOnClickOutside } from '../hooks/onClickOutside';
 
 
 
 const UserDashboard: React.FC = () => {
-    const { allTasks, refreshTasks } = useTasks();
-    const { user, setUser } = useAuth();
     const router = useRouter();
 
-    const [showModal, setShowModal] = useState<boolean>(false);
-    const [filteredTasks, setFilteredTasks] = useState<any[]>(allTasks); // This will be updated based on search or filter criteria
-    const [noteMenuOpen, setNoteMenuOpen] = useState<string>('');
-    const [tagsMenuOpen, setTagsMenuOpen] = useState<boolean>(false);
-    const [sortMenuOpen, setSortMenuOpen] = useState<boolean>(false);
-    const [sortOrder, setSortOrder] = useState<string>('alphabetical');
-    const [creatingTagForId, setCreatingTagForId] = useState<string | null>(null);
-    const [newTag, setNewTag] = useState<string>('');
+    // CONTEXT HOOKS
+    const { allTasks, refreshTasks } = useTasks();
+    const { user, setUser } = useAuth();
+    // ------------------------------------------
 
-    const tagsRef = useRef<HTMLDivElement>(null);
-    useOnClickOutside(tagsRef, () => setTagsMenuOpen(false));
-    const sortRef = useRef<HTMLDivElement>(null);
-    useOnClickOutside(sortRef, () => setSortMenuOpen(false));
-    const noteMenuRef = useRef<HTMLDivElement>(null);
-    useOnClickOutside(noteMenuRef, () => setNoteMenuOpen('')); // Close the note menu when clicking outside
+    const [showModal, setShowModal] = useState<boolean>(false); // State to control the visibility of the Create Task modal
+
+    // STATE FOR MANAGING TASK SEARCH & FILTERING
+    const [filteredTasks, setFilteredTasks] = useState<any[]>(allTasks); // State to hold the filtered tasks based on search input
+    const [searchInput, setSearchInput] = useState<string>(''); // State to hold the search input value
+    const [sortOrder, setSortOrder] = useState<string>('alphabetical'); // Current sort order state
+    // ------------------------------------------
+
+    // STATE FOR MANAGING TASK INTERFACE
+    const [noteMenuOpen, setNoteMenuOpen] = useState<string>(''); // State to control which task's note menu is open
+    const [tagsMenuOpen, setTagsMenuOpen] = useState<boolean>(false); // State to control the visibility of the tags menu
+    const [sortMenuOpen, setSortMenuOpen] = useState<boolean>(false); // State to control the visibility of the sort menu
+    // ------------------------------------------
+
+    const [creatingTagForId, setCreatingTagForId] = useState<string | null>(null); // State to control which task is being tagged
+    const [newTag, setNewTag] = useState<string>(''); // State to hold the new tag input
+
 
     const handleCreateTag = (taskId: string) => {
         // Create API call to create a new tag for the task !!! IMPORTANT !!!
@@ -51,7 +55,6 @@ const UserDashboard: React.FC = () => {
         } else {
             setNoteMenuOpen(taskId); // Open the note menu for the clicked task
         }
-        console.log(`Note menu toggled for task ID: ${taskId}`);
     }
 
     const handleTagsMenuToggle = () => {
@@ -65,7 +68,7 @@ const UserDashboard: React.FC = () => {
     const handleTaskClick = (card: any) => {
         // Navigate to the task details page
         router.push(`/tasks/${card.id}`);
-        
+
 
         // Update localStorage with the last viewed task
         const userStorage = localStorage.getItem('user');
@@ -81,11 +84,11 @@ const UserDashboard: React.FC = () => {
         }
     }
 
-    const handleSearchChange = (value: string) => {
-        // Implement search functionality here
-        const filteredResult = allTasks.filter(task => task.title.toLowerCase().includes(value.toLowerCase()));
-        setFilteredTasks(filteredResult);
-    }
+    // const handleSearchChange = (value: string) => {
+    //     // Implement search functionality here
+    //     const filteredResult = allTasks.filter(task => task.title.toLowerCase().includes(value.toLowerCase()));
+    //     setFilteredTasks(filteredResult);
+    // }
 
     const sortTasks = (tasks: any[], order: string) => {
         switch (order) {
@@ -102,11 +105,10 @@ const UserDashboard: React.FC = () => {
 
     useEffect(() => {
         // Whenever allTasks or sortOrder changes, we re-filter and sort the tasks
-        const sortedTasks = sortTasks([...allTasks], sortOrder);
+        const searchTermFilteredTasks = allTasks.filter(task => task.title.toLowerCase().includes(searchInput.toLowerCase())); 
+        const sortedTasks = sortTasks([...searchTermFilteredTasks], sortOrder);
         setFilteredTasks(sortedTasks ?? []);
-    }, [allTasks, sortOrder]);
-
-    console.log('All Tasks:', allTasks);
+    }, [allTasks, searchInput, sortOrder]);
 
     return (
         <Layout>
@@ -126,17 +128,15 @@ const UserDashboard: React.FC = () => {
                             <div className="flex flex-col items-center justify-center w-full mb-4 md:flex-row md:gap-4">
                                 <SearchAndCreate
                                     handleModalOpen={() => setShowModal(true)}
-                                    handleSearchChange={handleSearchChange}
+                                    setSearchInput={setSearchInput}
                                 />
                                 <SortAndTagsMenu
                                     sortMenuOpen={sortMenuOpen}
                                     handleSortMenuToggle={handleSortMenuToggle}
                                     sortOrder={sortOrder}
                                     setSortOrder={setSortOrder}
-                                    sortRef={sortRef}
                                     tagsMenuOpen={tagsMenuOpen}
                                     handleTagsMenuToggle={handleTagsMenuToggle}
-                                    tagsRef={tagsRef}
                                 />
                             </div>
                             <TaskGrid
@@ -147,7 +147,6 @@ const UserDashboard: React.FC = () => {
                                 setNewTag={setNewTag}
                                 noteMenuOpen={noteMenuOpen}
                                 handleNoteMenuToggle={handleNoteMenuToggle}
-                                noteMenuRef={noteMenuRef}
                                 handleTaskClick={handleTaskClick}
                             />
                         </div>
