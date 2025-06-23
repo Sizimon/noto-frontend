@@ -69,8 +69,15 @@ const Register: React.FC = () => {
 
     return (
         <Layout>
-            <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row md:grid-flow-col dark:text-white h-screen bg-white dark:bg-zinc-800">
-                <div className="flex flex-col justify-center text-center px-12 md:px-24">
+            <div className="
+            grid grid-cols-1 grid-flow-row h-screen bg-white text-zinc-800
+            md:grid-cols-2 md:grid-flow-col
+            dark:bg-zinc-800 dark:text-zinc-300
+            ">
+                <div className="
+                    flex flex-col text-center justify-end px-12 pb-12
+                    md:px-24 md:justify-center
+                ">
                     <h1 className='text-4xl md:text-6xl'>In<span className='text-amber-600'>Time</span>Tasks</h1>
                     <p className='text-lg md:text-2xl'>Helping you stay on track, quick & easy, your workflow tool & notebook.</p>
                 </div>
@@ -78,7 +85,13 @@ const Register: React.FC = () => {
                     <h1 className="text-2xl font-bold mb-4">Register</h1>
                     {error && <p className="text-red-500 text-center px-24 pb-4">{error}</p>}
                     {success && <p className="text-green-500">{success}</p>}
-                    <form onSubmit={handleRegister} className="flex flex-col space-y-4 bg-zinc-100 dark:bg-zinc-950 p-8 rounded-lg w-5/6 md:w-4/6">
+                    <form 
+                        onSubmit={handleRegister} 
+                        className="
+                            flex flex-col space-y-4 bg-zinc-100 p-8 rounded-lg w-5/6
+                            md:w-4/6
+                          dark:bg-zinc-950
+                    ">
                         <div>
                             <label className="block text-sm font-medium">Username:</label>
                             <input
