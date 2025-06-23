@@ -6,12 +6,15 @@ export default function TaskGrid({
     setCreatingTagForId,
     newTag,
     setNewTag,
-    handleCreateTag,
-    handleTaskClick,
     noteMenuOpen,
     setNoteMenuOpen,
+    noteMenuRef,
+    
+    // Handler Functions
     handleNoteMenuToggle,
-    noteMenuRef
+    handleCreateTag,
+    handleTaskClick,
+    handleFavoriteToggle
 }: any) {
     return (
         <div className='grid grid-flow-row justify-items-center w-full'>
@@ -26,10 +29,13 @@ export default function TaskGrid({
                         setNewTag={setNewTag}
                         noteMenuOpen={noteMenuOpen}
                         setNoteMenuOpen={setNoteMenuOpen}
-                        handleNoteMenuToggle={handleNoteMenuToggle}
                         noteMenuRef={noteMenuRef}
+
+                        // Handlers
+                        handleNoteMenuToggle={handleNoteMenuToggle}
                         handleCreateTag={handleCreateTag}
                         handleTaskClick={handleTaskClick}
+                        handleFavoriteToggle={handleFavoriteToggle}
                     />
                 ))
             ) : (

@@ -10,6 +10,7 @@ function InnerProviders({ children }: { children: React.ReactNode }) {
 
   return isAuthenticated ? (
     <TasksProvider>
+      <HistorySync />
       {children}
     </TasksProvider>
   ) : (
@@ -21,7 +22,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
       <InnerProviders>
-        <HistorySync />
         {children}
       </InnerProviders>
     </AuthProvider>

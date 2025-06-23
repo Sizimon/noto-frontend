@@ -19,7 +19,7 @@ const UserDashboard: React.FC = () => {
     const router = useRouter();
 
     // CONTEXT HOOKS
-    const { allTasks, refreshTasks } = useTasks();
+    const { allTasks, setAllTasks, refreshTasks } = useTasks();
     const { user, setUser } = useAuth();
     // ------------------------------------------
 
@@ -49,6 +49,16 @@ const UserDashboard: React.FC = () => {
 
     }
 
+    const handleFavoriteToggle = (taskId: string) => {
+        const updatedTasks = allTasks.map(task => {
+            if (task.id === taskId) {
+                return { ...task, is_favorite: !task.is_favorite, dirty: true }; // Toggle the favorite status and mark the task as dirty
+            }
+            return task;
+        });
+        setAllTasks(updatedTasks);
+    }
+
     const handleNoteMenuToggle = (taskId: string) => {
         if (noteMenuOpen === taskId) {
             setNoteMenuOpen(''); // Close the note menu if it's already open for this task
@@ -69,7 +79,6 @@ const UserDashboard: React.FC = () => {
         // Navigate to the task details page
         router.push(`/tasks/${card.id}`);
 
-
         // Update localStorage with the last viewed task
         const userStorage = localStorage.getItem('user');
         let user = userStorage ? JSON.parse(userStorage) : null;
@@ -83,12 +92,6 @@ const UserDashboard: React.FC = () => {
             setTimeout(() => setUser({ ...user }), 750); //  750ms DELAY | Update the user state in context
         }
     }
-
-    // const handleSearchChange = (value: string) => {
-    //     // Implement search functionality here
-    //     const filteredResult = allTasks.filter(task => task.title.toLowerCase().includes(value.toLowerCase()));
-    //     setFilteredTasks(filteredResult);
-    // }
 
     const sortTasks = (tasks: any[], order: string) => {
         switch (order) {
@@ -146,8 +149,11 @@ const UserDashboard: React.FC = () => {
                                 newTag={newTag}
                                 setNewTag={setNewTag}
                                 noteMenuOpen={noteMenuOpen}
+
+                                // Handler Functions
                                 handleNoteMenuToggle={handleNoteMenuToggle}
                                 handleTaskClick={handleTaskClick}
+                                handleFavoriteToggle={handleFavoriteToggle}
                             />
                         </div>
                     ) : (
