@@ -43,23 +43,29 @@ const UserDashboard: React.FC = () => {
         'bg-orange-600', 'bg-lime-600', 'bg-cyan-600', 'bg-violet-600', 'bg-fuchsia-600'
     ]
 
-    const handleCreateTag = (taskId: string, tag: string) => {
+    const handleCreateTag = (taskId: string, tagTitle: string) => {
         // Create API call to create a new tag for the task !!! IMPORTANT !!!
-        if (!tag || tag.trim() === '') return; // Prevent creating empty tags
+        if (!tagTitle || tagTitle.trim() === '') return; // Prevent creating empty tags
 
-        const availableColors = colors.filter(color => !allTasks.some(task => task.tags?.includes(color))); // Filter out colors already used in tags of all tasks
+        const usedColors = allTasks.flatMap(task => task.tags?.map(tag => tag.color) || []);
+        const availableColors = colors.filter(color => !usedColors.includes(color));
         if (availableColors.length === 0) {
-            console.error('You have created all available tags. Please remove some tags before creating new ones.');
-            return; // Prevent creating new tags if all colors are used
+            console.error('No available colors left.');
+            return;
         }
 
-        const colorLength = availableColors.length; // Get the length of available colors
-        if (colorLength === 0) return; // If no colors are available, do not proceed
+        const color = availableColors[Math.floor(Math.random() * availableColors.length)];
+
+        const newTag = {
+            id: Date.now().toString(),
+            title: tagTitle,
+            color: color
+        }
 
         const updatedTasks = allTasks.map(task => {
             if (task.id === taskId) {
-                const newTags = task.tags ? { ...task.tags, tag, color: availableColors[Math.floor(Math.random() * colorLength)] } : [tag]; // Add the new tag to the existing tags, set the color to a random color from availableColors
-                return { ...task, tags: newTags, dirty: true }; // Mark the task as dirty to indicate it needs to be saved
+                const newTags = Array.isArray(task.tags) ? [...task.tags, newTag] : [newTag];
+                return { ...task, tags: newTags, dirty: true };
             }
             return task;
         });
@@ -125,7 +131,7 @@ const UserDashboard: React.FC = () => {
 
     useEffect(() => {
         // Whenever allTasks or sortOrder changes, we re-filter and sort the tasks
-        const searchTermFilteredTasks = allTasks.filter(task => task.title.toLowerCase().includes(searchInput.toLowerCase())); 
+        const searchTermFilteredTasks = allTasks.filter(task => task.title.toLowerCase().includes(searchInput.toLowerCase()));
         const sortedTasks = sortTasks([...searchTermFilteredTasks], sortOrder);
         setFilteredTasks(sortedTasks ?? []);
     }, [allTasks, searchInput, sortOrder]);

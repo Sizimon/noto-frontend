@@ -93,10 +93,10 @@ export const tasksAPI = {
             method: 'PUT',
             body: JSON.stringify(data),
         }),
-    createTag: (id: string, tag: string) =>
+    createTag: (id: string, data: any) =>
         apiRequest(`/tasks/${id}/tags`, {
             method: 'POST',
-            body: JSON.stringify({ tag }),
+            body: JSON.stringify(data),
         })
     };
 

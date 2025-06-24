@@ -43,6 +43,7 @@ const HistorySync = () => {
                                     content: task.content,
                                     is_favorite: task.is_favorite,
                                 });
+                                // await tasksAPI.createTag(task.id, task.tags || []);
                                 task.dirty = false;
                             } catch (err) {
                                 console.error('Failed to sync task:', task.id, err);

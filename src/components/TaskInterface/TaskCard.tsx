@@ -2,6 +2,7 @@ import { FaRegStickyNote, FaRegStar, FaRegEdit, FaRegTrashAlt } from "react-icon
 import { FaEllipsisVertical, FaPlus } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
+import { Tag } from "@/context/TasksProvider";
 
 export default function TaskCard({
     card,
@@ -13,10 +14,12 @@ export default function TaskCard({
     handleFavoriteToggle,
     handleCreateTag
 }: any) {
-    const [isInputOpen, setIsInputOpen] = useState(false);
+    console.log(card)
+    const [isInputOpen, setIsInputOpen] = useState(false); // State to manage the visibility of the input for adding tags
     const [newTag, setNewTag] = useState<string>(''); // State to hold the new tag input
     return (
-        <div
+        
+        <div // MAIN TASK CARD CONTAINER (CLICKABLE TO OPEN NOTE EDITOR)
             key={card.id}
             className={`
                 ${card.id === noteMenuOpen ? 'z-20' : 'hover:shadow-xl'}
@@ -27,45 +30,58 @@ export default function TaskCard({
                 `}
             onClick={() => handleTaskClick(card)}
         >
-            <div className='grid grid-flow-col grid-cols-8 col-span-8 items-center text-center w-full h-full bg-white text-amber-600 rounded-l-lg
-            dark:bg-zinc-800 dark:text-amber-600
-            '>
-                <div className='
-                flex items-center justify-center col-span-1 py-2 h-full
-            
-            '>
+            <div 
+                className='grid grid-flow-col grid-cols-8 col-span-8 items-center text-center w-full h-full bg-white text-amber-600 rounded-l-lg
+              dark:bg-zinc-800 dark:text-amber-600'>
+                <div className='flex items-center justify-center col-span-1 py-2 h-full'>
                     {card.type === 'note' && <FaRegStickyNote className='text-2xl md:text-3xl' />}
                 </div>
-                <div className='
-                flex items-center justify-start w-full col-span-7 p-2 h-full
-            '>
+                <div className='flex items-center justify-start w-full col-span-7 p-2 h-full'>
                     <h2 className='text-lg font-bold truncate'>{card.title}</h2>
                 </div>
             </div>
             <div className='relative flex flex-row justify-between items-center text-xs p-2 bg-white text-zinc-600 w-full col-span-8 h-full rounded-r-lg
-            dark:text-zinc-300 dark:bg-zinc-800
-            '>
+            dark:text-zinc-300 dark:bg-zinc-800'>
                 <div className='flex flex-row items-center space-x-2'>
                     <span className='flex items-center'>
-                        <button
+                        <button // BUTTON TO TOGGLE FAVORITE STATUS
                             className="cursor-pointer"
                             onClick={(e) => {
                                 e.stopPropagation(); // Prevent the click from propagating to the card (card has onClick which opens the note)
                                 handleFavoriteToggle(card.id);
-                            }}
-                        >
+                            }}>
                             <FaRegStar className='text-yellow-500 text-xl' /></button>
                         <span className='ml-1'>{card.is_favorite ? 'Favorite' : 'Not Favorite'}</span>
                     </span>
                 </div>
-                <div className="flex flex-row items-start space-x-2">
+                <div className="flex flex-row items-start space-x-2"> 
+                    {/* IF THE TASK HAS TAGS THEN MAP AND DISPLAY THE TAGS / IF NOT, DISPLAY THE BUTTON TO CREATE TAGS */}
                     {card.tags && card.tags.length > 0 ? (
-                        <div className='flex flex-row items-start space-x-2'>
-                            {card.tags.map((tag: string, index: number) => (
-                                <span key={index} className='p-1 bg-amber-600 rounded-xl'>
-                                    {tag}
-                                    <button className='ml-1 text-red-500'>x</button>
-                                </span>
+                        <div>
+                            {card.tags.map((tag: Tag, index: number) => (
+                                <motion.span 
+                                    key={index} 
+                                    className={`px-2 py-1 ${tag.color} rounded cursor-default`}
+                                    whileHover="hover"
+                                    initial="rest"
+                                    animate="rest"
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevent the click from propagating to the card
+                                    }}
+                                    >
+                                    {tag.title}
+                                    <motion.button
+                                        type="button"
+                                        className="whitespace-nowrap overflow-hidden ml-2 text-red-500 cursor-pointer"
+                                        variants={{
+                                            rest: { width: 0, opacity: 0, marginLeft: 0 },
+                                            hover: { width: "auto", opacity: 1, marginLeft: 8 },
+                                        }}
+                                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                                    >
+                                        X
+                                    </motion.button>
+                                </motion.span>
                             ))}
                         </div>
                     ) : (
