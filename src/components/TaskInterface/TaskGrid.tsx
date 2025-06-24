@@ -2,14 +2,10 @@ import TaskCard from './TaskCard';
 
 export default function TaskGrid({
     filteredTasks,
-    creatingTagForId,
-    setCreatingTagForId,
-    newTag,
-    setNewTag,
     noteMenuOpen,
     setNoteMenuOpen,
     noteMenuRef,
-    
+
     // Handler Functions
     handleNoteMenuToggle,
     handleCreateTag,
@@ -23,10 +19,6 @@ export default function TaskGrid({
                     <TaskCard
                         key={card.id || index}
                         card={card}
-                        creatingTagForId={creatingTagForId}
-                        setCreatingTagForId={setCreatingTagForId}
-                        newTag={newTag}
-                        setNewTag={setNewTag}
                         noteMenuOpen={noteMenuOpen}
                         setNoteMenuOpen={setNoteMenuOpen}
                         noteMenuRef={noteMenuRef}

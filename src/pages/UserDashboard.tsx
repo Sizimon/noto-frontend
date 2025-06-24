@@ -37,16 +37,33 @@ const UserDashboard: React.FC = () => {
     const [sortMenuOpen, setSortMenuOpen] = useState<boolean>(false); // State to control the visibility of the sort menu
     // ------------------------------------------
 
-    const [creatingTagForId, setCreatingTagForId] = useState<string | null>(null); // State to control which task is being tagged
-    const [newTag, setNewTag] = useState<string>(''); // State to hold the new tag input
+    const colors = [
+        'bg-amber-600', 'bg-blue-600', 'bg-green-600', 'bg-red-600', 'bg-purple-600',
+        'bg-pink-600', 'bg-yellow-600', 'bg-teal-600', 'bg-indigo-600', 'bg-gray-600',
+        'bg-orange-600', 'bg-lime-600', 'bg-cyan-600', 'bg-violet-600', 'bg-fuchsia-600'
+    ]
 
-
-    const handleCreateTag = (taskId: string) => {
+    const handleCreateTag = (taskId: string, tag: string) => {
         // Create API call to create a new tag for the task !!! IMPORTANT !!!
-        console.log(`Create tag "${newTag}" for task ID: ${taskId}`);
-        setNewTag(''); // Reset the new tag input
-        setCreatingTagForId(null); // Close the tag creation input
+        if (!tag || tag.trim() === '') return; // Prevent creating empty tags
 
+        const availableColors = colors.filter(color => !allTasks.some(task => task.tags?.includes(color))); // Filter out colors already used in tags of all tasks
+        if (availableColors.length === 0) {
+            console.error('You have created all available tags. Please remove some tags before creating new ones.');
+            return; // Prevent creating new tags if all colors are used
+        }
+
+        const colorLength = availableColors.length; // Get the length of available colors
+        if (colorLength === 0) return; // If no colors are available, do not proceed
+
+        const updatedTasks = allTasks.map(task => {
+            if (task.id === taskId) {
+                const newTags = task.tags ? { ...task.tags, tag, color: availableColors[Math.floor(Math.random() * colorLength)] } : [tag]; // Add the new tag to the existing tags, set the color to a random color from availableColors
+                return { ...task, tags: newTags, dirty: true }; // Mark the task as dirty to indicate it needs to be saved
+            }
+            return task;
+        });
+        setAllTasks(updatedTasks); // Update the tasks in the context
     }
 
     const handleFavoriteToggle = (taskId: string) => {
@@ -144,16 +161,13 @@ const UserDashboard: React.FC = () => {
                             </div>
                             <TaskGrid
                                 filteredTasks={filteredTasks}
-                                creatingTagForId={creatingTagForId}
-                                setCreatingTagForId={setCreatingTagForId}
-                                newTag={newTag}
-                                setNewTag={setNewTag}
                                 noteMenuOpen={noteMenuOpen}
 
                                 // Handler Functions
                                 handleNoteMenuToggle={handleNoteMenuToggle}
                                 handleTaskClick={handleTaskClick}
                                 handleFavoriteToggle={handleFavoriteToggle}
+                                handleCreateTag={handleCreateTag}
                             />
                         </div>
                     ) : (
