@@ -12,19 +12,22 @@ export default function AddTags({
     handleCreateTag
 }: any) {
     return (
-        <motion.div>
+        <motion.div className='flex items-center justify-center'>
             {isInputOpen ? (
                 <motion.input
                     type="text"
-                    placeholder="Add a tag"
-                    className="px-3 py-2 bg-zinc-900 rounded-lg focus:outline-none"
                     value={newTag}
+                    placeholder="Add a tag"
+                    className="p-1 bg-zinc-100 text-amber-600 rounded-lg focus:outline-none max-w-1/5
+                    dark:bg-zinc-900
+                    "
                     onChange={(e) => setNewTag(e.target.value)}
                     onClick={(e) => e.stopPropagation()} // Prevent the click from propagating to the card
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                             handleCreateTag(card.id, newTag);
                             setIsInputOpen(false);
+                            setNewTag(''); // Clear the input after adding the tag
                         }
                     }}
                     autoFocus
@@ -32,7 +35,7 @@ export default function AddTags({
             ) : (
                 <motion.button
                     type="button"
-                    className="flex items-center px-3 py-2 text-amber-600 rounded-lg overflow-hidden focus:outline-none cursor-pointer"
+                    className="flex items-center p-1 text-amber-600 rounded-lg overflow-hidden focus:outline-none cursor-pointer"
                     whileHover="hover"
                     initial="rest"
                     animate="rest"
@@ -49,7 +52,7 @@ export default function AddTags({
                         transition={{ duration: 0.5 }}
                         className="flex items-center"
                     >
-                        <FaPlus className="text-lg" />
+                        <FaPlus className="text-sm" />
                     </motion.span>
                     <motion.span
                         variants={{

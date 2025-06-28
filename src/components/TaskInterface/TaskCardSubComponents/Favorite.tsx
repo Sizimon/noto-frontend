@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
-import { FaRegStar } from 'react-icons/fa';
+import { FaRegStar, FaStar } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 export default function Favorite({
     card,
@@ -9,15 +10,21 @@ export default function Favorite({
     return (
         <div className='flex flex-row items-center space-x-2'>
             <span className='flex items-center'>
-                <button // BUTTON TO TOGGLE FAVORITE STATUS
+                <motion.button
                     className="cursor-pointer"
+                    whileTap={{ scale: 0.7 }}
                     onClick={(e) => {
-                        e.stopPropagation(); // Prevent the click from propagating to the card (card has onClick which opens the note)
+                        e.stopPropagation();
                         handleFavoriteToggle(card.id);
-                    }}>
-                    <FaRegStar className='text-yellow-500 text-xl' /></button>
-                <span className='ml-1'>{card.is_favorite ? 'Favorite' : 'Not Favorite'}</span>
+                    }}
+                >
+                    {card.is_favorite ? (
+                        <FaStar className='text-yellow-500 text-xl' />
+                    ) : (
+                        <FaRegStar className='text-yellow-500 text-xl' />
+                    )}
+                </motion.button>
             </span>
         </div>
-    )
+    );
 }

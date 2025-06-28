@@ -1,8 +1,6 @@
 'use client';
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { tasksAPI } from '@/connections/api';
-
 
 export interface Tag {
     id: string | number; // Unique identifier for the tag, can be a string or number

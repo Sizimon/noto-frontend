@@ -9,6 +9,7 @@ export default function TaskGrid({
     // Handler Functions
     handleNoteMenuToggle,
     handleCreateTag,
+    handleRemoveTag,
     handleTaskClick,
     handleFavoriteToggle
 }: any) {
@@ -26,6 +27,7 @@ export default function TaskGrid({
                         // Handlers
                         handleNoteMenuToggle={handleNoteMenuToggle}
                         handleCreateTag={handleCreateTag}
+                        handleRemoveTag={handleRemoveTag}
                         handleTaskClick={handleTaskClick}
                         handleFavoriteToggle={handleFavoriteToggle}
                     />

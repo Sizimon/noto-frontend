@@ -47,6 +47,11 @@ const UserDashboard: React.FC = () => {
         // Create API call to create a new tag for the task !!! IMPORTANT !!!
         if (!tagTitle || tagTitle.trim() === '') return; // Prevent creating empty tags
 
+        if (tagTitle.length > 15) {
+            alert('Tag title is too long.');
+            return;
+        }
+
         const usedColors = allTasks.flatMap(task => task.tags?.map(tag => tag.color) || []);
         const availableColors = colors.filter(color => !usedColors.includes(color));
         if (availableColors.length === 0) {
@@ -58,7 +63,7 @@ const UserDashboard: React.FC = () => {
 
         const newTag = {
             id: Date.now().toString(),
-            title: tagTitle,
+            title: tagTitle.toUpperCase(),
             color: color
         }
 
@@ -66,6 +71,18 @@ const UserDashboard: React.FC = () => {
             if (task.id === taskId) {
                 const newTags = Array.isArray(task.tags) ? [...task.tags, newTag] : [newTag];
                 return { ...task, tags: newTags, dirty: true };
+            }
+            return task;
+        });
+        setAllTasks(updatedTasks); // Update the tasks in the context
+    }
+
+    const handleRemoveTag = (taskId: string, tagId: string) => {
+        // Create API call to remove a tag from a task !!! IMPORTANT !!!
+        const updatedTasks = allTasks.map(task => {
+            if (task.id === taskId) {
+                const newTags = task.tags?.filter((tag: any) => tag.id !== tagId) || [];
+                return { ...task, tags: newTags, dirty: true }; // Mark the task as dirty
             }
             return task;
         });
@@ -174,6 +191,7 @@ const UserDashboard: React.FC = () => {
                                 handleTaskClick={handleTaskClick}
                                 handleFavoriteToggle={handleFavoriteToggle}
                                 handleCreateTag={handleCreateTag}
+                                handleRemoveTag={handleRemoveTag}
                             />
                         </div>
                     ) : (
