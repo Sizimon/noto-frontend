@@ -1,10 +1,7 @@
-import { FaRegStickyNote } from "react-icons/fa";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import React, { useState } from "react";
 
-import Favorite from "./TaskCardSubComponents/Favorite";
 import Tags from "./TaskCardSubComponents/Tags";
-import AddTags from "./TaskCardSubComponents/AddTags";
 import Menu from "./TaskCardSubComponents/Menu";
 import Header from "./TaskCardSubComponents/Header";
 
@@ -38,17 +35,14 @@ export default function TaskCard({
             <div 
                 className='grid grid-flow-col grid-cols-6 col-span-6 items-center text-center w-full h-full bg-white text-amber-600 rounded-l-lg
               dark:bg-zinc-800 dark:text-amber-600'>
-                <Header card={card} />
+                <Header 
+                    card={card}
+                    handleFavoriteToggle={handleFavoriteToggle}
+                 />
             </div>
             <div className='relative flex flex-row justify-between items-center text-xs p-2 bg-white text-zinc-600 w-full col-span-10 h-full rounded-r-lg
             dark:text-zinc-300 dark:bg-zinc-800'>
-                <Favorite 
-                    card={card} 
-                    handleFavoriteToggle={handleFavoriteToggle}
-                />
                 <div className="flex-1 overflow-x-auto flex-row mx-2 space-x-2"> 
-                    {/* IF THE TASK HAS TAGS THEN MAP AND DISPLAY THE TAGS / IF NOT, DISPLAY THE BUTTON TO CREATE TAGS */}
-                    {card.tags && card.tags.length > 0 ? (
                         <Tags 
                             card={card} 
                             isInputOpen={isInputOpen} 
@@ -58,16 +52,6 @@ export default function TaskCard({
                             handleCreateTag={handleCreateTag}
                             handleRemoveTag={handleRemoveTag}
                         />
-                    ) : (
-                        <AddTags
-                            card={card}
-                            isInputOpen={isInputOpen}
-                            setIsInputOpen={setIsInputOpen}
-                            newTag={newTag}
-                            setNewTag={setNewTag}
-                            handleCreateTag={handleCreateTag}
-                        />
-                    )}
                 </div>
                 <button
                     className='text-amber-600 p-1 rounded-full cursor-pointer'
