@@ -147,7 +147,7 @@ const UserDashboard: React.FC = () => {
             case 'date':
                 return tasks.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
             case 'favorite':
-                return tasks.filter(task => task.isFavorite);
+                return tasks.filter(task => task.is_favorite);
             default:
                 return tasks; // If no valid order is specified, return the tasks as is
         }
