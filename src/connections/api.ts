@@ -93,11 +93,15 @@ export const tasksAPI = {
             method: 'PUT',
             body: JSON.stringify(data),
         }),
-    createTag: (id: string, data: any) =>
-        apiRequest(`/tasks/${id}/tags`, {
+    createTag: (taskId: string, data: any) =>
+        apiRequest(`/tasks/${taskId}/tags`, {
             method: 'POST',
             body: JSON.stringify(data),
-        })
+        }),
+    // removeTag: (taskId: string, tagId: string) =>
+    //     apiRequest(`/tasks/${taskId}/tags/${tagId}`, {
+    //         method: 'DELETE',
+    //     })
     };
 
 export const userAPI = {

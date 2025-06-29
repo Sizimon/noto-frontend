@@ -40,15 +40,15 @@ export default function Tags({
                             {tag.title}
                             <motion.button
                                 type="button"
-                                className="whitespace-nowrap overflow-hidden text-red-500 cursor-pointer"
+                                className="whitespace-nowrap overflow-hidden cursor-pointer"
                                 onClick={() => handleRemoveTag(card.id, tag.id)}
                                 variants={{
                                     rest: { width: 0, opacity: 0 },
-                                    hover: { width: 24, opacity: 1 },
+                                    hover: { width: 16, opacity: 1 },
                                 }}
                                 transition={{ duration: 0.2, ease: "easeInOut" }}
                             >
-                                X
+                                <span className="text-xs ml-1">X</span>
                             </motion.button>
                         </motion.span>
                     ))}

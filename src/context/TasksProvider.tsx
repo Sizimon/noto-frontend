@@ -4,6 +4,7 @@ import { tasksAPI } from '@/connections/api';
 
 export interface Tag {
     id: string | number; // Unique identifier for the tag, can be a string or number
+    dirty?: boolean; // Optional property to indicate if the tag has unsaved changes
     title: string;
     color: string;
 }

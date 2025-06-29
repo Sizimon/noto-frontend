@@ -63,6 +63,7 @@ const UserDashboard: React.FC = () => {
 
         const newTag = {
             id: Date.now().toString(),
+            dirty: true, // Mark the tag as dirty for syncing later
             title: tagTitle.toUpperCase(),
             color: color
         }

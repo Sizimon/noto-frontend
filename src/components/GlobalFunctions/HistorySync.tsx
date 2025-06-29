@@ -43,7 +43,19 @@ const HistorySync = () => {
                                     content: task.content,
                                     is_favorite: task.is_favorite,
                                 });
-                                // await tasksAPI.createTag(task.id, task.tags || []);
+                                if (task.tags && task.tags.length > 0) {
+                                    await Promise.all(
+                                        task.tags.map(async (tag) => {
+                                            if (tag.dirty) {
+                                                await tasksAPI.createTag(task.id, {
+                                                    title: tag.title,
+                                                    color: tag.color,
+                                                });
+                                                tag.dirty = false; // Reset dirty flag after syncing
+                                            }
+                                        })
+                                    )
+                                }
                                 task.dirty = false;
                             } catch (err) {
                                 console.error('Failed to sync task:', task.id, err);
@@ -52,7 +64,7 @@ const HistorySync = () => {
                     })
                 );
             }
-        }, 30000);
+        }, 30000); // Sync every 30 seconds
 
         return () => clearInterval(interval);
     }, []);
