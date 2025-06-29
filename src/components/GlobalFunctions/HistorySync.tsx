@@ -56,6 +56,13 @@ const HistorySync = () => {
                                         })
                                     )
                                 }
+                                if (task.removedTags && task.removedTags.length > 0) {
+                                    await Promise.all(
+                                        task.removedTags.map(async (tag) => {
+                                            await tasksAPI.removeTag(task.id, tag.id);
+                                        })
+                                    )
+                                }
                                 task.dirty = false;
                             } catch (err) {
                                 console.error('Failed to sync task:', task.id, err);

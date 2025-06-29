@@ -98,10 +98,10 @@ export const tasksAPI = {
             method: 'POST',
             body: JSON.stringify(data),
         }),
-    // removeTag: (taskId: string, tagId: string) =>
-    //     apiRequest(`/tasks/${taskId}/tags/${tagId}`, {
-    //         method: 'DELETE',
-    //     })
+    removeTag: (taskId: string, tagId: string | number) =>
+        apiRequest(`/tasks/${taskId}/tags/${tagId}`, {
+            method: 'DELETE',
+        })
     };
 
 export const userAPI = {

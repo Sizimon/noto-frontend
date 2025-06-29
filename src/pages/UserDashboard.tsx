@@ -62,7 +62,7 @@ const UserDashboard: React.FC = () => {
         const color = availableColors[Math.floor(Math.random() * availableColors.length)];
 
         const newTag = {
-            id: Date.now().toString(),
+            id: Date.now().toString(), // Generate a unique ID for the tag
             dirty: true, // Mark the tag as dirty for syncing later
             title: tagTitle.toUpperCase(),
             color: color
@@ -82,8 +82,14 @@ const UserDashboard: React.FC = () => {
         // Create API call to remove a tag from a task !!! IMPORTANT !!!
         const updatedTasks = allTasks.map(task => {
             if (task.id === taskId) {
-                const newTags = task.tags?.filter((tag: any) => tag.id !== tagId) || [];
-                return { ...task, tags: newTags, dirty: true }; // Mark the task as dirty
+                const originalTags = task.tags || []; 
+                // Tags to keep after removal
+                const newTags = originalTags.filter((tag: any) => tag.id !== tagId) || []; 
+                // Tags to remove
+                const removedTags = originalTags.filter((tag: any) => tag.id === tagId);
+
+                const updateRemovedTags = [...(task.removedTags || []), ...removedTags];
+                return { ...task, tags: newTags, removedTags: updateRemovedTags, dirty: true }; // Mark the task as dirty
             }
             return task;
         });

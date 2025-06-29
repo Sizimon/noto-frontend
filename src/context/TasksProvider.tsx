@@ -13,6 +13,7 @@ export interface Tag {
 interface Task {
     id: string;
     dirty?: boolean; // Optional property to indicate if the task has unsaved changes
+    removedTags: Tag[]; // Array of tags that have been removed from the task
     tags?: Tag[]; // Optional property to hold tags associated with the task
     title: string;
     type: string;
