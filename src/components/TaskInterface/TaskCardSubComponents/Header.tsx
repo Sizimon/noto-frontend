@@ -15,7 +15,7 @@ export default function Header({
                 />
             </div>
 
-            <div className='flex items-center justify-start w-full col-span-5 p-2 h-full cursor-default'>
+            <div className='flex items-center justify-start w-full col-span-5 p-2 h-full'>
                 <h2 title={card.title} className='text-base truncate'>{card.title}</h2>
             </div>
         </>

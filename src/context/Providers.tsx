@@ -2,6 +2,7 @@
 
 import { AuthProvider, useAuth } from './AuthProvider';
 import { TasksProvider } from './TasksProvider';
+import { TagsProvider } from './TagsProvider';
 import HistorySync from '@/components/GlobalFunctions/HistorySync';
 
 function InnerProviders({ children }: { children: React.ReactNode }) {
@@ -10,8 +11,10 @@ function InnerProviders({ children }: { children: React.ReactNode }) {
 
   return isAuthenticated ? (
     <TasksProvider>
+      <TagsProvider>
+        {children}
+      </TagsProvider>
       <HistorySync />
-      {children}
     </TasksProvider>
   ) : (
     children

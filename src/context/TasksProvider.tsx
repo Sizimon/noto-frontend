@@ -1,13 +1,7 @@
 'use client';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { tasksAPI } from '@/connections/api';
-
-export interface Tag {
-    id: string | number; // Unique identifier for the tag, can be a string or number
-    dirty?: boolean; // Optional property to indicate if the tag has unsaved changes
-    title: string;
-    color: string;
-}
+import { Tag } from '@/context/TagsProvider'; // Adjust the import path as necessary
 
 // Defines what a Task should look like (may need to be adjusted in the future)
 interface Task {

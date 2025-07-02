@@ -11,7 +11,7 @@ export default function Favorite({
         <div className='flex flex-row items-center space-x-2'>
             <span className='flex items-center'>
                 <motion.button
-                    className="cursor-pointer"
+                    className="cursor-default"
                     whileTap={{ scale: 0.7 }}
                     onClick={(e) => {
                         e.stopPropagation();

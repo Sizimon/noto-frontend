@@ -1,10 +1,8 @@
 'use client';
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Tag } from '@/context/TasksProvider'; // Adjust the import path as necessary
+import { Tag } from '@/context/TagsProvider'; // Adjust the import path as necessary
 import { FaPlus } from 'react-icons/fa';
-
-
 
 export default function Tags({
     handleCreateTag,
@@ -40,7 +38,7 @@ export default function Tags({
                             {tag.title}
                             <motion.button
                                 type="button"
-                                className="whitespace-nowrap overflow-hidden cursor-pointer"
+                                className="whitespace-nowrap overflow-hidden cursor-default"
                                 onClick={() => handleRemoveTag(card.id, tag.id)}
                                 variants={{
                                     rest: { width: 0, opacity: 0 },
@@ -84,7 +82,7 @@ export default function Tags({
                         ) : (
                             <motion.button
                                 type="button"
-                                className="flex items-center p-1 text-amber-600 rounded-lg overflow-hidden focus:outline-none cursor-pointer"
+                                className="flex items-center p-1 text-amber-600 rounded-lg overflow-hidden focus:outline-none cursor-default"
                                 whileHover="hover"
                                 initial="rest"
                                 animate="rest"
