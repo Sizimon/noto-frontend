@@ -27,7 +27,7 @@ export default function Tags({
                     {card.tags.map((tag: Tag, index: number) => (
                         <motion.span
                             key={tag.id ?? index}
-                            className={`text-white px-1 py-1 ${tag.color} rounded cursor-default`}
+                            className={`text-white p-1 ${tag.color} rounded cursor-default`}
                             variants={tagVariants}
                             initial="initial"
                             animate="rest"

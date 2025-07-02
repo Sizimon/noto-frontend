@@ -13,8 +13,8 @@ function InnerProviders({ children }: { children: React.ReactNode }) {
     <TasksProvider>
       <TagsProvider>
         {children}
+        <HistorySync />
       </TagsProvider>
-      <HistorySync />
     </TasksProvider>
   ) : (
     children
