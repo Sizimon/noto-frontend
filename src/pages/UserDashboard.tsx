@@ -24,10 +24,10 @@ const UserDashboard: React.FC = () => {
     const [showModal, setShowModal] = useState<boolean>(false); // State to control the visibility of the Create Task modal
 
     // STATE FOR MANAGING TASK SEARCH & FILTERING
-    const [filteredTasks, setFilteredTasks] = useState<any[]>(allTasks); // State to hold the filtered tasks based on search input
+    const [filteredTasks, setFilteredTasks] = useState<any[]>(allTasks);
     const [searchInput, setSearchInput] = useState<string>(''); // State to hold the search input value
-    const [sortOrder, setSortOrder] = useState<string>('alphabetical'); // Current sort order state
-    const [selectedTags, setSelectedTags] = useState<string[]>([]); // State to hold selected tags for filtering tasks
+    // const [sortOrder, setSortOrder] = useState<string>('alphabetical'); // Current sort order state
+    // const [selectedTags, setSelectedTags] = useState<string[]>([]); // State to hold selected tags for filtering tasks
     // ------------------------------------------
 
     // STATE FOR MANAGING TASK INTERFACE
@@ -70,25 +70,25 @@ const UserDashboard: React.FC = () => {
         }
     }
 
-    const sortTasks = (tasks: any[], order: string) => {
-        switch (order) {
-            case 'alphabetical':
-                return tasks.sort((a, b) => a.title.localeCompare(b.title));
-            case 'date':
-                return tasks.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-            case 'favorite':
-                return tasks.filter(task => task.is_favorite);
-            default:
-                return tasks; // If no valid order is specified, return the tasks as is
-        }
-    }
+    // const sortTasks = (tasks: any[], order: string) => {
+    //     switch (order) {
+    //         case 'alphabetical':
+    //             return tasks.sort((a, b) => a.title.localeCompare(b.title));
+    //         case 'date':
+    //             return tasks.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    //         case 'favorite':
+    //             return tasks.filter(task => task.is_favorite);
+    //         default:
+    //             return tasks; // If no valid order is specified, return the tasks as is
+    //     }
+    // }
 
-    useEffect(() => {
-        // Whenever allTasks or sortOrder changes, we re-filter and sort the tasks
-        const searchTermFilteredTasks = allTasks.filter(task => task.title.toLowerCase().includes(searchInput.toLowerCase()));
-        const sortedTasks = sortTasks([...searchTermFilteredTasks], sortOrder);
-        setFilteredTasks(sortedTasks ?? []);
-    }, [allTasks, searchInput, sortOrder]);
+    // useEffect(() => {
+    //     // Whenever allTasks or sortOrder changes, we re-filter and sort the tasks
+    //     const searchTermFilteredTasks = allTasks.filter(task => task.title.toLowerCase().includes(searchInput.toLowerCase()));
+    //     const sortedTasks = sortTasks([...searchTermFilteredTasks], sortOrder);
+    //     setFilteredTasks(sortedTasks ?? []);
+    // }, [allTasks, searchInput, sortOrder]);
 
     return (
         <Layout>
@@ -112,13 +112,12 @@ const UserDashboard: React.FC = () => {
                                 />
                                 <SortAndTagsMenu
                                     sortMenuOpen={sortMenuOpen}
-                                    handleSortMenuToggle={handleSortMenuToggle}
-                                    sortOrder={sortOrder}
-                                    setSortOrder={setSortOrder}
+                                    searchInput={searchInput}
                                     tagsMenuOpen={tagsMenuOpen}
+                                    setFilteredTasks={setFilteredTasks}
+                                    // Handler Functions
+                                    handleSortMenuToggle={handleSortMenuToggle}
                                     handleTagsMenuToggle={handleTagsMenuToggle}
-                                    selectedTags={selectedTags}
-                                    setSelectedTags={setSelectedTags}
                                 />
                             </div>
                             <TaskGrid

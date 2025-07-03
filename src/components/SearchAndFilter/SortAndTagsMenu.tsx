@@ -1,17 +1,56 @@
+import React, { useState, useEffect } from "react";
 import { FaCaretDown } from "react-icons/fa";
-import { useTags } from "@/context/TagsProvider";
 import { FaRegTrashCan } from "react-icons/fa6";
 
+import { useTags } from "@/context/TagsProvider";
+import { useTasks } from "@/context/TasksProvider";
+
+
 export default function SortAndTagsMenu({
+    searchInput,
     sortMenuOpen, // State boolean to control the visibility of the sort menu
     handleSortMenuToggle, // Function to toggle the sort menu visibility
-    sortOrder, // Current sort order state
-    setSortOrder, // State Function to update the sort order state
     tagsMenuOpen, // State boolean to control the visibility of the tags menu
     handleTagsMenuToggle, // Function to toggle the tags menu visibility
-    selectedTags, // Array of selected tags for filtering tasks
-    setSelectedTags, // Function to update the selected tags state
+    setFilteredTasks, // Function to update the filtered tasks in the parent component
 }: any) {
+    const { allTasks } = useTasks(); // Get all tasks and the function to update them from the TasksProvider context
+    const [sortOrder, setSortOrder] = useState<string>('alphabetical'); // Current sort order state
+    const [selectedTags, setSelectedTags] = useState<string[]>([]); // State to hold selected tags for filtering tasks
+    console.log(selectedTags);
+    console.log(allTasks);
+
+    const sortTasks = (tasks: any[], order: string) => {
+        switch (order) {
+            case 'alphabetical':
+                return tasks.sort((a, b) => a.title.localeCompare(b.title));
+            case 'date':
+                return tasks.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+            case 'favorite':
+                return tasks.filter(task => task.is_favorite);
+            default:
+                return tasks; // If no valid order is specified, return the tasks as is
+        }
+    }
+
+    useEffect(() => {
+        // Whenever allTasks or sortOrder changes, we re-filter and sort the tasks
+        let tagFilteredTasks = allTasks;
+        if (selectedTags.length > 0) {
+            tagFilteredTasks = allTasks.filter(task =>
+                task.tags && selectedTags.some(tagId => task.tags?.some((tag: any) => tag.id === tagId))
+            );
+        }
+
+        const searchTermFilteredTasks = tagFilteredTasks.filter(task =>
+            task.title.toLowerCase().includes(searchInput.toLowerCase())
+        );
+
+        const sortedTasks = sortTasks([...searchTermFilteredTasks], sortOrder);
+        setFilteredTasks(sortedTasks ?? []);
+
+    }, [allTasks, searchInput, sortOrder, selectedTags]);
+
     console.log(selectedTags)
     const { tags } = useTags();
     return (
@@ -85,7 +124,7 @@ export default function SortAndTagsMenu({
                                                 checked={selectedTags.includes(tag.id)}
                                                 onChange={() => {
                                                     if (selectedTags.includes(tag.id)) {
-                                                        setSelectedTags(selectedTags.filter((t: string) => t !== tag.id));
+                                                        setSelectedTags(selectedTags.filter((id) => id !== tag.id));
                                                     } else {
                                                         setSelectedTags([...selectedTags, tag.id]);
                                                     }
