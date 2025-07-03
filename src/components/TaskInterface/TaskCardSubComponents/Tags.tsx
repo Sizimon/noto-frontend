@@ -4,22 +4,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Tag } from '@/context/TagsProvider'; // Adjust the import path as necessary
 import { FaPlus } from 'react-icons/fa';
 
+import { useHandleRemoveTag } from '@/utils/TagFunctions';
+
 export default function Tags({
     handleCreateTag,
-    handleRemoveTag,
+    // handleRemoveTag,
     isInputOpen,
     setIsInputOpen,
     newTag,
     setNewTag,
     card,
 }: any) {
-    console.log(card);
     const tagVariants = {
         rest: { opacity: 1, scale: 1, x: 0 },
         hover: { opacity: 1, scale: 1, x: 0 },
         initial: { opacity: 0, scale: 0.6, x: 20 },
         exit: { opacity: 0, scale: 0.6, x: -20 },
     };
+    const handleRemoveTag = useHandleRemoveTag();
     return (
         <div className='flex items-center justify-start'>
             <div className='flex items-center space-x-1 overflow-x-auto whitespace-nowrap no-scrollbar'>

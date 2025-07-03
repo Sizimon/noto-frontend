@@ -14,9 +14,8 @@ export default function TaskCard({
     handleTaskClick, 
     handleFavoriteToggle,
     handleCreateTag,
-    handleRemoveTag
 }: any) {
-    console.log(card)
+    // console.log(card);
     const [isInputOpen, setIsInputOpen] = useState(false); // State to manage the visibility of the input for adding tags
     const [newTag, setNewTag] = useState<string>(''); // State to hold the new tag input
     return (
@@ -51,7 +50,7 @@ export default function TaskCard({
                             newTag={newTag} 
                             setNewTag={setNewTag} 
                             handleCreateTag={handleCreateTag}
-                            handleRemoveTag={handleRemoveTag}
+                            // handleRemoveTag={handleRemoveTag}
                         />
                 </div>
                 <button

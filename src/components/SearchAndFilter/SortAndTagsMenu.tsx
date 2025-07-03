@@ -1,6 +1,6 @@
 import { FaCaretDown } from "react-icons/fa";
 import { useTags } from "@/context/TagsProvider";
-import { motion } from "framer-motion";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 export default function SortAndTagsMenu({
     sortMenuOpen, // State boolean to control the visibility of the sort menu
@@ -9,15 +9,11 @@ export default function SortAndTagsMenu({
     setSortOrder, // State Function to update the sort order state
     tagsMenuOpen, // State boolean to control the visibility of the tags menu
     handleTagsMenuToggle, // Function to toggle the tags menu visibility
+    selectedTags, // Array of selected tags for filtering tasks
+    setSelectedTags, // Function to update the selected tags state
 }: any) {
+    console.log(selectedTags)
     const { tags } = useTags();
-    const tagVariants = {
-        rest: { opacity: 1, scale: 1, x: 0 },
-        hover: { opacity: 1, scale: 1, x: 0 },
-        initial: { opacity: 0, scale: 0.6, x: 20 },
-        exit: { opacity: 0, scale: 0.6, x: -20 },
-    };
-
     return (
         <div className='flex flex-row items-center justify-center space-x-4'>
             {/* Sort */}
@@ -69,41 +65,51 @@ export default function SortAndTagsMenu({
                 </button>
                 {tagsMenuOpen && (
                     <div
-                        className="absolute z-50 left-0 top-full mt-2 w-32 bg-zinc-100 dark:bg-zinc-900 text-black rounded shadow-lg p-4
+                        className="absolute z-50 left-0 top-full mt-2 w-32 bg-zinc-200 dark:bg-zinc-800 py-2 text-white rounded shadow-lg
                         dark:text-white
-                        md:w-48
+                        md:w-64
                         "
                         onMouseLeave={handleTagsMenuToggle}
                     >
-                        <div className="flex flex-wrap justify-center gap-1">
+                        <div className="flex flex-col gap-1 px-2 py-1">
                             {tags.length > 0 ? (
                                 tags.map((tag: any) => (
-                                    <motion.span
-                                        key={tag.id}
-                                        className={`inline-flex items-center text-xs ${tag.color} p-1 rounded cursor-default`}
-                                        variants={tagVariants}
-                                        initial="initial"
-                                        animate="rest"
-                                        exit="exit"
-                                        whileHover="hover"
-                                        onClick={e => e.stopPropagation()}
-                                    >
-                                        {tag.title}
-                                        <motion.button
-                                            type="button"
-                                            className="whitespace-nowrap overflow-hidden cursor-default"
-                                            variants={{
-                                                rest: { width: 0, opacity: 0 },
-                                                hover: { width: 16, opacity: 1 },
-                                            }}
-                                            transition={{ duration: 0.2, ease: "easeInOut" }}
+                                    <div key={tag.id}
+                                        className="flex items-center group">
+                                        <label
+                                            key={tag.id}
+                                            className="flex w-full items-center gap-2 cursor-pointer rounded px-2 py-1 hover:bg-zinc-300 dark:hover:bg-zinc-700 transition"
                                         >
-                                            <span className="text-xs ml-1">X</span>
-                                        </motion.button>
-                                    </motion.span>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedTags.includes(tag.id)}
+                                                onChange={() => {
+                                                    if (selectedTags.includes(tag.id)) {
+                                                        setSelectedTags(selectedTags.filter((t: string) => t !== tag.id));
+                                                    } else {
+                                                        setSelectedTags([...selectedTags, tag.id]);
+                                                    }
+                                                }}
+                                                className="accent-amber-600"
+                                            />
+                                            <span
+                                                className={`flex truncate px-2 py-1 rounded text-xs text-white ${tag.color}`}
+                                            >
+                                                {tag.title}
+                                            </span>
+                                        </label>
+                                        <button
+                                            type="button"
+                                            className="ml-2 text-base text-red-400 opacity-60 cursor-pointer group-hover:opacity-100 hover:text-red-600 transition"
+                                            // onClick={() => handleDeleteTag(tag.id)}
+                                            tabIndex={0}
+                                        >
+                                            <FaRegTrashCan />
+                                        </button>
+                                    </div>
                                 ))
                             ) : (
-                                <p className="text-xs text-gray-500">No tags available</p>
+                                <p className="text-xs text-gray-500 px-2">No tags available</p>
                             )}
                         </div>
                     </div>

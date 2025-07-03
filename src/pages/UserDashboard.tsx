@@ -12,6 +12,7 @@ import CreateTaskModal from '../components/CreateTaskModal';
 import { useRouter } from 'next/navigation';
 import { useTasks } from '../context/TasksProvider';
 import { useAuth } from '../context/AuthProvider';
+import { useTags } from '@/context/TagsProvider';
 
 
 
@@ -20,6 +21,7 @@ const UserDashboard: React.FC = () => {
 
     // CONTEXT HOOKS
     const { allTasks, setAllTasks, refreshTasks } = useTasks();
+    const { tags, pendingTags, addPendingTag } = useTags();
     const { user, setUser } = useAuth();
     // ------------------------------------------
 
@@ -29,6 +31,7 @@ const UserDashboard: React.FC = () => {
     const [filteredTasks, setFilteredTasks] = useState<any[]>(allTasks); // State to hold the filtered tasks based on search input
     const [searchInput, setSearchInput] = useState<string>(''); // State to hold the search input value
     const [sortOrder, setSortOrder] = useState<string>('alphabetical'); // Current sort order state
+    const [selectedTags, setSelectedTags] = useState<string[]>([]); // State to hold selected tags for filtering tasks
     // ------------------------------------------
 
     // STATE FOR MANAGING TASK INTERFACE
@@ -52,7 +55,11 @@ const UserDashboard: React.FC = () => {
             return;
         }
 
-        const usedColors = allTasks.flatMap(task => task.tags?.map(tag => tag.color) || []);
+        const usedColors = [
+            ...tags.map(tag => tag.color), // Get all used colors from existing tags
+            ...pendingTags.map(tag => tag.color) // Include colors from pending tags
+        ];
+        // const usedColors = allTasks.flatMap(task => task.tags?.map(tag => tag.color) || []);
         const availableColors = colors.filter(color => !usedColors.includes(color));
         if (availableColors.length === 0) {
             console.error('No available colors left.');
@@ -68,6 +75,8 @@ const UserDashboard: React.FC = () => {
             color: color
         }
 
+        addPendingTag(newTag); // Add the new tag to pending tags
+
         const updatedTasks = allTasks.map(task => {
             if (task.id === taskId) {
                 const newTags = Array.isArray(task.tags) ? [...task.tags, newTag] : [newTag];
@@ -78,23 +87,23 @@ const UserDashboard: React.FC = () => {
         setAllTasks(updatedTasks); // Update the tasks in the context
     }
 
-    const handleRemoveTag = (taskId: string, tagId: string) => {
-        // Create API call to remove a tag from a task !!! IMPORTANT !!!
-        const updatedTasks = allTasks.map(task => {
-            if (task.id === taskId) {
-                const originalTags = task.tags || []; 
-                // Tags to keep after removal
-                const newTags = originalTags.filter((tag: any) => tag.id !== tagId) || []; 
-                // Tags to remove
-                const removedTags = originalTags.filter((tag: any) => tag.id === tagId);
+    // const handleRemoveTag = (taskId: string, tagId: string) => {
+    //     // Create API call to remove a tag from a task !!! IMPORTANT !!!
+    //     const updatedTasks = allTasks.map(task => {
+    //         if (task.id === taskId) {
+    //             const originalTags = task.tags || []; 
+    //             // Tags to keep after removal
+    //             const newTags = originalTags.filter((tag: any) => tag.id !== tagId) || []; 
+    //             // Tags to remove
+    //             const removedTags = originalTags.filter((tag: any) => tag.id === tagId);
 
-                const updateRemovedTags = [...(task.removedTags || []), ...removedTags];
-                return { ...task, tags: newTags, removedTags: updateRemovedTags, dirty: true }; // Mark the task as dirty
-            }
-            return task;
-        });
-        setAllTasks(updatedTasks); // Update the tasks in the context
-    }
+    //             const updateRemovedTags = [...(task.removedTags || []), ...removedTags];
+    //             return { ...task, tags: newTags, removedTags: updateRemovedTags, dirty: true }; // Mark the task as dirty
+    //         }
+    //         return task;
+    //     });
+    //     setAllTasks(updatedTasks); // Update the tasks in the context
+    // }
 
     const handleFavoriteToggle = (taskId: string) => {
         const updatedTasks = allTasks.map(task => {
@@ -187,6 +196,8 @@ const UserDashboard: React.FC = () => {
                                     setSortOrder={setSortOrder}
                                     tagsMenuOpen={tagsMenuOpen}
                                     handleTagsMenuToggle={handleTagsMenuToggle}
+                                    selectedTags={selectedTags}
+                                    setSelectedTags={setSelectedTags}
                                 />
                             </div>
                             <TaskGrid
@@ -198,7 +209,7 @@ const UserDashboard: React.FC = () => {
                                 handleTaskClick={handleTaskClick}
                                 handleFavoriteToggle={handleFavoriteToggle}
                                 handleCreateTag={handleCreateTag}
-                                handleRemoveTag={handleRemoveTag}
+                                // handleRemoveTag={handleRemoveTag}
                             />
                         </div>
                     ) : (
