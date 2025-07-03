@@ -4,14 +4,12 @@ import Favorite from './Favorite';
 
 export default function Header({
     card,
-    handleFavoriteToggle
 }: any) {
     return (
         <>
             <div className='flex items-center justify-center col-span-1 py-2 h-full'>
                 <Favorite
                     card={card}
-                    handleFavoriteToggle={handleFavoriteToggle}
                 />
             </div>
 

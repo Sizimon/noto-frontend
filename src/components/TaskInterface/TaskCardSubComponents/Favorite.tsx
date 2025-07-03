@@ -2,11 +2,12 @@
 import React from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { useHandleFavoriteToggle } from '@/utils/FavoriteToggle';
 
 export default function Favorite({
     card,
-    handleFavoriteToggle
 }: any) {
+    const handleFavoriteToggle = useHandleFavoriteToggle();
     return (
         <div className='flex flex-row items-center space-x-2'>
             <span className='flex items-center'>

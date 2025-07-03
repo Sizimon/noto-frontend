@@ -17,7 +17,7 @@ const UserDashboard: React.FC = () => {
     const router = useRouter();
 
     // CONTEXT HOOKS
-    const { allTasks, setAllTasks, refreshTasks } = useTasks();
+    const { allTasks, refreshTasks } = useTasks();
     const { user, setUser } = useAuth();
     // ------------------------------------------
 
@@ -35,81 +35,6 @@ const UserDashboard: React.FC = () => {
     const [tagsMenuOpen, setTagsMenuOpen] = useState<boolean>(false); // State to control the visibility of the tags menu
     const [sortMenuOpen, setSortMenuOpen] = useState<boolean>(false); // State to control the visibility of the sort menu
     // ------------------------------------------
-
-    // const colors = [
-    //     'bg-amber-600', 'bg-blue-600', 'bg-green-600', 'bg-red-600', 'bg-purple-600',
-    //     'bg-pink-600', 'bg-yellow-600', 'bg-teal-600', 'bg-indigo-600', 'bg-gray-600',
-    //     'bg-orange-600', 'bg-lime-600', 'bg-cyan-600', 'bg-violet-600', 'bg-fuchsia-600'
-    // ]
-
-    // const handleCreateTag = (taskId: string, tagTitle: string) => {
-    //     // Create API call to create a new tag for the task !!! IMPORTANT !!!
-    //     if (!tagTitle || tagTitle.trim() === '') return; // Prevent creating empty tags
-
-    //     if (tagTitle.length > 15) {
-    //         alert('Tag title is too long.');
-    //         return;
-    //     }
-
-    //     const usedColors = [
-    //         ...tags.map(tag => tag.color), // Get all used colors from existing tags
-    //         ...pendingTags.map(tag => tag.color) // Include colors from pending tags
-    //     ];
-    //     // const usedColors = allTasks.flatMap(task => task.tags?.map(tag => tag.color) || []);
-    //     const availableColors = colors.filter(color => !usedColors.includes(color));
-    //     if (availableColors.length === 0) {
-    //         console.error('No available colors left.');
-    //         return;
-    //     }
-
-    //     const color = availableColors[Math.floor(Math.random() * availableColors.length)];
-
-    //     const newTag = {
-    //         id: Date.now().toString(), // Generate a unique ID for the tag
-    //         dirty: true, // Mark the tag as dirty for syncing later
-    //         title: tagTitle.toUpperCase(),
-    //         color: color
-    //     }
-
-    //     addPendingTag(newTag); // Add the new tag to pending tags
-
-    //     const updatedTasks = allTasks.map(task => {
-    //         if (task.id === taskId) {
-    //             const newTags = Array.isArray(task.tags) ? [...task.tags, newTag] : [newTag];
-    //             return { ...task, tags: newTags, dirty: true };
-    //         }
-    //         return task;
-    //     });
-    //     setAllTasks(updatedTasks); // Update the tasks in the context
-    // }
-
-    // const handleRemoveTag = (taskId: string, tagId: string) => {
-    //     // Create API call to remove a tag from a task !!! IMPORTANT !!!
-    //     const updatedTasks = allTasks.map(task => {
-    //         if (task.id === taskId) {
-    //             const originalTags = task.tags || []; 
-    //             // Tags to keep after removal
-    //             const newTags = originalTags.filter((tag: any) => tag.id !== tagId) || []; 
-    //             // Tags to remove
-    //             const removedTags = originalTags.filter((tag: any) => tag.id === tagId);
-
-    //             const updateRemovedTags = [...(task.removedTags || []), ...removedTags];
-    //             return { ...task, tags: newTags, removedTags: updateRemovedTags, dirty: true }; // Mark the task as dirty
-    //         }
-    //         return task;
-    //     });
-    //     setAllTasks(updatedTasks); // Update the tasks in the context
-    // }
-
-    const handleFavoriteToggle = (taskId: string) => {
-        const updatedTasks = allTasks.map(task => {
-            if (task.id === taskId) {
-                return { ...task, is_favorite: !task.is_favorite, dirty: true }; // Toggle the favorite status and mark the task as dirty
-            }
-            return task;
-        });
-        setAllTasks(updatedTasks);
-    }
 
     const handleNoteMenuToggle = (taskId: string) => {
         if (noteMenuOpen === taskId) {
@@ -203,7 +128,6 @@ const UserDashboard: React.FC = () => {
                                 // Handler Functions
                                 handleNoteMenuToggle={handleNoteMenuToggle}
                                 handleTaskClick={handleTaskClick}
-                                handleFavoriteToggle={handleFavoriteToggle}
                             />
                         </div>
                     ) : (

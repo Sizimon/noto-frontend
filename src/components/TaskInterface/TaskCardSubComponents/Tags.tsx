@@ -7,8 +7,6 @@ import { FaPlus } from 'react-icons/fa';
 import { useHandleRemoveTag, useHandleCreateTag } from '@/utils/TagFunctions';
 
 export default function Tags({
-    // handleCreateTag,
-    // handleRemoveTag,
     isInputOpen,
     setIsInputOpen,
     newTag,
