@@ -12,16 +12,12 @@ import CreateTaskModal from '../components/CreateTaskModal';
 import { useRouter } from 'next/navigation';
 import { useTasks } from '../context/TasksProvider';
 import { useAuth } from '../context/AuthProvider';
-import { useTags } from '@/context/TagsProvider';
-
-
 
 const UserDashboard: React.FC = () => {
     const router = useRouter();
 
     // CONTEXT HOOKS
     const { allTasks, setAllTasks, refreshTasks } = useTasks();
-    const { tags, pendingTags, addPendingTag } = useTags();
     const { user, setUser } = useAuth();
     // ------------------------------------------
 
@@ -40,52 +36,52 @@ const UserDashboard: React.FC = () => {
     const [sortMenuOpen, setSortMenuOpen] = useState<boolean>(false); // State to control the visibility of the sort menu
     // ------------------------------------------
 
-    const colors = [
-        'bg-amber-600', 'bg-blue-600', 'bg-green-600', 'bg-red-600', 'bg-purple-600',
-        'bg-pink-600', 'bg-yellow-600', 'bg-teal-600', 'bg-indigo-600', 'bg-gray-600',
-        'bg-orange-600', 'bg-lime-600', 'bg-cyan-600', 'bg-violet-600', 'bg-fuchsia-600'
-    ]
+    // const colors = [
+    //     'bg-amber-600', 'bg-blue-600', 'bg-green-600', 'bg-red-600', 'bg-purple-600',
+    //     'bg-pink-600', 'bg-yellow-600', 'bg-teal-600', 'bg-indigo-600', 'bg-gray-600',
+    //     'bg-orange-600', 'bg-lime-600', 'bg-cyan-600', 'bg-violet-600', 'bg-fuchsia-600'
+    // ]
 
-    const handleCreateTag = (taskId: string, tagTitle: string) => {
-        // Create API call to create a new tag for the task !!! IMPORTANT !!!
-        if (!tagTitle || tagTitle.trim() === '') return; // Prevent creating empty tags
+    // const handleCreateTag = (taskId: string, tagTitle: string) => {
+    //     // Create API call to create a new tag for the task !!! IMPORTANT !!!
+    //     if (!tagTitle || tagTitle.trim() === '') return; // Prevent creating empty tags
 
-        if (tagTitle.length > 15) {
-            alert('Tag title is too long.');
-            return;
-        }
+    //     if (tagTitle.length > 15) {
+    //         alert('Tag title is too long.');
+    //         return;
+    //     }
 
-        const usedColors = [
-            ...tags.map(tag => tag.color), // Get all used colors from existing tags
-            ...pendingTags.map(tag => tag.color) // Include colors from pending tags
-        ];
-        // const usedColors = allTasks.flatMap(task => task.tags?.map(tag => tag.color) || []);
-        const availableColors = colors.filter(color => !usedColors.includes(color));
-        if (availableColors.length === 0) {
-            console.error('No available colors left.');
-            return;
-        }
+    //     const usedColors = [
+    //         ...tags.map(tag => tag.color), // Get all used colors from existing tags
+    //         ...pendingTags.map(tag => tag.color) // Include colors from pending tags
+    //     ];
+    //     // const usedColors = allTasks.flatMap(task => task.tags?.map(tag => tag.color) || []);
+    //     const availableColors = colors.filter(color => !usedColors.includes(color));
+    //     if (availableColors.length === 0) {
+    //         console.error('No available colors left.');
+    //         return;
+    //     }
 
-        const color = availableColors[Math.floor(Math.random() * availableColors.length)];
+    //     const color = availableColors[Math.floor(Math.random() * availableColors.length)];
 
-        const newTag = {
-            id: Date.now().toString(), // Generate a unique ID for the tag
-            dirty: true, // Mark the tag as dirty for syncing later
-            title: tagTitle.toUpperCase(),
-            color: color
-        }
+    //     const newTag = {
+    //         id: Date.now().toString(), // Generate a unique ID for the tag
+    //         dirty: true, // Mark the tag as dirty for syncing later
+    //         title: tagTitle.toUpperCase(),
+    //         color: color
+    //     }
 
-        addPendingTag(newTag); // Add the new tag to pending tags
+    //     addPendingTag(newTag); // Add the new tag to pending tags
 
-        const updatedTasks = allTasks.map(task => {
-            if (task.id === taskId) {
-                const newTags = Array.isArray(task.tags) ? [...task.tags, newTag] : [newTag];
-                return { ...task, tags: newTags, dirty: true };
-            }
-            return task;
-        });
-        setAllTasks(updatedTasks); // Update the tasks in the context
-    }
+    //     const updatedTasks = allTasks.map(task => {
+    //         if (task.id === taskId) {
+    //             const newTags = Array.isArray(task.tags) ? [...task.tags, newTag] : [newTag];
+    //             return { ...task, tags: newTags, dirty: true };
+    //         }
+    //         return task;
+    //     });
+    //     setAllTasks(updatedTasks); // Update the tasks in the context
+    // }
 
     // const handleRemoveTag = (taskId: string, tagId: string) => {
     //     // Create API call to remove a tag from a task !!! IMPORTANT !!!
@@ -208,8 +204,6 @@ const UserDashboard: React.FC = () => {
                                 handleNoteMenuToggle={handleNoteMenuToggle}
                                 handleTaskClick={handleTaskClick}
                                 handleFavoriteToggle={handleFavoriteToggle}
-                                handleCreateTag={handleCreateTag}
-                                // handleRemoveTag={handleRemoveTag}
                             />
                         </div>
                     ) : (

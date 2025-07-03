@@ -4,10 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Tag } from '@/context/TagsProvider'; // Adjust the import path as necessary
 import { FaPlus } from 'react-icons/fa';
 
-import { useHandleRemoveTag } from '@/utils/TagFunctions';
+import { useHandleRemoveTag, useHandleCreateTag } from '@/utils/TagFunctions';
 
 export default function Tags({
-    handleCreateTag,
+    // handleCreateTag,
     // handleRemoveTag,
     isInputOpen,
     setIsInputOpen,
@@ -22,6 +22,7 @@ export default function Tags({
         exit: { opacity: 0, scale: 0.6, x: -20 },
     };
     const handleRemoveTag = useHandleRemoveTag();
+    const handleCreateTag = useHandleCreateTag();
     return (
         <div className='flex items-center justify-start'>
             <div className='flex items-center space-x-1 overflow-x-auto whitespace-nowrap no-scrollbar'>
