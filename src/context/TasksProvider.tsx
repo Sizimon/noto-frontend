@@ -4,7 +4,7 @@ import { tasksAPI } from '@/connections/api';
 import { Tag } from '@/context/TagsProvider'; // Adjust the import path as necessary
 
 // Defines what a Task should look like (may need to be adjusted in the future)
-interface Task {
+export interface Task {
     id: string;
     dirty?: boolean; // Optional property to indicate if the task has unsaved changes
     removedTags: Tag[]; // Array of tags that have been removed from the task

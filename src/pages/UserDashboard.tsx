@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Layout from '../Layout';
 import DashboardHeader from '@/components/DashboardHeader/DashboardHeader';
@@ -69,26 +69,6 @@ const UserDashboard: React.FC = () => {
             setTimeout(() => setUser({ ...user }), 750); //  750ms DELAY | Update the user state in context
         }
     }
-
-    // const sortTasks = (tasks: any[], order: string) => {
-    //     switch (order) {
-    //         case 'alphabetical':
-    //             return tasks.sort((a, b) => a.title.localeCompare(b.title));
-    //         case 'date':
-    //             return tasks.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    //         case 'favorite':
-    //             return tasks.filter(task => task.is_favorite);
-    //         default:
-    //             return tasks; // If no valid order is specified, return the tasks as is
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     // Whenever allTasks or sortOrder changes, we re-filter and sort the tasks
-    //     const searchTermFilteredTasks = allTasks.filter(task => task.title.toLowerCase().includes(searchInput.toLowerCase()));
-    //     const sortedTasks = sortTasks([...searchTermFilteredTasks], sortOrder);
-    //     setFilteredTasks(sortedTasks ?? []);
-    // }, [allTasks, searchInput, sortOrder]);
 
     return (
         <Layout>

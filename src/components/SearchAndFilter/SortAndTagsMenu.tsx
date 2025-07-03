@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 
+import { Tag } from '@/context/TagsProvider'; // Importing the Tag type from TagsProvider context
+import { Task } from '@/context/TasksProvider'; // Importing the Task type from TasksProvider context
 import { useTags } from "@/context/TagsProvider";
 import { useTasks } from "@/context/TasksProvider";
 
@@ -14,13 +16,19 @@ export default function SortAndTagsMenu({
     handleTagsMenuToggle, // Function to toggle the tags menu visibility
     setFilteredTasks, // Function to update the filtered tasks in the parent component
 }: any) {
-    const { allTasks } = useTasks(); // Get all tasks and the function to update them from the TasksProvider context
+    // CONTEXT HOOKS
+    const { allTasks } = useTasks(); // Get all tasks from the TasksProvider context
+    const { tags } = useTags(); // Get all tags from the TagsProvider context
+    // ------------------------------------------
+    
     const [sortOrder, setSortOrder] = useState<string>('alphabetical'); // Current sort order state
     const [selectedTags, setSelectedTags] = useState<string[]>([]); // State to hold selected tags for filtering tasks
-    console.log(selectedTags);
-    console.log(allTasks);
+    // console.log(selectedTags);
+    // console.log(allTasks);
 
-    const sortTasks = (tasks: any[], order: string) => {
+
+    // Function to sort tasks based on the selected order
+    const sortTasks = (tasks: Task[], order: string) => {
         switch (order) {
             case 'alphabetical':
                 return tasks.sort((a, b) => a.title.localeCompare(b.title));
@@ -33,12 +41,13 @@ export default function SortAndTagsMenu({
         }
     }
 
+    // Effect to filter and sort tasks whenever the dependencies change
     useEffect(() => {
         // Whenever allTasks or sortOrder changes, we re-filter and sort the tasks
         let tagFilteredTasks = allTasks;
         if (selectedTags.length > 0) {
             tagFilteredTasks = allTasks.filter(task =>
-                task.tags && selectedTags.some(tagId => task.tags?.some((tag: any) => tag.id === tagId))
+                task.tags && selectedTags.some(tagId => task.tags?.some((tag: Tag) => tag.id === tagId))
             );
         }
 
@@ -51,8 +60,6 @@ export default function SortAndTagsMenu({
 
     }, [allTasks, searchInput, sortOrder, selectedTags]);
 
-    console.log(selectedTags)
-    const { tags } = useTags();
     return (
         <div className='flex flex-row items-center justify-center space-x-4'>
             {/* Sort */}
