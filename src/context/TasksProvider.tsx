@@ -7,7 +7,7 @@ import { Tag } from '@/context/TagsProvider'; // Adjust the import path as neces
 export interface Task {
     id: string;
     dirty?: boolean; // Optional property to indicate if the task has unsaved changes
-    removedTags: Tag[]; // Array of tags that have been removed from the task
+    removedTags: Tag[]; // Array of tags that have been removed from the task // REMOVE THIS AND REPLACE WITH REMOVEDTAGS FROM CONTEXT
     tags?: Tag[]; // Optional property to hold tags associated with the task
     title: string;
     type: string;

@@ -75,7 +75,7 @@ export default function SortAndTagsMenu({
                     <div
                         className="absolute z-50 left-0 top-full mt-2 w-32 bg-zinc-100 text-black rounded shadow-lg p-2
                         dark:bg-zinc-800 dark:text-white
-                        md:w-48
+                        md:w-64
                         "
                         onMouseLeave={handleSortMenuToggle}
                     >
@@ -111,7 +111,7 @@ export default function SortAndTagsMenu({
                 </button>
                 {tagsMenuOpen && (
                     <div
-                        className="absolute z-50 left-0 top-full mt-2 w-32 bg-zinc-200 dark:bg-zinc-800 py-2 text-white rounded shadow-lg
+                        className="absolute z-50 left-0 top-full mt-2 w-48 bg-zinc-200 dark:bg-zinc-800 py-2 text-white rounded shadow-lg
                         dark:text-white
                         md:w-64
                         "

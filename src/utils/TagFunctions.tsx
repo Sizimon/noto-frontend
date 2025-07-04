@@ -2,6 +2,30 @@
 
 import { useTasks } from '../context/TasksProvider';
 import { useTags } from '../context/TagsProvider';
+import { Tag } from '../context/TagsProvider';
+
+export function useHandleAddExistingTag() {
+    const { allTasks, setAllTasks } = useTasks();
+    const { addPendingTag } = useTags();
+
+    return (taskId: string, tag: Tag) => {
+        if (!tag || !tag.id || !tag.title) return;
+
+
+        addPendingTag(taskId, tag);
+
+        const updatedTasks = allTasks.map(task => {
+            if (task.id === taskId) {
+                const hasTag = Array.isArray(task.tags) && task.tags.some((t: Tag) => t.id === tag.id);
+                if (hasTag) return task; // If the tag already exists, do not add
+                const newTags = Array.isArray(task.tags) ? [...task.tags, tag] : [tag];
+                return { ...task, tags: newTags, dirty: true };
+            }
+            return task;
+        });
+        setAllTasks(updatedTasks);
+    };
+}
 
 export function useHandleRemoveTag() {
     const { allTasks, setAllTasks } = useTasks();
@@ -11,12 +35,12 @@ export function useHandleRemoveTag() {
         const updatedTasks = allTasks.map(task => {
             if (task.id === taskId) {
                 const originalTags = task.tags || [];
-                const newTags = originalTags.filter((tag: any) => tag.id !== tagId) || [];
-                const removedTags = originalTags.filter((tag: any) => tag.id === tagId);
+                const newTags = originalTags.filter((tag: Tag) => tag.id !== tagId) || [];
+                const removedTags = originalTags.filter((tag: Tag) => tag.id === tagId);
 
-                removedTags.forEach((tag: any) => addRemovedTag(tag));
+                removedTags.forEach((tag: Tag) => addRemovedTag(taskId, tag));
 
-                const updateRemovedTags = [...(task.removedTags || []), ...removedTags];
+                const updateRemovedTags = [...(task.removedTags || []), ...removedTags]; // REPLACE WITH REMOVEDTAGS FROM CONTEXT
                 return { ...task, tags: newTags, removedTags: updateRemovedTags, dirty: true };
             }
             return task;
@@ -45,7 +69,7 @@ export function useHandleCreateTag() {
         // Combine used colors from both synced and pending tags
         const usedColors = [
             ...tags.map(tag => tag.color),
-            ...pendingTags.map(tag => tag.color)
+            ...Object.values(pendingTags).flat().map(tag => tag.color)
         ];
         const availableColors = colors.filter(color => !usedColors.includes(color));
         if (availableColors.length === 0) {
@@ -63,7 +87,7 @@ export function useHandleCreateTag() {
         };
 
         // Add to pending tags in context
-        addPendingTag(newTag);
+        addPendingTag(taskId, newTag);
 
         const updatedTasks = allTasks.map(task => {
             if (task.id === taskId) {

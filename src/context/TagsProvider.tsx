@@ -10,27 +10,45 @@ export interface Tag {
 
 interface TagsContextType {
     tags: Tag[];
-    pendingTags: Tag[];
-    removedTags: Tag[];
+    pendingTags: { [taskId: string]: Tag[] };
+    removedTags: { [taskId: string]: Tag[] };
     refreshTags: () => Promise<void>;
-    addPendingTag: (tag: Tag) => void;
-    clearPendingTags: (tagId: string | number) => void;
-    addRemovedTag: (tag: Tag) => void;
-    clearRemovedTags: () => void;
+    addPendingTag: (taskId: string, tag: Tag) => void;
+    clearPendingTags: (taskId: string, tagId: string) => void;
+    addRemovedTag: (taskId: string, tag: Tag) => void;
+    clearRemovedTags: (taskId: string) => void;
 }
 
 const TagsContext = createContext<TagsContextType | undefined>(undefined);
 
 export const TagsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [tags, setTags] = useState<Tag[]>([]);
-    const [pendingTags, setPendingTags] = useState<Tag[]>([]);
-    const [removedTags, setRemovedTags] = useState<Tag[]>([]);
+    const [pendingTags, setPendingTags] = useState<{ [taskId: string]: Tag[] }>({});
+    const [removedTags, setRemovedTags] = useState<{ [taskId: string]: Tag[] }>({});
 
-    const addPendingTag = (tag: Tag) => setPendingTags(prev => [...prev, tag]);
-    const clearPendingTags = (tagId: string | number) =>
-        setPendingTags(prev => prev.filter(tag => tag.id !== tagId));
-    const addRemovedTag = (tag: Tag) => setRemovedTags(prev => [...prev, tag]);
-    const clearRemovedTags = () => setRemovedTags([]);
+    const addPendingTag = (taskId: string, tag: Tag) =>
+  setPendingTags(prev => ({
+    ...prev,
+    [taskId]: prev[taskId] ? [...prev[taskId], tag] : [tag],
+  }));
+
+const clearPendingTags = (taskId: string, tagId: string) =>
+  setPendingTags(prev => ({
+    ...prev,
+    [taskId]: prev[taskId]?.filter(tag => tag.id !== tagId) || [],
+  }));
+
+const addRemovedTag = (taskId: string, tag: Tag) =>
+  setRemovedTags(prev => ({
+    ...prev,
+    [taskId]: prev[taskId] ? [...prev[taskId], tag] : [tag],
+  }));
+
+const clearRemovedTags = (taskId: string) =>
+  setRemovedTags(prev => ({
+    ...prev,
+    [taskId]: [],
+  }));
 
     const refreshTags = async () => {
         const data = await tasksAPI.getAllTags();
