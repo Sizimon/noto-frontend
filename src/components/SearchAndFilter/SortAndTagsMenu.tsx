@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -22,7 +24,7 @@ export default function SortAndTagsMenu({
     // ------------------------------------------
     
     const [sortOrder, setSortOrder] = useState<string>('alphabetical'); // Current sort order state
-    const [selectedTags, setSelectedTags] = useState<string[]>([]); // State to hold selected tags for filtering tasks
+    const [selectedTags, setSelectedTags] = useState<number[]>([]); // State to hold selected tags for filtering tasks
     // console.log(selectedTags);
     // console.log(allTasks);
 

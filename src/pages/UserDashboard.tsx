@@ -26,8 +26,7 @@ const UserDashboard: React.FC = () => {
     // STATE FOR MANAGING TASK SEARCH & FILTERING
     const [filteredTasks, setFilteredTasks] = useState<any[]>(allTasks);
     const [searchInput, setSearchInput] = useState<string>(''); // State to hold the search input value
-    // const [sortOrder, setSortOrder] = useState<string>('alphabetical'); // Current sort order state
-    // const [selectedTags, setSelectedTags] = useState<string[]>([]); // State to hold selected tags for filtering tasks
+
     // ------------------------------------------
 
     // STATE FOR MANAGING TASK INTERFACE

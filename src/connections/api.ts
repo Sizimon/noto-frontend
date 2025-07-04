@@ -88,7 +88,7 @@ export const tasksAPI = {
         apiRequest('/tasks/fetch', {
             method: 'GET',
         }),
-    edit: (id: string, data: any) =>
+    edit: (id: number, data: any) =>
         apiRequest(`/tasks/edit/${id}`, {
             method: 'PUT',
             body: JSON.stringify(data),
@@ -97,12 +97,12 @@ export const tasksAPI = {
         apiRequest('/tags/fetch', {
             method: 'GET',
         }),
-    createTag: (taskId: string, data: any) =>
+    createTag: (taskId: number, data: any) =>
         apiRequest(`/tasks/${taskId}/tags`, {
             method: 'POST',
             body: JSON.stringify(data),
         }),
-    removeTag: (taskId: string, tagId: string | number) =>
+    removeTag: (taskId: number, tagId: number) =>
         apiRequest(`/tasks/${taskId}/tags/${tagId}`, {
             method: 'DELETE',
         })

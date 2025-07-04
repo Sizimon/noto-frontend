@@ -1,13 +1,13 @@
 'use client';
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { tasksAPI } from '@/connections/api';
 import { Tag } from '@/context/TagsProvider'; // Adjust the import path as necessary
 
 // Defines what a Task should look like (may need to be adjusted in the future)
 export interface Task {
-    id: string;
+    id: number;
     dirty?: boolean; // Optional property to indicate if the task has unsaved changes
-    removedTags: Tag[]; // Array of tags that have been removed from the task // REMOVE THIS AND REPLACE WITH REMOVEDTAGS FROM CONTEXT
     tags?: Tag[]; // Optional property to hold tags associated with the task
     title: string;
     type: string;
