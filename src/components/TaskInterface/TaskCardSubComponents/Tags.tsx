@@ -70,9 +70,9 @@ export default function Tags({
                                     value={newTag}
                                     placeholder="Add a tag"
                                     className="
-                                p-1 bg-zinc-100 text-amber-600 rounded-lg focus:outline-none w-full 
-                                dark:bg-zinc-900
-                                "
+                                        p-1 bg-zinc-100 text-amber-600 rounded-lg focus:outline-none w-full 
+                                        dark:bg-zinc-900
+                                        "
                                     onChange={e => setNewTag(e.target.value)}
                                     onClick={e => e.stopPropagation()}
                                     onKeyDown={e => {
@@ -96,7 +96,7 @@ export default function Tags({
                                                 key={tag.id}
                                                 className={`flex w-full items-center px-2 py-1 text-xs ${tag.color} rounded hover:bg-zinc-100 dark:hover:bg-zinc-700`}
                                                 onClick={() => {
-                                                    handleAddExistingTag(card.id, tag); // WILL NEED NEW HANDLER FOR ADDING TAGS (NOT CREATING THEM)
+                                                    handleAddExistingTag(card.id, tag);
                                                     setIsInputOpen(false);
                                                     setNewTag('');
                                                 }}

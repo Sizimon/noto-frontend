@@ -10,7 +10,8 @@ const HistorySync = () => {
     const { allTasks } = useTasks();
     const allTasksRef = useRef(allTasks); // Store allTasks in a ref to avoid stale closure issues
 
-    const { pendingTags, removedTags, clearPendingTags, clearRemovedTags } = useTags();
+    const { tags, pendingTags, removedTags, clearPendingTags, clearRemovedTags } = useTags();
+    const tagsRef = useRef(tags); // Store tags in a ref to avoid stale closure issues
     const removedTagsRef = useRef(removedTags); // Store removedTags in a ref to avoid stale closure issues
     const pendingTagsRef = useRef(pendingTags); // Store pendingTags in a ref to avoid stale closure issues
 
@@ -20,7 +21,11 @@ const HistorySync = () => {
         allTasksRef.current = allTasks;
         removedTagsRef.current = removedTags;
         pendingTagsRef.current = pendingTags;
-    }, [allTasks, removedTags, pendingTags]);
+        tagsRef.current = tags;
+    }, [allTasks, removedTags, pendingTags, tags]);
+
+    console.log('All found tags:', tags);
+    console.log('Pending tags:', pendingTags);
 
     useEffect(() => {
         const interval = setInterval(async () => {
@@ -53,26 +58,29 @@ const HistorySync = () => {
                                     is_favorite: task.is_favorite,
                                 });
 
-                                console.log('Syncing task:', taskId, 'pendingTags:', pendingTags);
-                                // Sync pending tags first
+                                // console.log('Syncing task:', taskId, 'pendingTags:', pendingTags);
                                 // This ensures that any new tags are created before removing any existing ones
-
                                 if (pendingTags && pendingTags.length > 0) {
                                     await Promise.all(
                                         pendingTags.map(async (tag) => {
-                                            await tasksAPI.createTag(taskId, {
-                                                title: tag.title,
-                                                color: tag.color,
-                                            });
-                                            clearPendingTags(taskId, tag.id); // Clear pending tag after syncing
+                                            const existingTag = tagsRef.current.find((t) => t.id === tag.id);
+                                            if (existingTag) {
+                                                await tasksAPI.addExistingTag(taskId, existingTag.id);
+                                                clearPendingTags(taskId, tag.id); // Clear pending tag after syncing
+                                            } else {
+                                                await tasksAPI.createTag(taskId, {
+                                                    title: tag.title,
+                                                    color: tag.color,
+                                                });
+                                                clearPendingTags(taskId, tag.id); // Clear pending tag after syncing
+                                            }
                                         })
                                     )
                                 }
 
-                                console.log('Syncing task:', taskId, 'removedTags:', removed);
-                                // Now remove any tags that were marked for removal
+                                // console.log('Syncing task:', taskId, 'removedTags:', removed);
                                 // This ensures that any tags that were removed in the UI are also removed on the server
-                                
+
                                 if (removed && removed.length > 0) {
                                     await Promise.all(
                                         removed.map(async (tag) => {

@@ -102,6 +102,10 @@ export const tasksAPI = {
             method: 'POST',
             body: JSON.stringify(data),
         }),
+    addExistingTag: (taskId: number, tagId: number) =>
+        apiRequest(`/tasks/${taskId}/tags/existing/${tagId}`, {
+            method: 'POST',
+        }),
     removeTag: (taskId: number, tagId: number) =>
         apiRequest(`/tasks/${taskId}/tags/${tagId}`, {
             method: 'DELETE',
