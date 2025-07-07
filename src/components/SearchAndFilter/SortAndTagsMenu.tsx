@@ -8,6 +8,7 @@ import { Tag } from '@/context/TagsProvider'; // Importing the Tag type from Tag
 import { Task } from '@/context/TasksProvider'; // Importing the Task type from TasksProvider context
 import { useTags } from "@/context/TagsProvider";
 import { useTasks } from "@/context/TasksProvider";
+import { useHandleDeleteTag } from "@/utils/TagFunctions";
 
 
 export default function SortAndTagsMenu({
@@ -27,6 +28,7 @@ export default function SortAndTagsMenu({
     const [selectedTags, setSelectedTags] = useState<number[]>([]); // State to hold selected tags for filtering tasks
     // console.log(selectedTags);
     // console.log(allTasks);
+    const handleDeleteTag = useHandleDeleteTag(); // Hook to handle tag deletion
 
 
     // Function to sort tasks based on the selected order
@@ -149,7 +151,10 @@ export default function SortAndTagsMenu({
                                         <button
                                             type="button"
                                             className="ml-2 text-base text-red-400 opacity-60 cursor-pointer group-hover:opacity-100 hover:text-red-600 transition"
-                                            // onClick={() => handleDeleteTag(tag.id)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleDeleteTag(tag.id);
+                                            }}
                                             tabIndex={0}
                                         >
                                             <FaRegTrashCan />

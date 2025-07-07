@@ -12,13 +12,14 @@ export interface Tag {
 
 interface TagsContextType {
   tags: Tag[];
+  setTags: React.Dispatch<React.SetStateAction<Tag[]>>; // Function to update the tags state
   pendingTags: { [taskId: number]: Tag[] };
   removedTags: { [taskId: number]: Tag[] };
   refreshTags: () => Promise<void>;
   addPendingTag: (taskId: number, tag: Tag) => void;
   clearPendingTags: (taskId: number, tagId: number) => void;
   addRemovedTag: (taskId: number, tag: Tag) => void;
-  clearRemovedTags: (taskId: number) => void;
+  clearRemovedTags: (taskId: number, tagId: number) => void;
 }
 
 const TagsContext = createContext<TagsContextType | undefined>(undefined);
@@ -28,28 +29,32 @@ export const TagsProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [pendingTags, setPendingTags] = useState<{ [taskId: number]: Tag[] }>({});
   const [removedTags, setRemovedTags] = useState<{ [taskId: number]: Tag[] }>({});
 
-  const addPendingTag = (taskId: number, tag: Tag) =>
+  const addPendingTag = (taskId: number, tag: Tag) => // Expects the taskId and tag object
     setPendingTags(prev => ({
-      ...prev,
+      ...prev, // Spread the previous state
+      // If the taskId already exists, append the new tag; otherwise, create a new
       [taskId]: prev[taskId] ? [...prev[taskId], tag] : [tag],
     }));
 
-  const clearPendingTags = (taskId: number, tagId: number) =>
+  const clearPendingTags = (taskId: number, tagId: number) => // Expects the taskId and tagId to remove
     setPendingTags(prev => ({
-      ...prev,
+      ...prev, // Spread the previous state
+      // Filter out the tag with the specified tagId for the given taskId
       [taskId]: prev[taskId]?.filter(tag => tag.id !== tagId) || [],
     }));
 
-  const addRemovedTag = (taskId: number, tag: Tag) =>
+  const addRemovedTag = (taskId: number, tag: Tag) => // Expects the taskId and tag object to be removed
     setRemovedTags(prev => ({
-      ...prev,
+      ...prev, // Spread the previous state
+      // If the taskId already exists, append the new tag; otherwise, create a new
+      // array with the tag. This allows tracking which tags are marked for removal.
       [taskId]: prev[taskId] ? [...prev[taskId], tag] : [tag],
     }));
 
-  const clearRemovedTags = (taskId: number) =>
+  const clearRemovedTags = (taskId: number, tagId: number) => // Expects the taskId and tagId to remove
     setRemovedTags(prev => ({
       ...prev,
-      [taskId]: [],
+      [taskId]: prev[taskId]?.filter(tag => tag.id !== tagId) || [], // Filter out the tag with the specified id
     }));
 
   const refreshTags = async () => {
@@ -62,6 +67,7 @@ export const TagsProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return (
     <TagsContext.Provider value={{
       tags,
+      setTags,
       pendingTags,
       removedTags,
       refreshTags,

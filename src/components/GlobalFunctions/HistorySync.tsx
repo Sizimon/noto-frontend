@@ -86,9 +86,9 @@ const HistorySync = () => {
                                     await Promise.all(
                                         removed.map(async (tag) => {
                                             await tasksAPI.removeTag(taskId, tag.id);
+                                            clearRemovedTags(taskId, tag.id); // Clear removed tag after syncing
                                         })
                                     );
-                                    clearRemovedTags(taskId);
                                 }
                                 task.dirty = false; // Reset dirty flag after syncing
                             }

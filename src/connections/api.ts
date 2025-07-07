@@ -78,12 +78,12 @@ export const authAPI = {
 };
 
 export const tasksAPI = {
+    // TASKS API's
     create: (type: string) => 
         apiRequest('/tasks', {
             method: 'POST',
             body: JSON.stringify({ type }),
         }),
-
     getAll: () =>
         apiRequest('/tasks/fetch', {
             method: 'GET',
@@ -93,7 +93,13 @@ export const tasksAPI = {
             method: 'PUT',
             body: JSON.stringify(data),
         }),
-    getAllTags: () => 
+    delete: (id: number) =>
+        apiRequest(`/tasks/${id}`, {
+            method: 'DELETE',
+        }),
+
+    // TAGS API's
+    getAllTags: () =>
         apiRequest('/tags/fetch', {
             method: 'GET',
         }),
@@ -109,7 +115,11 @@ export const tasksAPI = {
     removeTag: (taskId: number, tagId: number) =>
         apiRequest(`/tasks/${taskId}/tags/${tagId}`, {
             method: 'DELETE',
-        })
+        }),
+    deleteTag: (tagId: number) =>
+        apiRequest(`/tags/${tagId}`, {
+            method: 'DELETE',
+        }),
     };
 
 export const userAPI = {
