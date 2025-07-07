@@ -1,32 +1,41 @@
 'use client';
 import React from 'react';
-import { FaRegStar, FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegTrashAlt } from 'react-icons/fa';
 
+import { useHandleDeleteTask } from '@/utils/TaskFunctions'; // Importing the hook to handle task deletion
 
 export default function Menu({
+    card,
     handleNoteMenuToggle
 }: any) {
+    const handleDeleteTask = useHandleDeleteTask();
+
     return (
         <div
-            className='absolute right-0 top-10 bg-zinc-100 shadow-lg rounded-lg p-4 w-32 z-30
-                                 dark:bg-zinc-900'
-            onClick={(e) => e.stopPropagation()} // Prevent click from closing the menu
-            onMouseLeave={() => handleNoteMenuToggle('')} // Close menu on mouse leave
+            className="absolute right-0 top-10 bg-white dark:bg-zinc-900 shadow-xl rounded-xl w-44 z-50 border border-zinc-200 dark:border-zinc-800 cursor-default"
+            onClick={e => e.stopPropagation()}
+            onMouseLeave={() => handleNoteMenuToggle('')}
         >
-            <ul className='space-y-4'>
-                <span
-                    className='flex flex-row justify-center items-center cursor-pointer hover:text-amber-600'
-
+            <div className="px-4 py-2 border-b border-zinc-100 dark:border-zinc-800 text-xs text-zinc-400 uppercase tracking-wider">
+                Note Actions
+            </div>
+            <div className="flex flex-col py-1">
+                {/* Example future action */}
+                <button
+                    className="flex items-center gap-2 px-4 py-2 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition rounded-none text-sm cursor-pointer"
+                    onClick={(e) => {
+                        e.stopPropagation(); // Prevent the click from propagating to the card
+                        handleDeleteTask(card.id)
+                        handleNoteMenuToggle(''); // Close the menu after deletion
+                    }}
                 >
-                    <li>Set Favorite</li><FaRegStar className='inline-block ml-1' />
-                </span>
-                <span className='flex flex-row justify-center items-center cursor-pointer hover:text-amber-600'>
-                    <li>Add Tags</li><FaRegEdit className='inline-block ml-1' />
-                </span>
-                <span className='flex flex-row justify-center items-center cursor-pointer hover:text-amber-600'>
-                    <li>Delete Note</li><FaRegTrashAlt className='inline-block ml-1' />
-                </span>
-            </ul>
+                    <FaRegTrashAlt className="text-red-400" />
+                    Delete
+                </button>
+                {/* Add more actions here */}
+                {/* <button className="...">Edit</button> */}
+                {/* <button className="...">Duplicate</button> */}
+            </div>
         </div>
     )
 }

@@ -19,7 +19,7 @@ export default function SearchAndCreate({
                 type="text"
                 placeholder="Search..."
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="border rounded p-2 text-xs border-none bg-zinc-200 dark:bg-zinc-900 dark:border-zinc-700 outline-none focus:ring-1 focus:ring-amber-500 transition-all duration-300"
+                className="border rounded p-2 text-xs border-none bg-white dark:bg-zinc-900 dark:border-zinc-700 outline-none focus:ring-1 focus:ring-amber-500 transition-all duration-300"
             />
         </div>
     )

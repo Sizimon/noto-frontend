@@ -64,6 +64,7 @@ export default function TaskCard({
                 {card.id === noteMenuOpen && (
                     <Menu // NOTE MENU COMPONENT
                         handleNoteMenuToggle={handleNoteMenuToggle}
+                        card={card}
                     />
                 )}
             </div>

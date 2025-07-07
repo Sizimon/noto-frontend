@@ -94,7 +94,7 @@ export const tasksAPI = {
             body: JSON.stringify(data),
         }),
     delete: (id: number) =>
-        apiRequest(`/tasks/${id}`, {
+        apiRequest(`/tasks/delete/${id}`, {
             method: 'DELETE',
         }),
 
