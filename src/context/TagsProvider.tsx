@@ -14,7 +14,9 @@ interface TagsContextType {
   tags: Tag[];
   setTags: React.Dispatch<React.SetStateAction<Tag[]>>; // Function to update the tags state
   pendingTags: { [taskId: number]: Tag[] };
+  setPendingTags: React.Dispatch<React.SetStateAction<{ [taskId: number]: Tag[] }>>; // Function to update pending tags
   removedTags: { [taskId: number]: Tag[] };
+  setRemovedTags: React.Dispatch<React.SetStateAction<{ [taskId: number]: Tag[] }>>; // Function to update removed tags
   refreshTags: () => Promise<void>;
   addPendingTag: (taskId: number, tag: Tag) => void;
   clearPendingTags: (taskId: number, tagId: number) => void;
@@ -69,7 +71,9 @@ export const TagsProvider: React.FC<{ children: React.ReactNode }> = ({ children
       tags,
       setTags,
       pendingTags,
+      setPendingTags,
       removedTags,
+      setRemovedTags,
       refreshTags,
       addPendingTag,
       clearPendingTags,
