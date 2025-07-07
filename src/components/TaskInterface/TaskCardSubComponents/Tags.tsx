@@ -102,15 +102,25 @@ export default function Tags({
                                             exit={{ opacity: 0, scale: 0.95, y: -10 }}
                                             transition={{ duration: 0.18, ease: "easeInOut" }}
                                             className="
-                                            absolute left-0 top-full z-50 w-[240px] bg-white border border-zinc-200 rounded shadow-lg p-1 mt-1
-                                            flex flex-row overflow-y-auto no-scrollbar gap-1
-                                            dark:bg-zinc-900 dark:border-zinc-700
-                                        "
+                                                absolute left-0 top-full z-50 bg-white border border-zinc-200 rounded shadow-lg p-1 mt-1
+                                                grid grid-rows-5 auto-cols-max gap-1
+                                                max-w-none
+                                                dark:bg-zinc-900 dark:border-zinc-700
+                                            "
+                                            style={{
+                                                display: "grid",
+                                                gridAutoFlow: "column",
+                                                gridTemplateRows: "repeat(5, minmax(0, 1fr))",
+                                                maxHeight: "220px", // 5 rows * ~44px per row (adjust as needed)
+                                                minWidth: "80px",
+                                                overflowY: "auto",
+                                                overflowX: "auto"
+                                            }}
                                         >
                                             {availableTags.map((tag: Tag) => (
                                                 <button
                                                     key={tag.id}
-                                                    className={`inline-flex items-center px-2 py-1 text-xs ${tag.color} rounded hover:bg-zinc-100 dark:hover:bg-zinc-700`}
+                                                    className={`inline-flex items-center justify-center px-2 py-1 text-xs ${tag.color} rounded hover:bg-zinc-100 dark:hover:bg-zinc-700 whitespace-nowrap`}
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         handleAddExistingTag(card.id, tag);

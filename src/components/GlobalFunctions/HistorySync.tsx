@@ -10,7 +10,7 @@ const HistorySync = () => {
     const { allTasks } = useTasks();
     const allTasksRef = useRef(allTasks); // Store allTasks in a ref to avoid stale closure issues
 
-    const { tags, pendingTags, removedTags, clearPendingTags, clearRemovedTags } = useTags();
+    const { tags, refreshTags, pendingTags, removedTags, clearPendingTags, clearRemovedTags } = useTags();
     const tagsRef = useRef(tags); // Store tags in a ref to avoid stale closure issues
     const removedTagsRef = useRef(removedTags); // Store removedTags in a ref to avoid stale closure issues
     const pendingTagsRef = useRef(pendingTags); // Store pendingTags in a ref to avoid stale closure issues
@@ -74,9 +74,11 @@ const HistorySync = () => {
                                                     color: tag.color,
                                                 });
                                                 clearPendingTags(taskId, tag.id); // Clear pending tag after syncing
+                                                
                                             }
                                         })
                                     )
+                                    refreshTags(); // Refresh tags after adding new ones
                                 }
 
                                 // console.log('Syncing task:', taskId, 'removedTags:', removed);
@@ -87,8 +89,10 @@ const HistorySync = () => {
                                         removed.map(async (tag) => {
                                             await tasksAPI.removeTag(taskId, tag.id);
                                             clearRemovedTags(taskId, tag.id); // Clear removed tag after syncing
+                                            refreshTags(); // Refresh tags after removing
                                         })
                                     );
+                                    refreshTags(); // Refresh tags after removing
                                 }
                                 task.dirty = false; // Reset dirty flag after syncing
                             }
