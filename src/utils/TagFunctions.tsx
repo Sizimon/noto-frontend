@@ -6,12 +6,17 @@ import { Tag } from '../context/TagsProvider';
 
 export function useHandleAddExistingTag() {
     const { allTasks, setAllTasks } = useTasks();
-    const { addPendingTag } = useTags();
+    const { removedTags, clearRemovedTags, addPendingTag } = useTags();
 
     return (taskId: number, tag: Tag) => {
         if (!tag || !tag.id || !tag.title) return;
 
-        addPendingTag(taskId, tag);
+        // If the tag was marked for removal, unmark it
+        if (removedTags[taskId]?.some((t: Tag) => t.id === tag.id)) {
+            clearRemovedTags(taskId);
+        } else {
+            addPendingTag(taskId, tag);
+        }
 
         const updatedTasks = allTasks.map(task => {
             if (task.id === taskId) {
@@ -28,19 +33,25 @@ export function useHandleAddExistingTag() {
 
 export function useHandleRemoveTag() {
     const { allTasks, setAllTasks } = useTasks();
-    const { addRemovedTag } = useTags();
+    const { pendingTags, addRemovedTag, clearPendingTags } = useTags();
 
     return (taskId: number, tagId: number) => {
-        const updatedTasks = allTasks.map(task => {
-            if (task.id === taskId) {
-                const originalTags = task.tags || [];
-                const newTags = originalTags.filter((tag: Tag) => tag.id !== tagId) || [];
-                const removedTag = originalTags.find((tag: Tag) => tag.id === tagId);
-                if (removedTag) addRemovedTag(taskId, removedTag);
-                return { ...task, tags: newTags, dirty: true };
-            }
-            return task;
-        });
+        const task = allTasks.find(task => task.id === taskId);
+        const originalTags = task?.tags || [];
+        const removedTag = originalTags.find((tag: Tag) => tag.id === tagId);
+
+        if (pendingTags[taskId]?.some((tag: Tag) => tag.id === tagId)) {
+            clearPendingTags(taskId, tagId);
+        } else if (removedTag) {
+            addRemovedTag(taskId, removedTag);
+        }
+
+        const newTags = originalTags.filter((tag: Tag) => tag.id !== tagId);
+        const updatedTasks = allTasks.map(task =>
+            task.id === taskId
+                ? { ...task, tags: newTags, dirty: true }
+                : task
+        );
         setAllTasks(updatedTasks);
     };
 };
@@ -56,6 +67,10 @@ export function useHandleCreateTag() {
     ]
 
     return (taskId: number, tagTitle: string) => {
+        if (tags.length + Object.values(pendingTags).flat().length >= 15) {
+            alert('You cannot have more than 15 tags.');
+            return;
+        }
         if (!tagTitle || tagTitle.trim() === '') return;
         if (tagTitle.length > 15) {
             alert('Tag title is too long.');

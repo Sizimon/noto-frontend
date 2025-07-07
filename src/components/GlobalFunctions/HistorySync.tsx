@@ -26,6 +26,7 @@ const HistorySync = () => {
 
     console.log('All found tags:', tags);
     console.log('Pending tags:', pendingTags);
+    console.log('Removed tags:', removedTags);
 
     useEffect(() => {
         const interval = setInterval(async () => {

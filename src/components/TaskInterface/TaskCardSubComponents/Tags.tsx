@@ -20,6 +20,8 @@ export default function Tags({
         (tag: Tag) => !card.tags.some((t: Tag) => t.id === tag.id)
     );
 
+    console.log('Card Tags:', card.tags);
+
     const tagVariants = {
         rest: { opacity: 1, scale: 1, x: 0 },
         hover: { opacity: 1, scale: 1, x: 0 },
@@ -31,39 +33,41 @@ export default function Tags({
     const handleAddExistingTag = useHandleAddExistingTag();
     return (
         <div className='flex items-center justify-start'>
-            <div className='flex items-center space-x-1 overflow-x-auto whitespace-nowrap no-scrollbar'>
-                <AnimatePresence initial={false}>
-                    {card.tags.map((tag: Tag, index: number) => (
-                        <motion.span
-                            key={tag.id ?? index}
-                            className={`text-white p-1 ${tag.color} rounded cursor-default`}
-                            variants={tagVariants}
-                            initial="initial"
-                            animate="rest"
-                            exit="exit"
-                            whileHover="hover"
-                            onClick={e => e.stopPropagation()}
-                        >
-                            {tag.title}
-                            <motion.button
-                                type="button"
-                                className="whitespace-nowrap overflow-hidden cursor-default"
-                                onClick={() => handleRemoveTag(card.id, tag.id)}
-                                variants={{
-                                    rest: { width: 0, opacity: 0 },
-                                    hover: { width: 16, opacity: 1 },
-                                }}
-                                transition={{ duration: 0.2, ease: "easeInOut" }}
+            <div className='flex space-x-2'>
+                <div className='flex items-center space-x-1 overflow-x-auto whitespace-nowrap no-scrollbar max-w-[180px]'>
+                    <AnimatePresence initial={false}>
+                        {card.tags.map((tag: Tag) => (
+                            <motion.span
+                                key={tag.id}
+                                className={`text-white p-1 ${tag.color} rounded cursor-default`}
+                                variants={tagVariants}
+                                initial="initial"
+                                animate="rest"
+                                exit="exit"
+                                whileHover="hover"
+                                onClick={e => e.stopPropagation()}
                             >
-                                <span className="text-xs ml-1">X</span>
-                            </motion.button>
-                        </motion.span>
-                    ))}
-                </AnimatePresence>
+                                {tag.title}
+                                <motion.button
+                                    type="button"
+                                    className="whitespace-nowrap overflow-hidden cursor-default"
+                                    onClick={() => handleRemoveTag(card.id, tag.id)}
+                                    variants={{
+                                        rest: { width: 0, opacity: 0 },
+                                        hover: { width: 16, opacity: 1 },
+                                    }}
+                                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                                >
+                                    <span className="text-xs ml-1">X</span>
+                                </motion.button>
+                            </motion.span>
+                        ))}
+                    </AnimatePresence>
+                </div>
                 <div className="relative" style={{ minWidth: 32 }}>
                     <AnimatePresence mode="wait" initial={false}>
                         {isInputOpen ? (
-                            <motion.div>
+                            <>
                                 <motion.input
                                     key="tag-input"
                                     type="text"
@@ -89,25 +93,39 @@ export default function Tags({
                                     autoFocus
                                     style={{ minWidth: 80, maxWidth: 120 }}
                                 />
-                                {availableTags.length > 0 && (
-                                    <div>
-                                        {availableTags.map((tag: Tag) => (
-                                            <button
-                                                key={tag.id}
-                                                className={`flex w-full items-center px-2 py-1 text-xs ${tag.color} rounded hover:bg-zinc-100 dark:hover:bg-zinc-700`}
-                                                onClick={() => {
-                                                    handleAddExistingTag(card.id, tag);
-                                                    setIsInputOpen(false);
-                                                    setNewTag('');
-                                                }}
-                                                type="button"
-                                            >
-                                                {tag.title}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-                            </motion.div>
+                                <AnimatePresence>
+                                    {availableTags.length > 0 && (
+                                        <motion.div
+                                            key="suggestions"
+                                            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                                            exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                                            transition={{ duration: 0.18, ease: "easeInOut" }}
+                                            className="
+                                            absolute left-0 top-full z-50 w-[240px] bg-white border border-zinc-200 rounded shadow-lg p-1 mt-1
+                                            flex flex-row overflow-y-auto no-scrollbar gap-1
+                                            dark:bg-zinc-900 dark:border-zinc-700
+                                        "
+                                        >
+                                            {availableTags.map((tag: Tag) => (
+                                                <button
+                                                    key={tag.id}
+                                                    className={`inline-flex items-center px-2 py-1 text-xs ${tag.color} rounded hover:bg-zinc-100 dark:hover:bg-zinc-700`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleAddExistingTag(card.id, tag);
+                                                        setIsInputOpen(false);
+                                                        setNewTag('');
+                                                    }}
+                                                    type="button"
+                                                >
+                                                    {tag.title}
+                                                </button>
+                                            ))}
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </>
                         ) : (
                             <motion.button
                                 type="button"
@@ -146,6 +164,6 @@ export default function Tags({
                     </AnimatePresence>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

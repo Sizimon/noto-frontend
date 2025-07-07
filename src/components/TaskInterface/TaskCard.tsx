@@ -42,7 +42,7 @@ export default function TaskCard({
             </div>
             <div className='relative flex flex-row justify-between items-center text-xs p-2 bg-white text-zinc-600 w-full col-span-10 h-full rounded-r-lg
             dark:text-zinc-300 dark:bg-zinc-800'>
-                <div className="flex-1 overflow-x-auto flex-row mx-2 space-x-2"> 
+                <div className="flex-1 flex-row mx-2 space-x-2"> 
                         <Tags 
                             card={card} 
                             isInputOpen={isInputOpen} 
@@ -50,7 +50,6 @@ export default function TaskCard({
                             newTag={newTag} 
                             setNewTag={setNewTag} 
                             handleCreateTag={handleCreateTag}
-                            // handleRemoveTag={handleRemoveTag}
                         />
                 </div>
                 <button
