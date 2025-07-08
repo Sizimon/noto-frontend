@@ -64,21 +64,14 @@ const HistorySync = () => {
                                 if (pendingTags && pendingTags.length > 0) {
                                     await Promise.all(
                                         pendingTags.map(async (tag) => {
-                                            const existingTag = tagsRef.current.find((t) => t.id === tag.id);
-                                            if (existingTag) {
-                                                await tasksAPI.addExistingTag(taskId, existingTag.id);
-                                                clearPendingTags(taskId, tag.id); // Clear pending tag after syncing
-                                            } else {
-                                                await tasksAPI.createTag(taskId, {
-                                                    title: tag.title,
-                                                    color: tag.color,
-                                                });
-                                                clearPendingTags(taskId, tag.id); // Clear pending tag after syncing
-                                                
+                                            // Only add tags that have a real ID
+                                            if (tag.id) {
+                                                await tasksAPI.addExistingTag(taskId, tag.id);
                                             }
+                                            clearPendingTags(taskId, tag.id);
                                         })
-                                    )
-                                    refreshTags(); // Refresh tags after adding new ones
+                                    );
+                                    refreshTags(); // Refresh tags after adding
                                 }
 
                                 // console.log('Syncing task:', taskId, 'removedTags:', removed);
@@ -87,12 +80,14 @@ const HistorySync = () => {
                                 if (removed && removed.length > 0) {
                                     await Promise.all(
                                         removed.map(async (tag) => {
-                                            await tasksAPI.removeTag(taskId, tag.id);
-                                            clearRemovedTags(taskId, tag.id); // Clear removed tag after syncing
-                                            refreshTags(); // Refresh tags after removing
+                                            // Only remove tags that have a real ID
+                                            if (tag.id) {
+                                                await tasksAPI.removeTag(taskId, tag.id);
+                                            }
+                                            clearRemovedTags(taskId, tag.id);
                                         })
                                     );
-                                    refreshTags(); // Refresh tags after removing
+                                    refreshTags();
                                 }
                                 task.dirty = false; // Reset dirty flag after syncing
                             }
@@ -103,7 +98,7 @@ const HistorySync = () => {
                     })
                 );
             }
-        }, 30000); // Sync every 30 seconds
+        }, 5000); // Sync every 5 seconds
 
         return () => clearInterval(interval);
     }, []);

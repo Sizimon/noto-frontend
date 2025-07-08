@@ -5,21 +5,35 @@ import { useTags } from '../context/TagsProvider';
 import { Tag } from '../context/TagsProvider';
 import { tasksAPI } from '../connections/api';
 
+const colors = [
+    'bg-amber-600', 'bg-blue-600', 'bg-green-600', 'bg-red-600', 'bg-purple-600',
+    'bg-pink-600', 'bg-yellow-600', 'bg-teal-600', 'bg-indigo-600', 'bg-gray-600',
+    'bg-orange-600', 'bg-lime-600', 'bg-cyan-600', 'bg-violet-600', 'bg-fuchsia-600'
+];
+
+// Function to pick a random color for a new tag
+// This function checks the existing tags and pending tags to ensure that the color is unique.
+function pickColor(tags: Tag[]): string | undefined {
+    const usedColors = [
+        ...tags.map(tag => tag.color),
+    ];
+    const availableColors = colors.filter(color => !usedColors.includes(color));
+    if (availableColors.length === 0) {
+        console.error('No available colors left.');
+        return undefined;
+    }
+    return availableColors[Math.floor(Math.random() * availableColors.length)];
+}
+
 // Function to handle creating a new tag for a task
 // This function checks if the tag title is valid, generates a random color for the tag,
 // and adds the tag to both the task and the pending tags in context.
 // It also ensures that the total number of tags does not exceed 15.
 export function useHandleCreateTag() {
-    const { allTasks, setAllTasks } = useTasks();
-    const { tags, pendingTags, addPendingTag } = useTags();
+    const { setAllTasks } = useTasks();
+    const { tags, setTags, pendingTags } = useTags();
 
-    const colors = [
-        'bg-amber-600', 'bg-blue-600', 'bg-green-600', 'bg-red-600', 'bg-purple-600',
-        'bg-pink-600', 'bg-yellow-600', 'bg-teal-600', 'bg-indigo-600', 'bg-gray-600',
-        'bg-orange-600', 'bg-lime-600', 'bg-cyan-600', 'bg-violet-600', 'bg-fuchsia-600'
-    ]
-
-    return (taskId: number, tagTitle: string) => {
+    return async (taskId: number, tagTitle: string) => {
         if (tags.length + Object.values(pendingTags).flat().length >= 15) {
             alert('You cannot have more than 15 tags.');
             return;
@@ -29,38 +43,35 @@ export function useHandleCreateTag() {
             alert('Tag title is too long.');
             return;
         }
+        try {
+            const newTag = await tasksAPI.createTag(taskId, {
+                title: tagTitle.toUpperCase(),
+                color: pickColor(tags)
+            });
 
-        // Combine used colors from both synced and pending tags
-        const usedColors = [
-            ...tags.map(tag => tag.color),
-            ...Object.values(pendingTags).flat().map(tag => tag.color)
-        ];
-        const availableColors = colors.filter(color => !usedColors.includes(color));
-        if (availableColors.length === 0) {
-            console.error('No available colors left.');
+            if (!newTag) {
+                console.error('Failed to create tag.');
+                return;
+            }
+
+            // Update the tags state with the new tag
+            // This ensures that the tag is available in the UI immediately.
+            setTags(prev => [...prev, newTag.tag]);
+
+            // Update the task's tags in the context state
+            // This ensures that the task reflects the new tag immediately.
+            setAllTasks(prev =>
+                prev.map(task =>
+                    task.id === taskId
+                        ? { ...task, tags: [...(task.tags || []), newTag.tag] }
+                        : task
+                )
+            );
+        } catch (error) {
+            console.error('Error creating tag:', error);
+            alert('Failed to create tag. Please try again.');
             return;
         }
-
-        const color = availableColors[Math.floor(Math.random() * availableColors.length)];
-
-        const newTag = {
-            id: Date.now(),
-            dirty: true,
-            title: tagTitle.toUpperCase(),
-            color: color
-        };
-
-        // Add to pending tags in context
-        addPendingTag(taskId, newTag);
-
-        const updatedTasks = allTasks.map(task => {
-            if (task.id === taskId) {
-                const newTags = task.tags ? [...task.tags, newTag] : [newTag];
-                return { ...task, tags: newTags, dirty: true };
-            }
-            return task;
-        });
-        setAllTasks(updatedTasks);
     };
 }
 
@@ -96,11 +107,7 @@ export function useHandleAddExistingTag() {
     };
 }
 
-// Function to handle removing a tag from a task
-// This function checks if the tag is already marked for removal in pending tags.
-// If it is, it clears the pending tag. If not, it adds the tag to the removed tags.
-// It then updates the task's tags by filtering out the removed tag and marks the task as dirty.
-// This ensures that the UI reflects the changes immediately while keeping the data consistent.
+
 export function useHandleRemoveTag() {
     const { allTasks, setAllTasks } = useTasks();
     const { pendingTags, addRemovedTag, clearPendingTags } = useTags();
@@ -108,14 +115,19 @@ export function useHandleRemoveTag() {
     return (taskId: number, tagId: number) => {
         const task = allTasks.find(task => task.id === taskId);
         const originalTags = task?.tags || [];
-        const removedTag = originalTags.find((tag: Tag) => tag.id === tagId);
 
+        // If the tag is in pending tags, clear it (undo pending add)
         if (pendingTags[taskId]?.some((tag: Tag) => tag.id === tagId)) {
             clearPendingTags(taskId, tagId);
-        } else if (removedTag) {
-            addRemovedTag(taskId, removedTag);
+        } else {
+            // Otherwise, mark it for removal (to be synced)
+            const tagToRemove = originalTags.find((tag: Tag) => tag.id === tagId);
+            if (tagToRemove) {
+                addRemovedTag(taskId, tagToRemove);
+            }
         }
 
+        // Remove the tag from the task's tags array and mark task as dirty
         const newTags = originalTags.filter((tag: Tag) => tag.id !== tagId);
         const updatedTasks = allTasks.map(task =>
             task.id === taskId
@@ -124,7 +136,7 @@ export function useHandleRemoveTag() {
         );
         setAllTasks(updatedTasks);
     };
-};
+}
 
 // Function to handle deleting a tag
 // This function removes the tag from the context state and attempts to delete it from the server.
@@ -136,6 +148,8 @@ export function useHandleDeleteTag() {
     return async (tagId: number) => {
         if (!tagId) return;
 
+        // Update the tags state by filtering out the tag with the specified ID
+        // This ensures that the tag is removed from the UI immediately. (NEED TO ALSO DELETE THE TAG FROM ALL TASKS IT IS ATTACHED TOO ON THE UI)
         const updatedTags = tags.filter(tag => tag.id !== tagId);
         setTags(updatedTags);
         try {
