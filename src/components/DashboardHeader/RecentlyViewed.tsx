@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useTasks } from '@/context/TasksProvider';
 import { FaRegClock } from "react-icons/fa";
 import { useAuth } from '@/context/AuthProvider';
+import { handleTaskClick } from '../TaskInterface/TaskCard';
 
 
 const RecentlyViewed: React.FC = () => {
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
     const { allTasks } = useTasks();
     const [cards, setCards] = useState<any[]>([]);
+    const router = useRouter();
 
     useEffect(() => {
         if (user && Array.isArray(user.lastViewedTasks)) {
             const recentlyViewedTasks = user.lastViewedTasks
-                .map((id: string) => allTasks.find(task => task.id === id))
+                .map((id: number) => allTasks.find(task => task.id === id))
                 .filter(Boolean);
             setCards(recentlyViewedTasks);
         } else {
@@ -36,19 +39,22 @@ const RecentlyViewed: React.FC = () => {
                     <div
                         key={index}
                         className="
-                flex flex-col items-center cursor-pointer
-                transition-transform duration-200 hover:scale-105
-            "
+                            flex flex-col items-center cursor-pointer
+                            transition-transform duration-200 hover:scale-105
+                        "
                         title={card.title}
+                        onClick={() => {
+                            handleTaskClick(card, router, setUser); // Navigate to the task detail page
+                        }}
                     >
                         <div
                             className="
-                    flex items-center justify-center
-                    w-20 h-20 md:w-28 md:h-28
-                    rounded-full bg-amber-600 shadow-lg
-                    overflow-hidden
-                    transition-all duration-200
-                "
+                                flex items-center justify-center
+                                w-20 h-20 md:w-28 md:h-28
+                                rounded-full bg-amber-600 shadow-lg
+                                overflow-hidden
+                                transition-all duration-200
+                            "
                         >
                             <span className="text-white text-xs font-bold text-center px-2 uppercase line-clamp-3">
                                 {card.title}

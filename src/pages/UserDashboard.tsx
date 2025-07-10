@@ -9,16 +9,13 @@ import SearchAndCreate from '../components/SearchAndFilter/SearchAndCreate';
 import TaskGrid from '../components/TaskInterface/TaskGrid';
 import CreateTaskModal from '../components/CreateTaskModal';
 
-import { useRouter } from 'next/navigation';
 import { useTasks } from '../context/TasksProvider';
 import { useAuth } from '../context/AuthProvider';
 
 const UserDashboard: React.FC = () => {
-    const router = useRouter();
-
     // CONTEXT HOOKS
     const { allTasks, refreshTasks } = useTasks();
-    const { user, setUser } = useAuth();
+    const { user } = useAuth();
     // ------------------------------------------
 
     const [showModal, setShowModal] = useState<boolean>(false); // State to control the visibility of the Create Task modal
@@ -49,24 +46,6 @@ const UserDashboard: React.FC = () => {
 
     const handleSortMenuToggle = () => {
         setSortMenuOpen(!sortMenuOpen);
-    }
-
-    const handleTaskClick = (card: any) => {
-        // Navigate to the task details page
-        router.push(`/tasks/${card.id}`);
-
-        // Update localStorage with the last viewed task
-        const userStorage = localStorage.getItem('user');
-        let user = userStorage ? JSON.parse(userStorage) : null;
-        if (user) {
-            if (!Array.isArray(user.lastViewedTasks)) user.lastViewedTasks = [];
-
-            user.lastViewedTasks = user.lastViewedTasks.filter((id: string) => id !== card.id); // Remove the task if it already exists
-            user.lastViewedTasks.unshift(card.id); // Add the task to the front of the array
-            if (user.lastViewedTasks.length > 10) user.lastViewed.pop(); // Limit to the last 10 viewed tasks
-            localStorage.setItem('user', JSON.stringify(user)); // Update the user in local storage
-            setTimeout(() => setUser({ ...user }), 750); //  750ms DELAY | Update the user state in context
-        }
     }
 
     return (
@@ -105,7 +84,6 @@ const UserDashboard: React.FC = () => {
 
                                 // Handler Functions
                                 handleNoteMenuToggle={handleNoteMenuToggle}
-                                handleTaskClick={handleTaskClick}
                             />
                         </div>
                     ) : (
