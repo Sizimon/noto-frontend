@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaRegStickyNote, FaRegListAlt } from "react-icons/fa";
-import { MdOutlineViewKanban } from "react-icons/md";
+import { FaRegStickyNote } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { tasksAPI } from '@/connections/api';
 
@@ -23,20 +22,12 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
     };
 
     return (
-        <AnimatePresence>
-            <motion.div
+            <div
                 className='fixed inset-0 flex items-center justify-center bg-black/70 z-50'
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
                 onClick={handleModalClose}
             >
                 <motion.div
                     className='relative bg-white text-zinc-700 rounded-2xl shadow-2xl p-8 w-11/12 max-w-md dark:bg-zinc-900 dark:text-white'
-                    initial={{ scale: 0.85, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.85, opacity: 0 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
                     onClick={e => e.stopPropagation()}
                 >
                     {/* Close Button */}
@@ -55,14 +46,14 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
                             <motion.button
                                 key={task.type}
                                 className='
-                flex flex-row items-center justify-start gap-4
-                px-5 py-3 rounded-lg border border-zinc-200 dark:border-zinc-700
-                bg-zinc-100 dark:bg-zinc-800
-                shadow-sm hover:shadow-md
-                transition-all duration-200
-                focus:outline-none focus:ring-2 focus:ring-amber-600
-                w-full
-            '
+                                    flex flex-row items-center justify-start gap-4 cursor-pointer
+                                    px-5 py-3 rounded-lg border border-zinc-200 dark:border-zinc-700
+                                    bg-zinc-100 dark:bg-zinc-800
+                                    shadow-sm hover:shadow-md
+                                    transition-all duration-200
+                                    focus:outline-none focus:ring-2 focus:ring-amber-600
+                                    w-full
+                                '
                                 whileHover={{
                                     scale: 1.025,
                                     backgroundColor: "rgba(251,191,36,0.08)", // subtle amber highlight
@@ -79,7 +70,6 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
                         ))}
                     </div>
                 </motion.div>
-            </motion.div>
-        </AnimatePresence>
-    );
+            </div>
+        );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { ClipLoader } from 'react-spinners';
 import Layout from '@/Layout';
 import { useAuth } from '@/context/AuthProvider';
 import { useRouter } from 'next/navigation';
@@ -31,9 +32,8 @@ const Login: React.FC = () => {
             const success = await login(usernameOrEmail, password);
             if (success) {
                 setSuccess('Login successful! Redirecting...');
-                setTimeout(() => {
-                    router.push('/user-dashboard');
-                }, 2000);
+                router.push('/user-dashboard');
+                return;
             } else {
                 setError('Invalid username/email or password.');
             }
@@ -92,7 +92,12 @@ const Login: React.FC = () => {
                         </div>
                         {isLoading ?
                             (
-                                <p className="text-center text-amber-600">Logging in...</p>
+                                <ClipLoader
+                                    color="#f59e0b"
+                                    loading={isLoading}
+                                    size={35}
+                                    className="mx-auto"
+                                />
                             ) :
                             (
                                 <button
@@ -104,15 +109,7 @@ const Login: React.FC = () => {
                                     Login
                                 </button>
                             )
-                        }
-                        <button
-                            type="submit"
-                            className="
-                                px-4 py-2 bg-amber-600 text-white rounded 
-                                hover:bg-amber-500
-                            ">
-                            Login
-                        </button>
+        }   
                         <p className='text-center'>
                             Don't have an account? <Link href="/register" className="text-amber-600 hover:underline">Register here</Link>
                         </p>
