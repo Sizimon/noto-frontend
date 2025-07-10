@@ -62,8 +62,8 @@ const Login: React.FC = () => {
                     <h1 className="text-2xl font-bold mb-4">Login</h1>
                     {error && <p className="text-red-500 text-center px-24 pb-4">{error}</p>}
                     {success && <p className="text-green-500">{success}</p>}
-                    <form 
-                        onSubmit={handleLogin} 
+                    <form
+                        onSubmit={handleLogin}
                         className="
                             flex flex-col space-y-4 bg-zinc-100 p-8 rounded-lg w-5/6
                             md:w-4/6
@@ -90,6 +90,21 @@ const Login: React.FC = () => {
                                 placeholder='Password'
                             />
                         </div>
+                        {isLoading ?
+                            (
+                                <p className="text-center text-amber-600">Logging in...</p>
+                            ) :
+                            (
+                                <button
+                                    type="submit"
+                                    className="
+                                px-4 py-2 bg-amber-600 text-white rounded 
+                                hover:bg-amber-500
+                            ">
+                                    Login
+                                </button>
+                            )
+                        }
                         <button
                             type="submit"
                             className="

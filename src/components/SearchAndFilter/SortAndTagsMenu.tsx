@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
-import { FaCaretDown } from "react-icons/fa";
+import { FaSortAlphaDown, FaRegClock, FaStar, FaCaretDown } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 
 import { Tag } from '@/context/TagsProvider'; // Importing the Tag type from TagsProvider context
@@ -23,7 +23,7 @@ export default function SortAndTagsMenu({
     const { allTasks } = useTasks(); // Get all tasks from the TasksProvider context
     const { tags } = useTags(); // Get all tags from the TagsProvider context
     // ------------------------------------------
-    
+
     const [sortOrder, setSortOrder] = useState<string>('alphabetical'); // Current sort order state
     const [selectedTags, setSelectedTags] = useState<number[]>([]); // State to hold selected tags for filtering tasks
     // console.log(selectedTags);
@@ -75,29 +75,54 @@ export default function SortAndTagsMenu({
                     Sort
                     <FaCaretDown />
                 </button>
+
                 {sortMenuOpen && (
                     <div
-                        className="absolute z-50 left-0 top-full mt-2 w-32 bg-zinc-100 text-black rounded shadow-lg p-2
-                        dark:bg-zinc-800 dark:text-white
-                        md:w-64
-                        "
+                        className="absolute z-50 left-0 top-full mt-2 w-56 bg-white dark:bg-zinc-900 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0 md:w-64"
                         onMouseLeave={handleSortMenuToggle}
                     >
-                        <label className="flex items-center gap-1 text-xs">
-                            <input type="radio" name="sort" value="alphabetical" className="accent-amber-600"
-                                checked={sortOrder === 'alphabetical'}
-                                onChange={() => setSortOrder('alphabetical')} /> A-Z
-                        </label>
-                        <label className="flex items-center gap-1 text-xs">
-                            <input type="radio" name="sort" value="date" className="accent-amber-600"
-                                checked={sortOrder === 'date'}
-                                onChange={() => setSortOrder('date')} /> Date Created
-                        </label>
-                        <label className="flex items-center gap-1 text-xs">
-                            <input type="radio" name="sort" value="favorite" className="accent-amber-600"
-                                checked={sortOrder === 'favorite'}
-                                onChange={() => setSortOrder('favorite')} /> Filter by favorites.
-                        </label>
+                        {/* Heading */}
+                        <div className="px-4 py-2 border-b border-zinc-100 dark:border-zinc-800 text-xs text-zinc-400 uppercase tracking-wider">
+                            Sort Options
+                        </div>
+                        <div className="flex flex-col gap-2 px-2 py-2">
+                            <label className="flex items-center gap-2 text-xs cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="sort"
+                                    value="alphabetical"
+                                    className="accent-amber-600"
+                                    checked={sortOrder === 'alphabetical'}
+                                    onChange={() => setSortOrder('alphabetical')}
+                                />
+                                <FaSortAlphaDown className="text-amber-600" />
+                                <span>Alphabetical</span>
+                            </label>
+                            <label className="flex items-center gap-2 text-xs cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="sort"
+                                    value="date"
+                                    className="accent-amber-600"
+                                    checked={sortOrder === 'date'}
+                                    onChange={() => setSortOrder('date')}
+                                />
+                                <FaRegClock className="text-amber-600" />
+                                <span>Newest First</span>
+                            </label>
+                            <label className="flex items-center gap-2 text-xs cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="sort"
+                                    value="favorite"
+                                    className="accent-amber-600"
+                                    checked={sortOrder === 'favorite'}
+                                    onChange={() => setSortOrder('favorite')}
+                                />
+                                <FaStar className="text-amber-600" />
+                                <span>Favorites Only</span>
+                            </label>
+                        </div>
                     </div>
                 )}
             </div>
@@ -115,20 +140,20 @@ export default function SortAndTagsMenu({
                 </button>
                 {tagsMenuOpen && (
                     <div
-                        className="absolute z-50 left-0 top-full mt-2 w-48 bg-zinc-200 dark:bg-zinc-800 py-2 text-white rounded shadow-lg
-                        dark:text-white
-                        md:w-64
-                        "
+                        className="absolute z-50 left-0 top-full mt-2 w-56 bg-white dark:bg-zinc-900 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0 md:w-64"
                         onMouseLeave={handleTagsMenuToggle}
                     >
-                        <div className="flex flex-col gap-1 px-2 py-1">
+                        {/* Heading */}
+                        <div className="px-4 py-2 border-b border-zinc-100 dark:border-zinc-800 text-xs text-zinc-400 uppercase tracking-wider">
+                            Tag Filters
+                        </div>
+                        <div className="flex flex-col gap-1 px-2 py-2">
                             {tags.length > 0 ? (
                                 tags.map((tag: any) => (
-                                    <div key={tag.id}
-                                        className="flex items-center group">
+                                    <div key={tag.id} className="flex items-center group">
                                         <label
                                             key={tag.id}
-                                            className="flex w-full items-center gap-2 cursor-pointer rounded px-2 py-1 hover:bg-zinc-300 dark:hover:bg-zinc-700 transition"
+                                            className="flex w-full items-center gap-2 cursor-pointer rounded px-2 py-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
                                         >
                                             <input
                                                 type="checkbox"

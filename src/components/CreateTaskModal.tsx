@@ -1,23 +1,20 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaRegStickyNote, FaRegListAlt } from "react-icons/fa";
 import { MdOutlineViewKanban } from "react-icons/md";
+import { IoMdClose } from "react-icons/io";
 import { tasksAPI } from '@/connections/api';
 
 const TASK_TYPES = [
-    { type: 'note', label: 'Notepad' },
-    { type: 'list', label: 'To-Do List' },
-    { type: 'kanban', label: 'Kanban Board' },
+    { type: 'note', label: 'Notepad', icon: <FaRegStickyNote className='text-4xl text-amber-600' /> },
+    // Add more types here if needed
 ];
 
 export default function CreateTaskModal({ handleModalClose }: { handleModalClose: () => void }) {
     const handleTypeSelect = async (type: string) => {
         try {
             const newTask = await tasksAPI.create(type);
-
-            console.log('New task created:', newTask);
-            handleModalClose(); // Close the modal after task creation
-            // Redirect to the new task page
+            handleModalClose();
             window.location.href = `/tasks/${newTask.id}`;
         } catch (error) {
             console.error('Error creating task:', error);
@@ -26,53 +23,63 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
     };
 
     return (
-        <motion.div
-            className='fixed inset-0 flex items-center justify-center bg-black/75 z-10'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={handleModalClose}
-        >
+        <AnimatePresence>
             <motion.div
-                className='
-                bg-white text-zinc-600 rounded-lg shadow-lg p-4 w-10/12
-                dark:bg-zinc-900 dark:text-white
-                md:w-2/5'
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0.8 }}
+                className='fixed inset-0 flex items-center justify-center bg-black/70 z-50'
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={handleModalClose}
             >
-                <div
-                    className='
-                    flex flex-col items-center justify-center text-center
-                    md:space-x-4'>
-                    <h1 className='text-amber-600 text-2xl font-bold my-4 uppercase'>
+                <motion.div
+                    className='relative bg-white text-zinc-700 rounded-2xl shadow-2xl p-8 w-11/12 max-w-md dark:bg-zinc-900 dark:text-white'
+                    initial={{ scale: 0.85, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.85, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    onClick={e => e.stopPropagation()}
+                >
+                    {/* Close Button */}
+                    <button
+                        className="absolute top-4 right-4 text-zinc-400 hover:text-red-600 transition-colors text-2xl cursor-pointer"
+                        onClick={handleModalClose}
+                        aria-label="Close"
+                    >
+                        <IoMdClose />
+                    </button>
+                    <h1 className='text-amber-600 text-3xl font-extrabold mb-6 text-center uppercase tracking-wide'>
                         Create New Task
                     </h1>
-                    <div className='
-                    flex flex-col items-center justify-center text-center w-full
-                    md:flex-row md:space-x-4'>
+                    <div className='flex flex-col gap-4'>
                         {TASK_TYPES.map((task) => (
-                            <motion.div
+                            <motion.button
                                 key={task.type}
                                 className='
-                                flex flex-col items-center justify-center space-y-2 cursor-pointer p-4 my-2 w-full rounded-xl border-1 border-zinc-800/0 bg-zinc-200
-                                dark:bg-zinc-800
-                                md:w-1/3
-                                transition-all duration-150 hover:border-1 hover:border-amber-600
-                                '
+                flex flex-row items-center justify-start gap-4
+                px-5 py-3 rounded-lg border border-zinc-200 dark:border-zinc-700
+                bg-zinc-100 dark:bg-zinc-800
+                shadow-sm hover:shadow-md
+                transition-all duration-200
+                focus:outline-none focus:ring-2 focus:ring-amber-600
+                w-full
+            '
+                                whileHover={{
+                                    scale: 1.025,
+                                    backgroundColor: "rgba(251,191,36,0.08)", // subtle amber highlight
+                                    boxShadow: "0 4px 16px rgba(251,191,36,0.10)"
+                                }}
+                                whileTap={{ scale: 0.98 }}
                                 onClick={() => handleTypeSelect(task.type)}
                             >
-                                {task.type === 'note' && <FaRegStickyNote className='text-4xl text-amber-600' />}
-                                {task.type === 'list' && <FaRegListAlt className='text-4xl text-amber-600' />}
-                                {task.type === 'kanban' && <MdOutlineViewKanban className='text-4xl text-amber-600' />}
-                                <span className='text-sm uppercase'>{task.label}</span>
-                            </motion.div>
+                                <span className="mr-2">{task.icon}</span>
+                                <span className='text-base font-semibold uppercase tracking-wider'>
+                                    {task.label}
+                                </span>
+                            </motion.button>
                         ))}
                     </div>
-                </div>
+                </motion.div>
             </motion.div>
-
-        </motion.div>
-    )
+        </AnimatePresence>
+    );
 }

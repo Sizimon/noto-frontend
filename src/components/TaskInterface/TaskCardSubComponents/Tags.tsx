@@ -102,25 +102,28 @@ export default function Tags({
                                             exit={{ opacity: 0, scale: 0.95, y: -10 }}
                                             transition={{ duration: 0.18, ease: "easeInOut" }}
                                             className="
-                                                absolute left-0 top-full z-50 bg-white border border-zinc-200 rounded shadow-lg p-1 mt-1
-                                                grid grid-rows-5 auto-cols-max gap-1
-                                                max-w-none
+                                                absolute left-0 top-full z-50 bg-white border border-zinc-200 rounded-xl shadow-lg mt-1
+                                                flex flex-col w-max min-w-[120px] max-w-[220px] py-2 px-1
                                                 dark:bg-zinc-900 dark:border-zinc-700
                                             "
                                             style={{
-                                                display: "grid",
-                                                gridAutoFlow: "column",
-                                                gridTemplateRows: "repeat(5, minmax(0, 1fr))",
-                                                maxHeight: "220px", // 5 rows * ~44px per row (adjust as needed)
-                                                minWidth: "80px",
                                                 overflowY: "auto",
-                                                overflowX: "auto"
+                                                maxHeight: "200px",
                                             }}
                                         >
                                             {availableTags.map((tag: Tag) => (
                                                 <button
                                                     key={tag.id}
-                                                    className={`inline-flex items-center justify-center px-2 py-1 text-xs ${tag.color} rounded hover:bg-zinc-100 dark:hover:bg-zinc-700 whitespace-nowrap`}
+                                                    className={`
+                                                        flex items-center px-3 py-1 my-0.5 rounded-lg transition
+                                                        ${tag.color} text-xs text-white font-medium
+                                                        hover:brightness-110 hover:scale-102 focus:outline-none
+                                                        truncate
+                                                    `}
+                                                    style={{
+                                                        maxWidth: "190px",
+                                                    }}
+                                                    title={tag.title}
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         handleAddExistingTag(card.id, tag);
