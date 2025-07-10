@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState, useRef } from 'react';
 import { useTasks } from '@/context/TasksProvider';
 import dynamic from 'next/dynamic';
+import { Task } from '@/context/TasksProvider'; // Adjust the import path as necessary
 
 const TipTapEditor = dynamic(() => import('@/components/TipTapEditor'), {
     ssr: false,
@@ -17,12 +18,16 @@ export default function TaskPage() {
     const params = useParams(); // Get the URL parameters (e.g., task ID)
     const id = Array.isArray(params?.id) ? params.id[0] : params?.id; // If id is an array, take the first element; otherwise, use the id directly
     const { allTasks, setAllTasks } = useTasks(); // Access the tasks context to get all tasks and the function to update them
-    const [task, setTask] = useState<any>(null); // State to hold the current task
+    const [task, setTask] = useState<Task | null>(null); // State to hold the current task
+
+    const numericId = Number(id); // Convert the ID to a number for comparison
+    console.log('Task ID:', numericId); // Log the task ID for debugging
+    console.log('All Tasks:', allTasks); // Log all tasks for debugging
 
     // Effect to find the task by ID when the component mounts or when the ID changes and set it to state.
     useEffect(() => {
-        if (id) {
-            const foundTask = allTasks.find((t) => t.id === id);
+        if (numericId && allTasks && allTasks.length > 0) {
+            const foundTask = allTasks.find((t: Task) => t.id === numericId);
             setTask(foundTask || null);
         }
     }, [id, allTasks]);
@@ -33,11 +38,11 @@ export default function TaskPage() {
 
     // Function to handle task editing, which updates the task title and content
     const handleTaskEdit = async (newTitle: string, newContent: string) => {
-        setTask((prev: any) => ({ ...prev, title: newTitle, content: newContent }));
-        if (!id) return;
+        setTask((prev: Task | null) => (prev ? { ...prev, title: newTitle, content: newContent } : null));
+        if (!numericId) return;
         try {
             // Call the API to update the task with the new title and content
-            await tasksAPI.edit(id, {
+            await tasksAPI.edit(numericId, {
                 title: newTitle,
                 content: newContent,
             });
@@ -45,7 +50,7 @@ export default function TaskPage() {
             // Update the task in context state to maintain consistency
             setAllTasks((prevTasks: any[]) =>
                 prevTasks.map((t) => 
-                    t.id === id ? { ...t, title: newTitle, content: newContent } : t
+                    t.id === numericId ? { ...t, title: newTitle, content: newContent } : t
                 )
             );
         } catch (error) {
@@ -95,7 +100,7 @@ export default function TaskPage() {
             ">
                 <TipTapEditor 
                     key={task.id}
-                    content={task.content ? task.content : null} 
+                    content={task.content} 
                     onChange={(newContent) => {
                         setTask({ ...task, content: newContent });
                         // Trigger auto-save after a delay for content changes
