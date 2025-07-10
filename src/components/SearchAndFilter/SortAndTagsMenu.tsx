@@ -12,10 +12,9 @@ import { useHandleDeleteTag } from "@/utils/TagFunctions";
 
 
 export default function SortAndTagsMenu({
-    searchInput,
-    sortMenuOpen, // State boolean to control the visibility of the sort menu
+    openMenu, // State to control which menu is open ('sort' or 'tags')
+    searchInput, // Search input value to filter tasks
     handleSortMenuToggle, // Function to toggle the sort menu visibility
-    tagsMenuOpen, // State boolean to control the visibility of the tags menu
     handleTagsMenuToggle, // Function to toggle the tags menu visibility
     setFilteredTasks, // Function to update the filtered tasks in the parent component
 }: any) {
@@ -76,7 +75,7 @@ export default function SortAndTagsMenu({
                     <FaCaretDown />
                 </button>
 
-                {sortMenuOpen && (
+                {openMenu === 'sort' && (
                     <div
                         className="absolute z-50 left-0 top-full mt-2 w-56 bg-white dark:bg-zinc-900 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0 md:w-64"
                         onMouseLeave={handleSortMenuToggle}
@@ -138,7 +137,7 @@ export default function SortAndTagsMenu({
                     Tags
                     <FaCaretDown />
                 </button>
-                {tagsMenuOpen && (
+                {openMenu === 'tags' && (
                     <div
                         className="absolute z-50 left-0 top-full mt-2 w-56 bg-white dark:bg-zinc-900 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0 md:w-64"
                         onMouseLeave={handleTagsMenuToggle}

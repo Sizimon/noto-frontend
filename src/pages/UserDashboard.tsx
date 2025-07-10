@@ -28,8 +28,7 @@ const UserDashboard: React.FC = () => {
 
     // STATE FOR MANAGING TASK INTERFACE
     const [noteMenuOpen, setNoteMenuOpen] = useState<string>(''); // State to control which task's note menu is open
-    const [tagsMenuOpen, setTagsMenuOpen] = useState<boolean>(false); // State to control the visibility of the tags menu
-    const [sortMenuOpen, setSortMenuOpen] = useState<boolean>(false); // State to control the visibility of the sort menu
+    const [openMenu, setOpenMenu] = useState<null | 'sort' | 'tags'>(null); // State to control the visibility of the task menu
     // ------------------------------------------
 
     const handleNoteMenuToggle = (taskId: string) => {
@@ -41,11 +40,11 @@ const UserDashboard: React.FC = () => {
     }
 
     const handleTagsMenuToggle = () => {
-        setTagsMenuOpen(!tagsMenuOpen);
+        setOpenMenu(openMenu === 'tags' ? null : 'tags');
     }
 
     const handleSortMenuToggle = () => {
-        setSortMenuOpen(!sortMenuOpen);
+        setOpenMenu(openMenu === 'sort' ? null : 'sort');
     }
 
     return (
@@ -69,9 +68,8 @@ const UserDashboard: React.FC = () => {
                                     setSearchInput={setSearchInput}
                                 />
                                 <SortAndTagsMenu
-                                    sortMenuOpen={sortMenuOpen}
+                                    openMenu={openMenu}
                                     searchInput={searchInput}
-                                    tagsMenuOpen={tagsMenuOpen}
                                     setFilteredTasks={setFilteredTasks}
                                     // Handler Functions
                                     handleSortMenuToggle={handleSortMenuToggle}

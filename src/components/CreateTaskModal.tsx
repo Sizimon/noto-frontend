@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FaRegStickyNote } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { tasksAPI } from '@/connections/api';
