@@ -10,12 +10,10 @@ import TaskGrid from '../components/TaskInterface/TaskGrid';
 import CreateTaskModal from '../components/CreateTaskModal';
 
 import { useTasks } from '../context/TasksProvider';
-import { useAuth } from '../context/AuthProvider';
 
 const UserDashboard: React.FC = () => {
     // CONTEXT HOOKS
     const { allTasks, refreshTasks } = useTasks();
-    const { user } = useAuth();
     // ------------------------------------------
 
     const [showModal, setShowModal] = useState<boolean>(false); // State to control the visibility of the Create Task modal
@@ -53,7 +51,7 @@ const UserDashboard: React.FC = () => {
                 flex flex-col w-full text-zinc-800 items-center justify-center min-h-screen bg-white py-12
                 dark:text-white dark:bg-zinc-900
             ">
-                <DashboardHeader user={user} />
+                <DashboardHeader />
                 <div className='
                     bg-zinc-100 w-11/12 p-4 rounded-lg
                     dark:bg-zinc-950

@@ -20,7 +20,7 @@ export default function Tags({
         (tag: Tag) => !card.tags.some((t: Tag) => t.id === tag.id)
     );
 
-    console.log('Card Tags:', card.tags);
+    // console.log('Card Tags:', card.tags);
 
     const tagVariants = {
         rest: { opacity: 1, scale: 1, x: 0 },

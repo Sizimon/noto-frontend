@@ -5,8 +5,10 @@ import { userAPI } from "@/connections/api";
 import { tasksAPI } from "@/connections/api";
 import { useTasks } from "@/context/TasksProvider";
 import { useTags } from "@/context/TagsProvider";
+import { useAuth } from "@/context/AuthProvider";
 
 const HistorySync = () => {
+    const { user } = useAuth();
     const { allTasks } = useTasks();
     const allTasksRef = useRef(allTasks); // Store allTasks in a ref to avoid stale closure issues
 
@@ -24,22 +26,18 @@ const HistorySync = () => {
         tagsRef.current = tags;
     }, [allTasks, removedTags, pendingTags, tags]);
 
-    console.log('All found tags:', tags);
-    console.log('Pending tags:', pendingTags);
-    console.log('Removed tags:', removedTags);
+    // console.log('All found tags:', tags);
+    // console.log('Pending tags:', pendingTags);
+    // console.log('Removed tags:', removedTags);
 
     useEffect(() => {
         const interval = setInterval(async () => {
-            // SYNC LAST VIEWED TASKS FROM LOCAL STORAGE TO THE SERVER
-            const userStr = localStorage.getItem('user');
-            if (userStr) {
-                const user = JSON.parse(userStr);
-                if (Array.isArray(user.lastViewedTasks)) {
-                    try {
-                        await userAPI.updateLastViewed(user.lastViewedTasks);
-                    } catch (err) {
-                        console.error('Failed to sync lastViewedTasks:', err);
-                    }
+            // SYNC LAST VIEWED TASKS FROM CONTEXT TO THE SERVER
+            if (user && Array.isArray(user.lastViewedTasks)) {
+                try {
+                    await userAPI.updateLastViewed(user.lastViewedTasks);
+                } catch (err) {
+                    console.error('Failed to sync lastViewedTasks:', err);
                 }
             }
 

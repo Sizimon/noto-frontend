@@ -7,21 +7,27 @@ import Header from "./TaskCardSubComponents/Header";
 import { useAuth } from "@/context/AuthProvider";
 import { useRouter } from "next/navigation";
 
-export function handleTaskClick(card: any, router: any, setUser: (user: any) => void) {
+export function handleTaskClick(
+    card: any,
+    router: any,
+    user: any,
+    setUser: (user: any) => void
+) {
     // Navigate to the task details page
     router.push(`/tasks/${card.id}`);
 
-    // Update localStorage with the last viewed task
-    const userStorage = localStorage.getItem('user');
-    let user = userStorage ? JSON.parse(userStorage) : null;
+    // Update lastViewedTasks in context (and optionally backend)
     if (user) {
-        if (!Array.isArray(user.lastViewedTasks)) user.lastViewedTasks = [];
+        let lastViewedTasks = Array.isArray(user.lastViewedTasks) ? [...user.lastViewedTasks] : [];
+        lastViewedTasks = lastViewedTasks.filter((id: string | number) => Number(id) !== card.id);
+        lastViewedTasks.unshift(card.id);
+        if (lastViewedTasks.length > 10) lastViewedTasks = lastViewedTasks.slice(0, 10);
 
-        user.lastViewedTasks = user.lastViewedTasks.filter((id: string) => id !== card.id); // Remove the task if it already exists
-        user.lastViewedTasks.unshift(card.id); // Add the task to the front of the array
-        if (user.lastViewedTasks.length > 10) user.lastViewed.pop(); // Limit to the last 10 viewed tasks
-        localStorage.setItem('user', JSON.stringify(user)); // Update the user in local storage
-        setTimeout(() => setUser({ ...user }), 750); //  750ms DELAY | Update the user state in context
+        const updatedUser = { ...user, lastViewedTasks };
+        setUser(updatedUser);
+
+        // Optionally, sync to backend (uncomment if you have such an endpoint)
+        // userAPI.updateLastViewed(lastViewedTasks).catch(console.error);
     }
 }
 
@@ -35,7 +41,7 @@ export default function TaskCard({
     handleCreateTag,
 }: any) {
     // console.log(card);
-    const { setUser } = useAuth(); // Context hook to access user data
+    const { user, setUser } = useAuth(); // Context hook to access user data
     const router = useRouter(); // Next.js router for navigation
     const [isInputOpen, setIsInputOpen] = useState(false); // State to manage the visibility of the input for adding tags
     const [newTag, setNewTag] = useState<string>(''); // State to hold the new tag input
@@ -51,7 +57,7 @@ export default function TaskCard({
                 dark:bg-zinc-900 
                 md:w-10/12
                 `}
-            onClick={() => handleTaskClick(card, router, setUser)} // Click handler to open the note editor
+            onClick={() => handleTaskClick(card, router, user, setUser)} // Click handler to open the note editor
         >
             <div 
                 className='grid grid-flow-col grid-cols-6 col-span-6 items-center text-center w-full h-full bg-white text-amber-600 rounded-l-lg

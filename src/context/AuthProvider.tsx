@@ -22,22 +22,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [user, setUser] = useState<any>(null);
 
     useEffect(() => {
-        // Check for existing token on mount
-        const token = localStorage.getItem('token');
-        const userData = localStorage.getItem('user');
-        if (token && userData) {
-            setIsAuthenticated(true);
-            setUser(JSON.parse(userData));
-        }
-        setIsLoading(false);
+        const checkAuth = async () => {
+            setIsLoading(true);
+            try {
+                const data = await authAPI.me();
+                if (data && data.user) {
+                    setIsAuthenticated(true);
+                    setUser(data.user);
+                } else {
+                    setIsAuthenticated(false);
+                    setUser(null);
+                }
+            } catch (error) {
+                setIsAuthenticated(false);
+                setUser(null);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        checkAuth();
     }, []);
 
     const login = async (usernameOrEmail: string, password: string): Promise<boolean> => {
         try {
-            const data = await authAPI.login(usernameOrEmail, password);
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
+            await authAPI.login(usernameOrEmail, password);
+
+            const data = await authAPI.me();
+            if (!data) {
+                throw new Error('No user data returned from API');
+            }
+
             setUser(data.user);
+            console.log('User data:', data.user);
             setIsAuthenticated(true);
             return true;
         } catch (error) {
@@ -48,9 +64,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const register = async (username: string, email: string, password: string): Promise<boolean> => {
         try {
-            const data = await authAPI.register(username, email, password);
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
+            await authAPI.register(username, email, password);
+
+            const data = await authAPI.me();
+            if (!data) {
+                throw new Error('No user data returned from API');
+            }
+
             setUser(data.user);
             setIsAuthenticated(true);
             return true;
@@ -60,24 +80,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
-    const logout = () => {
-        console.log('Logging out...');
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+    const logout = async () => {
+        await authAPI.logout();
         setUser(null);
         setIsAuthenticated(false);
     };
 
     return (
-        <AuthContext.Provider value={{ 
-            isAuthenticated, 
-            setIsAuthenticated, 
-            isLoading, 
+        <AuthContext.Provider value={{
+            isAuthenticated,
+            setIsAuthenticated,
+            isLoading,
             user,
             setUser,
-            login, 
-            register, 
-            logout 
+            login,
+            register,
+            logout
         }}>
             {children}
         </AuthContext.Provider>

@@ -15,7 +15,7 @@ const RecentlyViewed: React.FC = () => {
     useEffect(() => {
         if (user && Array.isArray(user.lastViewedTasks)) {
             const recentlyViewedTasks = user.lastViewedTasks
-                .map((id: number) => allTasks.find(task => task.id === id))
+                .map((id: number | string) => allTasks.find(task => task.id === Number(id)))
                 .filter(Boolean);
             setCards(recentlyViewedTasks);
         } else {
@@ -44,7 +44,7 @@ const RecentlyViewed: React.FC = () => {
                         "
                         title={card.title}
                         onClick={() => {
-                            handleTaskClick(card, router, setUser); // Navigate to the task detail page
+                            handleTaskClick(card, router, user, setUser); // Navigate to the task detail page
                         }}
                     >
                         <div

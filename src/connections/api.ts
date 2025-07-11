@@ -1,24 +1,13 @@
 const API_BASE_URL = 'http://localhost:5006/api';
 
-// Utility function to get the auth token from localStorage
-const getAuthToken = () => {
-    if (typeof window !== 'undefined') {
-        return localStorage.getItem('token');
-    }
-    return null;
-}
-
 // API REQUEST WRAPPER
-
 const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
-    const token = getAuthToken();
-
     const config: RequestInit = {
         headers: {
             'Content-Type': 'application/json',
-            ...(token && { Authorization: `Bearer ${token}` }),
             ...options.headers,
         },
+        credentials: 'include', // Always send cookies for authentication
         ...options,
     };
 
@@ -26,15 +15,12 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
         console.log(`Making API request to: ${API_BASE_URL}${endpoint}`, config);
         const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
-        console.log('response status:', response.status);
-        console.log('response headers:', response.headers);
+        // console.log('response status:', response.status);
+        // console.log('response headers:', response.headers);
 
         if (response.status === 401) {
-            // Remove invalid token and user
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
             // Redirect to login
-            if (typeof window !== 'undefined') {
+            if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
                 window.location.href = '/login';
                 return;
             }
@@ -69,12 +55,21 @@ export const authAPI = {
             method: 'POST',
             body: JSON.stringify({ usernameOrEmail, password }),
         }),
-    
     register: (username: string, email: string, password: string) =>
         apiRequest('/auth/register', {
             method: 'POST',
             body: JSON.stringify({ username, email, password }),
         }),
+    me: () =>
+        apiRequest('/auth/me', {
+            method: 'GET',
+            credentials: 'include', // Include cookies for session management
+        }),
+    logout: () =>
+        apiRequest('/auth/logout', {
+            method: 'POST',
+            credentials: 'include', // Include cookies for session management
+        })
 };
 
 export const tasksAPI = {
@@ -83,42 +78,51 @@ export const tasksAPI = {
         apiRequest('/tasks', {
             method: 'POST',
             body: JSON.stringify({ type }),
+            credentials: 'include', // Include cookies for session management
         }),
     getAll: () =>
         apiRequest('/tasks/fetch', {
             method: 'GET',
+            credentials: 'include', // Include cookies for session management
         }),
     edit: (id: number, data: any) =>
         apiRequest(`/tasks/edit/${id}`, {
             method: 'PUT',
             body: JSON.stringify(data),
+            credentials: 'include', // Include cookies for session management
         }),
     delete: (id: number) =>
         apiRequest(`/tasks/delete/${id}`, {
             method: 'DELETE',
+            credentials: 'include', // Include cookies for session management
         }),
 
     // TAGS API's
     getAllTags: () =>
         apiRequest('/tags/fetch', {
             method: 'GET',
+            credentials: 'include', // Include cookies for session management
         }),
     createTag: (taskId: number, data: any) =>
         apiRequest(`/tasks/${taskId}/tags`, {
             method: 'POST',
             body: JSON.stringify(data),
+            credentials: 'include', // Include cookies for session management
         }),
     addExistingTag: (taskId: number, tagId: number) =>
         apiRequest(`/tasks/${taskId}/tags/existing/${tagId}`, {
             method: 'POST',
+            credentials: 'include', // Include cookies for session management
         }),
     removeTag: (taskId: number, tagId: number) =>
         apiRequest(`/tasks/${taskId}/tags/${tagId}`, {
             method: 'DELETE',
+            credentials: 'include', // Include cookies for session management
         }),
     deleteTag: (tagId: number) =>
         apiRequest(`/tags/${tagId}`, {
             method: 'DELETE',
+            credentials: 'include', // Include cookies for session management
         }),
     };
 
@@ -126,5 +130,6 @@ export const userAPI = {
     updateLastViewed: (data: [any]) => apiRequest('/user/last-viewed', {
         method: 'PUT',
         body: JSON.stringify({ lastViewedTasks: data}),
+        credentials: 'include', // Include cookies for session management
     }),
 };

@@ -1,11 +1,16 @@
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
+import { useAuth } from '@/context/AuthProvider';
+import { ClipLoader } from 'react-spinners';
 
 interface LayoutProps {
     children: React.ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+    const { isLoading } = useAuth();
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
     const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -37,6 +42,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     return (
         <div className="flex-1 h-screen relative">
+            {/* Loading Overlay */}
+            {isLoading && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                    <ClipLoader color="#fbbf24" size={64} />
+                </div>
+            )}
             {/* Mobile Hamburger Button */}
             <button
                 className="absolute top-4 left-4 z-30 p-2 text-zinc-900 dark:text-white rounded cursor-pointer"
@@ -49,13 +60,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </button>
 
             <Navigation
-            sidebarOpen={sidebarOpen} 
-            onToggleSidebar={toggleSidebar} 
-            sidebarRef={sidebarRef}
+                sidebarOpen={sidebarOpen}
+                onToggleSidebar={toggleSidebar}
+                sidebarRef={sidebarRef}
             />
-            <main 
+            <main
                 className={`flex transition-all duration-300 ${sidebarOpen ? 'ml-0 md:ml-64' : 'ml-0'}`}
-                >
+            >
                 {children}
             </main>
         </div>
