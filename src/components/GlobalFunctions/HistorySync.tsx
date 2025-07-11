@@ -9,6 +9,8 @@ import { useAuth } from "@/context/AuthProvider";
 
 const HistorySync = () => {
     const { user } = useAuth();
+    const userRef = useRef(user); // Store user in a ref to avoid stale closure issues
+
     const { allTasks } = useTasks();
     const allTasksRef = useRef(allTasks); // Store allTasks in a ref to avoid stale closure issues
 
@@ -20,11 +22,12 @@ const HistorySync = () => {
     // Update the ref whenever allTasks changes
     // This ensures that the latest tasks are always available in the interval callback
     useEffect(() => {
+        userRef.current = user;
         allTasksRef.current = allTasks;
         removedTagsRef.current = removedTags;
         pendingTagsRef.current = pendingTags;
         tagsRef.current = tags;
-    }, [allTasks, removedTags, pendingTags, tags]);
+    }, [user, allTasks, removedTags, pendingTags, tags]);
 
     // console.log('All found tags:', tags);
     // console.log('Pending tags:', pendingTags);
@@ -33,9 +36,10 @@ const HistorySync = () => {
     useEffect(() => {
         const interval = setInterval(async () => {
             // SYNC LAST VIEWED TASKS FROM CONTEXT TO THE SERVER
-            if (user && Array.isArray(user.lastViewedTasks)) {
+            const currentUser = userRef.current;
+            if (currentUser && Array.isArray(currentUser.lastViewedTasks)) {
                 try {
-                    await userAPI.updateLastViewed(user.lastViewedTasks);
+                    await userAPI.updateLastViewed(currentUser.lastViewedTasks);
                 } catch (err) {
                     console.error('Failed to sync lastViewedTasks:', err);
                 }

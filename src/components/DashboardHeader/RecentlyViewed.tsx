@@ -35,9 +35,9 @@ const RecentlyViewed: React.FC = () => {
                 <p className='text-sm'>Recently viewed</p>
             </div>
             <div className="flex flex-row items-center justify-start space-x-4 overflow-x-auto py-4 px-2">
-                {cards.map((card, index) => (
+                {cards.map((card) => (
                     <div
-                        key={index}
+                        key={card.id}
                         className="
                             flex flex-col items-center cursor-pointer
                             transition-transform duration-200 hover:scale-105

@@ -19,7 +19,7 @@ export function handleTaskClick(
     // Update lastViewedTasks in context (and optionally backend)
     if (user) {
         let lastViewedTasks = Array.isArray(user.lastViewedTasks) ? [...user.lastViewedTasks] : [];
-        lastViewedTasks = lastViewedTasks.filter((id: string | number) => Number(id) !== card.id);
+        lastViewedTasks = lastViewedTasks.filter((id: number) => id !== card.id);
         lastViewedTasks.unshift(card.id);
         if (lastViewedTasks.length > 10) lastViewedTasks = lastViewedTasks.slice(0, 10);
 
