@@ -79,7 +79,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
                     type="button"
                     className={`
                         p-2 rounded-full text-xs
-                        ${editor?.isActive('strike') ? 'bg-amber-600 text-white' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+                        ${editor?.isActive('strike') ? 'bg-amber-500 text-white' : 'bg-zinc-300 dark:bg-zinc-700'}`}
                     onClick={() => editor?.chain().focus().toggleStrike().run()}
                 >
                     <FaStrikethrough />

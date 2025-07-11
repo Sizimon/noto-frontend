@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { FaRegStickyNote } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { tasksAPI } from '@/connections/api';
+import { useAuth } from '@/context/AuthProvider';
 
 const TASK_TYPES = [
     { type: 'note', label: 'Notepad', icon: <FaRegStickyNote className='text-4xl text-amber-600' /> },
@@ -10,11 +11,18 @@ const TASK_TYPES = [
 ];
 
 export default function CreateTaskModal({ handleModalClose }: { handleModalClose: () => void }) {
+    const { user, setUser } = useAuth();
+
     const handleTypeSelect = async (type: string) => {
         try {
             const newTask = await tasksAPI.create(type);
             handleModalClose();
             window.location.href = `/tasks/${newTask.id}`;
+            setUser((prevUser: any) => ({
+                ...prevUser,
+                lastViewedTasks: [...prevUser.lastViewedTasks, newTask.id]
+            }));
+
         } catch (error) {
             console.error('Error creating task:', error);
             alert('Failed to create task. Please try again.');
