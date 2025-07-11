@@ -37,6 +37,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.ProseMirror {
+  min-height: 70vh;
+  height: 100%;
+  outline: none;
+  cursor: text;
+}
+
 .ProseMirror:focus {
   outline: none;
 }

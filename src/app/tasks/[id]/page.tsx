@@ -21,8 +21,8 @@ export default function TaskPage() {
     const [task, setTask] = useState<Task | null>(null); // State to hold the current task
 
     const numericId = Number(id); // Convert the ID to a number for comparison
-    console.log('Task ID:', numericId); // Log the task ID for debugging
-    console.log('All Tasks:', allTasks); // Log all tasks for debugging
+    // console.log('Task ID:', numericId); // Log the task ID for debugging
+    // console.log('All Tasks:', allTasks); // Log all tasks for debugging
 
     // Effect to find the task by ID when the component mounts or when the ID changes and set it to state.
     useEffect(() => {

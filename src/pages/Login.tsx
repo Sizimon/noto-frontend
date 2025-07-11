@@ -27,7 +27,6 @@ const Login: React.FC = () => {
             setIsLoading(false);
             return;
         }
-        // Simulate login
         try {
             const success = await login(usernameOrEmail, password);
             if (success) {
