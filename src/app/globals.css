@@ -2,6 +2,28 @@
 
 @variant dark (&:where(.dark, .dark *));
 
+@keyframes star-movement-bottom {
+  0% {
+    transform: translate(0%, 0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-100%, 0%);
+    opacity: 0;
+  }
+}
+
+@keyframes star-movement-top {
+  0% {
+    transform: translate(0%, 0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(100%, 0%);
+    opacity: 0;
+  }
+}
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -10,25 +32,51 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  .animate-star-movement-bottom {
+    animation: star-movement-bottom linear infinite alternate;
+  }
+  .animate-star-movement-top {
+    animation: star-movement-top linear infinite alternate;
+  }
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f7f8;
+  --foreground: #e3e3e6;
+  --pop: oklch(66.6% 0.179 58.318);
+  --text: #232325;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #18181b;
+    --foreground: #232325;
+    --pop: oklch(66.6% 0.179 58.318);
+    --text: #f7f7f8;
+  }
+}
+
+.light {
+  --background: #f7f7f8;
+  --foreground: #e3e3e6;
+  --pop: oklch(66.6% 0.179 58.318);
+  --text: #232325;
+}
+
+.dark {
+  --background: #18181b;
+  --foreground: #232325;
+  --pop: oklch(66.6% 0.179 58.318);
+  --text: #f7f7f8;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-pop: var(--pop);
+  --color-default: var(--text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

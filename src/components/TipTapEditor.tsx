@@ -43,7 +43,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
                     type="button"
                     className={`
                         p-2 rounded-full text-xs
-                        ${editor?.isActive('paragraph') ? 'bg-amber-500 text-white' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+                        ${editor?.isActive('paragraph') ? 'bg-pop text-white' : 'bg-foreground'}`}
                     onClick={() => editor?.chain().focus().setParagraph().run()}
                 >
                     <FaT />
@@ -52,7 +52,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
                     type="button"
                     className={`
                         p-2 rounded-full text-xs
-                        ${editor?.isActive('heading', { level: 1 }) ? 'bg-amber-500 text-white' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+                        ${editor?.isActive('heading', { level: 1 }) ? 'bg-pop text-white' : 'bg-foreground'}`}
                     onClick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
                 >
                     <FaHeading />
@@ -61,7 +61,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
                     type="button"
                     className={`
                         p-2 rounded-full text-xs
-                        ${editor?.isActive('bold') ? 'bg-amber-500 text-white' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+                        ${editor?.isActive('bold') ? 'bg-pop text-white' : 'bg-foreground'}`}
                     onClick={() => editor?.chain().focus().toggleBold().run()}
                 >
                     <FaBold />
@@ -70,7 +70,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
                     type="button"
                     className={`
                         p-2 rounded-full text-xs
-                        ${editor?.isActive('italic') ? 'bg-amber-500 text-white' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+                        ${editor?.isActive('italic') ? 'bg-pop text-white' : 'bg-foreground'}`}
                     onClick={() => editor?.chain().focus().toggleItalic().run()}
                 >
                     <FaItalic />
@@ -79,7 +79,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
                     type="button"
                     className={`
                         p-2 rounded-full text-xs
-                        ${editor?.isActive('strike') ? 'bg-amber-500 text-white' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+                        ${editor?.isActive('strike') ? 'bg-pop text-white' : 'bg-foreground'}`}
                     onClick={() => editor?.chain().focus().toggleStrike().run()}
                 >
                     <FaStrikethrough />
@@ -88,7 +88,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
                     type="button"
                     className={`
                         p-2 rounded-full text-xs
-                        ${editor?.isActive('bulletList') ? 'bg-amber-500 text-white' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+                        ${editor?.isActive('bulletList') ? 'bg-pop text-white' : 'bg-foreground'}`}
                     onClick={() => editor?.chain().focus().toggleBulletList().run()}
                 >
                     <FaList />
@@ -97,7 +97,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
                     type="button"
                     className={`
                         p-2 rounded-full text-xs
-                        ${editor?.isActive('orderedList') ? 'bg-amber-500 text-white' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+                        ${editor?.isActive('orderedList') ? 'bg-pop text-white' : 'bg-foreground'}`}
                     onClick={() => editor?.chain().focus().toggleOrderedList().run()}
                 >
                     <FaListOl />
@@ -106,7 +106,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
                     type="button"
                     className={`
                         p-2 rounded-full text-xs
-                        ${editor?.isActive('blockquote') ? 'bg-amber-500 text-white' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+                        ${editor?.isActive('blockquote') ? 'bg-pop text-white' : 'bg-foreground'}`}
                     onClick={() => editor?.chain().focus().toggleBlockquote().run()}
                 >
                     <FaQuoteLeft />
@@ -115,7 +115,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
                     type="button"
                     className={`
                         p-2 rounded-full text-xs
-                        ${editor?.isActive('code') ? 'bg-amber-500 text-white' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+                        ${editor?.isActive('code') ? 'bg-pop text-white' : 'bg-foreground'}`}
                     onClick={() => editor?.chain().focus().toggleCode().run()}
                 >
                     <FaCode />
@@ -124,8 +124,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
             <EditorContent 
                 editor={editor} 
                 className="
-                    bg-zinc-200 text-zinc-600 p-4 rounded-lg text-sm
-                    dark:bg-zinc-900 dark:text-zinc-300
+                    bg-background text-default p-4 rounded-lg text-sm
                     md:text-lg
                 "/>
         </div>

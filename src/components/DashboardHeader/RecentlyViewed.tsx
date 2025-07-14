@@ -26,8 +26,7 @@ const RecentlyViewed: React.FC = () => {
 
     return (
         <div className='
-            flex flex-col bg-zinc-100 p-4 rounded-lg shadow-lg w-11/12 my-4
-          dark:bg-zinc-950
+            flex flex-col bg-foreground p-4 rounded-lg shadow-lg w-11/12 my-4
             md:m-0 md:mb-4 md:max-w-2xl
         '>
             <div className='flex space-x-2 items-center text-amber-600'>

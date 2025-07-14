@@ -70,8 +70,7 @@ export default function TaskPage() {
 
     return (
         <div className="
-            flex flex-col items-center justify-start min-h-screen p-4 w-full bg-zinc-200 pt-12
-            dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-900
+            flex flex-col items-center justify-start min-h-screen p-4 w-full bg-background pt-12
             ">
             <div className='
             flex items-center justify-center w-full max-w-3xl
@@ -79,9 +78,8 @@ export default function TaskPage() {
             '>
                 <input 
                     className="
-                    border-b-1 border-zinc-300 bg-zinc-200 text-zinc-600 text-xl focus:outline-none max-w-screen text-center pb-2
+                    border-b-1 border-zinc-300 bg-background text-default text-xl focus:outline-none max-w-screen text-center pb-2
                     md:text-left md:w-full md:text-3xl md:focus:text-3xl
-                    dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-800
                     " 
                     placeholder={`${task.title}`}
                     value={task.title}
@@ -95,8 +93,7 @@ export default function TaskPage() {
                 />      
             </div>
             <div className="
-            flex items-center justify-center mt-4 text-zinc-600 w-full
-            dark:text-zinc-300
+            flex items-center justify-center mt-4 text-default w-full
             ">
                 <TipTapEditor 
                     key={task.id}

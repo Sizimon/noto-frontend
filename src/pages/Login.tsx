@@ -46,15 +46,14 @@ const Login: React.FC = () => {
     return (
         <Layout>
             <div className="
-                grid grid-col-1 grid-flow-row h-screen bg-white text-zinc-800
+                grid grid-col-1 grid-flow-row h-screen bg-background text-default
                 md:grid-cols-2 md:grid-flow-col
-              dark:bg-zinc-800 dark:text-zinc-300
             ">
                 <div className="
                     flex flex-col text-center justify-end px-12 pb-12
                     md:px-24 md:justify-center
                 ">
-                    <h1 className='text-4xl md:text-6xl'>In<span className='text-amber-600'>Time</span>Tasks</h1>
+                    <h1 className='text-4xl md:text-6xl'>In<span className='text-pop'>Time</span>Tasks</h1>
                     <p className='text-lg md:text-2xl'>Helping you stay on track, quick & easy, your workflow tool & notebook.</p>
                 </div>
                 <div className='flex flex-col items-center justify-start md:justify-center'>
@@ -64,10 +63,8 @@ const Login: React.FC = () => {
                     <form
                         onSubmit={handleLogin}
                         className="
-                            flex flex-col space-y-4 bg-zinc-100 p-8 rounded-lg w-5/6
-                            md:w-4/6
-                          dark:bg-zinc-950
-                        ">
+                            flex flex-col space-y-4 bg-foreground p-8 rounded-lg w-5/6
+                            md:w-4/6                        ">
                         <div>
                             <label className="block text-sm font-medium">Username/Email:</label>
                             <input
@@ -102,18 +99,18 @@ const Login: React.FC = () => {
                                 <button
                                     type="submit"
                                     className="
-                                px-4 py-2 bg-amber-600 text-white rounded 
-                                hover:bg-amber-500
+                                px-4 py-2 bg-pop text-white rounded 
+                                hover:scale-102 transition-transform duration-300
                             ">
                                     Login
                                 </button>
                             )
         }   
                         <p className='text-center'>
-                            Don't have an account? <Link href="/register" className="text-amber-600 hover:underline">Register here</Link>
+                            Don't have an account? <Link href="/register" className="text-pop hover:underline">Register here</Link>
                         </p>
                         <p className='text-center'>
-                            <Link href="/forgot-password" className="text-amber-600 hover:underline">Forgot Password?</Link>
+                            <Link href="/forgot-password" className="text-pop hover:underline">Forgot Password?</Link>
                         </p>
                     </form>
                 </div>

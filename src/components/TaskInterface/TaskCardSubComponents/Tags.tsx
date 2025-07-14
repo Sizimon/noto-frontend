@@ -74,8 +74,7 @@ export default function Tags({
                                     value={newTag}
                                     placeholder="Add a tag"
                                     className="
-                                        p-1 bg-zinc-100 text-amber-600 rounded-lg focus:outline-none w-full 
-                                        dark:bg-zinc-900
+                                        p-1 bg-foreground text-amber-600 rounded-lg focus:outline-none w-full
                                         "
                                     onChange={e => setNewTag(e.target.value)}
                                     onClick={e => e.stopPropagation()}
@@ -102,9 +101,8 @@ export default function Tags({
                                             exit={{ opacity: 0, scale: 0.95, y: -10 }}
                                             transition={{ duration: 0.18, ease: "easeInOut" }}
                                             className="
-                                                absolute left-0 top-full z-50 bg-white border border-zinc-200 rounded-xl shadow-lg mt-1
+                                                absolute left-0 top-full z-50 bg-background border border-zinc-200 rounded-xl shadow-lg mt-1
                                                 flex flex-col w-max min-w-[120px] max-w-[220px] py-2 px-1
-                                                dark:bg-zinc-900 dark:border-zinc-700
                                             "
                                             style={{
                                                 overflowY: "auto",
@@ -116,7 +114,7 @@ export default function Tags({
                                                     key={tag.id}
                                                     className={`
                                                         flex items-center px-3 py-1 my-0.5 rounded-lg transition
-                                                        ${tag.color} text-xs text-white font-medium
+                                                        ${tag.color} text-xs text-default font-medium
                                                         hover:brightness-110 hover:scale-102 focus:outline-none
                                                         truncate
                                                     `}
@@ -142,7 +140,7 @@ export default function Tags({
                         ) : (
                             <motion.button
                                 type="button"
-                                className="flex items-center p-1 text-amber-600 rounded-lg overflow-hidden focus:outline-none cursor-default"
+                                className="flex items-center p-1 text-pop rounded-lg overflow-hidden focus:outline-none cursor-default"
                                 whileHover="hover"
                                 initial="rest"
                                 animate="rest"

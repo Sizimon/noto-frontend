@@ -68,7 +68,7 @@ export default function SortAndTagsMenu({
             {/* Sort */}
             <div className="relative items-center gap-2">
                 <button
-                    className="flex text-sm items-center font-semibold uppercase text-black cursor-pointer hover:text-amber-600 transition-all duration-300 dark:text-white"
+                    className="flex text-sm items-center font-semibold uppercase text-default cursor-pointer hover:text-pop transition-all duration-300"
                     onClick={handleSortMenuToggle}
                 >
                     Sort
@@ -77,11 +77,11 @@ export default function SortAndTagsMenu({
 
                 {openMenu === 'sort' && (
                     <div
-                        className="absolute z-50 left-0 top-full mt-2 w-56 bg-white dark:bg-zinc-900 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0 md:w-64"
+                        className="absolute z-50 left-0 top-full mt-2 w-56 bg-background rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0 md:w-64"
                         onMouseLeave={handleSortMenuToggle}
                     >
                         {/* Heading */}
-                        <div className="px-4 py-2 border-b border-zinc-100 dark:border-zinc-800 text-xs text-zinc-400 uppercase tracking-wider">
+                        <div className="px-4 py-2 border-b border-zinc-200 dark:border-zinc-800 text-xs text-zinc-400 uppercase tracking-wider">
                             Sort Options
                         </div>
                         <div className="flex flex-col gap-2 px-2 py-2">
@@ -90,11 +90,11 @@ export default function SortAndTagsMenu({
                                     type="radio"
                                     name="sort"
                                     value="alphabetical"
-                                    className="accent-amber-600"
+                                    className="accent-pop"
                                     checked={sortOrder === 'alphabetical'}
                                     onChange={() => setSortOrder('alphabetical')}
                                 />
-                                <FaSortAlphaDown className="text-amber-600" />
+                                <FaSortAlphaDown className="text-pop" />
                                 <span>Alphabetical</span>
                             </label>
                             <label className="flex items-center gap-2 text-xs cursor-pointer">
@@ -102,11 +102,11 @@ export default function SortAndTagsMenu({
                                     type="radio"
                                     name="sort"
                                     value="date"
-                                    className="accent-amber-600"
+                                    className="accent-pop"
                                     checked={sortOrder === 'date'}
                                     onChange={() => setSortOrder('date')}
                                 />
-                                <FaRegClock className="text-amber-600" />
+                                <FaRegClock className="text-pop" />
                                 <span>Newest First</span>
                             </label>
                             <label className="flex items-center gap-2 text-xs cursor-pointer">
@@ -114,11 +114,11 @@ export default function SortAndTagsMenu({
                                     type="radio"
                                     name="sort"
                                     value="favorite"
-                                    className="accent-amber-600"
+                                    className="accent-pop"
                                     checked={sortOrder === 'favorite'}
                                     onChange={() => setSortOrder('favorite')}
                                 />
-                                <FaStar className="text-amber-600" />
+                                <FaStar className="text-pop" />
                                 <span>Favorites Only</span>
                             </label>
                         </div>
@@ -128,9 +128,8 @@ export default function SortAndTagsMenu({
             {/* Tags */}
             <div className="relative items-center gap-2">
                 <button
-                    className="flex text-sm items-center font-semibold uppercase text-black cursor-pointer
-                    hover:text-amber-600 transition-all duration-300
-                    dark:text-white
+                    className="flex text-sm items-center font-semibold uppercase text-default cursor-pointer
+                    hover:text-pop transition-all duration-300
                     "
                     onClick={handleTagsMenuToggle}
                 >
@@ -139,11 +138,11 @@ export default function SortAndTagsMenu({
                 </button>
                 {openMenu === 'tags' && (
                     <div
-                        className="absolute z-50 left-0 top-full mt-2 w-56 bg-white dark:bg-zinc-900 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0 md:w-64"
+                        className="absolute z-50 left-0 top-full mt-2 w-56 bg-background rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0 md:w-64"
                         onMouseLeave={handleTagsMenuToggle}
                     >
                         {/* Heading */}
-                        <div className="px-4 py-2 border-b border-zinc-100 dark:border-zinc-800 text-xs text-zinc-400 uppercase tracking-wider">
+                        <div className="px-4 py-2 border-b border-zinc-200 dark:border-zinc-800 text-xs text-zinc-400 uppercase tracking-wider">
                             Tag Filters
                         </div>
                         <div className="flex flex-col gap-1 px-2 py-2">
@@ -164,10 +163,10 @@ export default function SortAndTagsMenu({
                                                         setSelectedTags([...selectedTags, tag.id]);
                                                     }
                                                 }}
-                                                className="accent-amber-600"
+                                                className="accent-pop"
                                             />
                                             <span
-                                                className={`flex truncate px-2 py-1 rounded text-xs text-white ${tag.color}`}
+                                                className={`flex truncate px-2 py-1 rounded text-xs text-default ${tag.color}`}
                                             >
                                                 {tag.title}
                                             </span>
@@ -186,7 +185,7 @@ export default function SortAndTagsMenu({
                                     </div>
                                 ))
                             ) : (
-                                <p className="text-xs text-gray-500 px-2">No tags available</p>
+                                <p className="text-xs text-zinc-400 px-2">No tags available</p>
                             )}
                         </div>
                     </div>

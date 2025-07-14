@@ -9,6 +9,9 @@ import SearchAndCreate from '../components/SearchAndFilter/SearchAndCreate';
 import TaskGrid from '../components/TaskInterface/TaskGrid';
 import CreateTaskModal from '../components/CreateTaskModal';
 
+
+import StarBorder from '@/blocks/Animations/StarBorder/StarBorder';
+
 import { useTasks } from '../context/TasksProvider';
 
 const UserDashboard: React.FC = () => {
@@ -48,13 +51,12 @@ const UserDashboard: React.FC = () => {
     return (
         <Layout>
             <div className="
-                flex flex-col w-full text-zinc-800 items-center justify-center min-h-screen bg-white py-12
-                dark:text-white dark:bg-zinc-900
+                flex flex-col w-full text-default items-center justify-center min-h-screen bg-background py-12
+            
             ">
                 <DashboardHeader />
                 <div className='
-                    bg-zinc-100 w-11/12 p-4 rounded-lg
-                    dark:bg-zinc-950
+                    bg-foreground w-11/12 p-4 rounded-lg
                     md:w-10/12
                 '>
                     {allTasks.length > 0 ? (
@@ -85,12 +87,16 @@ const UserDashboard: React.FC = () => {
                     ) : (
                         <div className="flex flex-col items-center">
                             <h2 className="text-xl mb-4">Let's create your first task!</h2>
-                            <button
-                                className='space-y-2 p-4 mb-8 w-1/4 text-white bg-amber-600 rounded cursor-pointer transition-all duration-300 hover:bg-amber-500'
+                            <StarBorder
+                                as="button"
+                                className='space-y-2 w-1/5 cursor-pointer'
+                                color="orange"
+                                speed="3s"
+                                thickness={1.5}
                                 onClick={() => setShowModal(true)}
                             >
-                                Create new Task
-                            </button>
+                                Create New Task
+                            </StarBorder>
                         </div>
                     )}
                 </div>

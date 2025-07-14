@@ -35,7 +35,7 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
                 onClick={handleModalClose}
             >
                 <motion.div
-                    className='relative bg-white text-zinc-700 rounded-2xl shadow-2xl p-8 w-11/12 max-w-md dark:bg-zinc-900 dark:text-white'
+                    className='relative bg-background text-default rounded-2xl shadow-2xl p-8 w-11/12 max-w-md'
                     onClick={e => e.stopPropagation()}
                 >
                     {/* Close Button */}
@@ -46,7 +46,7 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
                     >
                         <IoMdClose />
                     </button>
-                    <h1 className='text-amber-600 text-3xl font-extrabold mb-6 text-center uppercase tracking-wide'>
+                    <h1 className='text-pop text-3xl font-extrabold mb-6 text-center uppercase tracking-wide'>
                         Create New Task
                     </h1>
                     <div className='flex flex-col gap-4'>
@@ -56,7 +56,7 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
                                 className='
                                     flex flex-row items-center justify-start gap-4 cursor-pointer
                                     px-5 py-3 rounded-lg border border-zinc-200 dark:border-zinc-700
-                                    bg-zinc-100 dark:bg-zinc-800
+                                    bg-foreground
                                     shadow-sm hover:shadow-md
                                     transition-all duration-200
                                     focus:outline-none focus:ring-2 focus:ring-amber-600
