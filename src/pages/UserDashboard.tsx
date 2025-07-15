@@ -55,12 +55,12 @@ const UserDashboard: React.FC = () => {
             
             ">
                 <DashboardHeader />
-                <div className='
+                {allTasks.length > 0 ? (
+                    <div className='
                     bg-foreground w-11/12 p-4 rounded-lg
                     md:w-10/12
                 '>
-                    {allTasks.length > 0 ? (
-                        /* This will be a for loop to display every user created task */
+                        {/* This will be a for loop to display every user created task */}
                         <div className='flex flex-col items-center'>
                             <div className="flex flex-col items-center justify-center w-full mb-4 md:flex-row md:gap-4">
                                 <SearchAndCreate
@@ -84,12 +84,17 @@ const UserDashboard: React.FC = () => {
                                 handleNoteMenuToggle={handleNoteMenuToggle}
                             />
                         </div>
-                    ) : (
+                    </div>
+                ) : (
+                    <div className='
+                    bg-foreground w-10/12 p-4 rounded-lg mt-4
+                    md:w-4/12
+                '>
                         <div className="flex flex-col items-center">
                             <h2 className="text-xl mb-4">Let's create your first task!</h2>
                             <StarBorder
                                 as="button"
-                                className='space-y-2 w-1/5 cursor-pointer'
+                                className='space-y-2 w-3/4 md:w-2/4 cursor-pointer'
                                 color="orange"
                                 speed="3s"
                                 thickness={1.5}
@@ -98,8 +103,8 @@ const UserDashboard: React.FC = () => {
                                 Create New Task
                             </StarBorder>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
             {showModal && (
                 <CreateTaskModal
