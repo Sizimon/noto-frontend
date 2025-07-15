@@ -13,7 +13,7 @@ const DarkModeToggle: React.FC = () => {
         <button
             onClick={toggleTheme}
             aria-label="Toggle dark mode"
-            className={`
+            className={`cursor-pointer
         w-20 h-8 md:w-28 md:h-10 rounded-full flex items-center px-1 md:px-2
         bg-gradient-to-r from-slate-700 via-slate-800 to-yellow-200
         transition-colors duration-500

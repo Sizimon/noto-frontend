@@ -43,7 +43,7 @@ const RecentlyViewed: React.FC = () => {
                 <FaRegClock className='text-sm' />
                 <p className='text-sm'>Recently viewed</p>
             </div>
-            <div className="flex flex-row items-center justify-start space-x-8 overflow-x-auto py-8 px-2">
+            <div className="flex flex-row items-center justify-start space-x-12 overflow-x-auto py-8 px-2">
                 {cards.map((card) => (
                     <GlassIcon
                         key={card.id}

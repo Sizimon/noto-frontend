@@ -58,7 +58,7 @@ export default function TaskCard({
                 grid grid-flow-col grid-cols-16 
                 items-center text-center mb-4 rounded-lg shadow-lg bg-background w-full cursor-pointer
                 transition-all duration-300 ease-in-out
-                md:w-10/12
+                
                 `}
             onClick={() => handleTaskClick(card, router, user, setUser)} // Click handler to open the note editor
         >

@@ -59,8 +59,12 @@ const UserDashboard: React.FC = () => {
                     bg-foreground w-11/12 p-4 rounded-lg
                     md:w-10/12
                 '>
-                        {/* This will be a for loop to display every user created task */}
-                        <div className='flex flex-col items-center'>
+                        <div
+                            className="
+                                flex flex-col items-center
+                                w-full
+                            "
+                        >
                             <div className="flex flex-col items-center justify-center w-full mb-4 md:flex-row md:gap-4">
                                 <SearchAndCreate
                                     handleModalOpen={() => setShowModal(true)}
@@ -75,13 +79,15 @@ const UserDashboard: React.FC = () => {
                                     handleTagsMenuToggle={handleTagsMenuToggle}
                                 />
                             </div>
-                            <TaskGrid
-                                filteredTasks={filteredTasks}
-                                noteMenuOpen={noteMenuOpen}
+                            <div className="flex-col w-full max-h-[40vh] overflow-y-auto">
+                                <TaskGrid
+                                    filteredTasks={filteredTasks}
+                                    noteMenuOpen={noteMenuOpen}
 
-                                // Handler Functions
-                                handleNoteMenuToggle={handleNoteMenuToggle}
-                            />
+                                    // Handler Functions
+                                    handleNoteMenuToggle={handleNoteMenuToggle}
+                                />
+                            </div>
                         </div>
                     </div>
                 ) : (

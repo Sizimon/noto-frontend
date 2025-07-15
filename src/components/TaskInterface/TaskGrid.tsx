@@ -1,4 +1,8 @@
+'use client';
+
 import TaskCard from './TaskCard';
+import AnimatedList, { AnimatedItem } from '@/blocks/Components/AnimatedList/AnimatedList';
+
 
 export default function TaskGrid({
     filteredTasks,
@@ -14,27 +18,36 @@ export default function TaskGrid({
     handleFavoriteToggle
 }: any) {
     return (
-        <div className='grid grid-flow-row justify-items-center w-full'>
+        // <div className='grid grid-flow-row justify-items-center w-full'>
+        <AnimatedList
+            className="flex items-center w-full justify-center"
+        >
             {filteredTasks.length > 0 ? (
                 filteredTasks.map((card: any, index: number) => (
-                    <TaskCard
+                    <AnimatedItem
                         key={card.id || index}
-                        card={card}
-                        noteMenuOpen={noteMenuOpen}
-                        setNoteMenuOpen={setNoteMenuOpen}
-                        noteMenuRef={noteMenuRef}
+                        index={index}
+                        delay={index * 0.05}
+                    >
+                        <TaskCard
+                            card={card}
+                            noteMenuOpen={noteMenuOpen}
+                            setNoteMenuOpen={setNoteMenuOpen}
+                            noteMenuRef={noteMenuRef}
 
-                        // Handlers
-                        handleNoteMenuToggle={handleNoteMenuToggle}
-                        handleCreateTag={handleCreateTag}
-                        handleRemoveTag={handleRemoveTag}
-                        handleTaskClick={handleTaskClick}
-                        handleFavoriteToggle={handleFavoriteToggle}
-                    />
+                            // Handlers
+                            handleNoteMenuToggle={handleNoteMenuToggle}
+                            handleCreateTag={handleCreateTag}
+                            handleRemoveTag={handleRemoveTag}
+                            handleTaskClick={handleTaskClick}
+                            handleFavoriteToggle={handleFavoriteToggle}
+                        />
+                    </AnimatedItem>
                 ))
             ) : (
                 <p className='text-gray-500 col-span-5 py-8'>No tasks found.</p>
             )}
-        </div>
+        </AnimatedList>
+        // </div>
     );
 }
