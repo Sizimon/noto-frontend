@@ -1,6 +1,8 @@
 import { FaEllipsisVertical } from "react-icons/fa6";
 import React, { useState } from "react";
 
+import { Task } from "@/context/TasksProvider";
+
 import Tags from "./TaskCardSubComponents/Tags";
 import Menu from "./TaskCardSubComponents/Menu";
 import Header from "./TaskCardSubComponents/Header";
@@ -8,7 +10,7 @@ import { useAuth } from "@/context/AuthProvider";
 import { useRouter } from "next/navigation";
 
 export function handleTaskClick(
-    card: any,
+    card: Task,
     router: any,
     user: any,
     setUser: (user: any) => void
@@ -18,16 +20,17 @@ export function handleTaskClick(
 
     // Update lastViewedTasks in context (and optionally backend)
     if (user) {
-        let lastViewedTasks = Array.isArray(user.lastViewedTasks) ? [...user.lastViewedTasks] : [];
-        lastViewedTasks = lastViewedTasks.filter((id: number) => id !== card.id);
-        lastViewedTasks.unshift(card.id);
+        const cardId = card.id;
+        let lastViewedTasks = Array.isArray(user.lastViewedTasks) 
+        ? [...user.lastViewedTasks] 
+        : [];
+        lastViewedTasks = lastViewedTasks.filter((id: number) => id !== cardId);
+        lastViewedTasks.unshift(cardId);
         if (lastViewedTasks.length > 10) lastViewedTasks = lastViewedTasks.slice(0, 10);
 
         const updatedUser = { ...user, lastViewedTasks };
         setUser(updatedUser);
-
-        // Optionally, sync to backend (uncomment if you have such an endpoint)
-        // userAPI.updateLastViewed(lastViewedTasks).catch(console.error);
+        console.log(lastViewedTasks);
     }
 }
 
@@ -40,7 +43,7 @@ export default function TaskCard({
     handleFavoriteToggle,
     handleCreateTag,
 }: any) {
-    // console.log(card);
+    console.log(card);
     const { user, setUser } = useAuth(); // Context hook to access user data
     const router = useRouter(); // Next.js router for navigation
     const [isInputOpen, setIsInputOpen] = useState(false); // State to manage the visibility of the input for adding tags

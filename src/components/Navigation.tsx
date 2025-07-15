@@ -4,9 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthProvider';
-import { useTheme } from 'next-themes';
 
-// Import GSAP for animations
 import { gsap } from 'gsap';
 
 interface SidebarLinkProps {
@@ -68,12 +66,7 @@ const Navigation: React.FC<NavigationProps> = ({
 }) => {
     const { logout } = useAuth();
     const router = useRouter();
-    const { theme, setTheme } = useTheme();
     const { isAuthenticated } = useAuth();
-
-    const toggleTheme = () => {
-        setTheme(theme === 'dark' ? 'light' : 'dark');
-    }
 
     return (
         <div
@@ -107,15 +100,9 @@ const Navigation: React.FC<NavigationProps> = ({
                 </nav>
             </div>
 
-            {/* Dark Mode Toggle & Logout */}
+            {/* User Actions */}
             <div className={`text-center ${sidebarOpen ? 'flex flex-col items-center justify-center' : 'hidden'} mb-8`}>
-                <div className="w-4/6">
-                    <button
-                        className='space-y-2 p-4 mb-4 w-full bg-background rounded-full cursor-pointer transition-transform duration-300 hover:scale-102'
-                        onClick={toggleTheme}
-                    >
-                        Toggle {theme === 'dark' ? 'Light' : 'Dark'} Mode
-                    </button>
+                <div className="flex flex-col w-4/6 gap-2 items-center">
                     {isAuthenticated ? (
                         <button
                             className='space-y-2 p-4 mb-8 w-full text-default bg-pop rounded-full cursor-pointer transition-all duration-300 hover:bg-amber-500'

@@ -6,6 +6,8 @@ import { useAuth } from '@/context/AuthProvider';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+import Silk from '@/blocks/Backgrounds/Silk/Silk';
+
 const Register: React.FC = () => {
     const { register } = useAuth();
     const [username, setUsername] = useState<string>('');
@@ -80,23 +82,33 @@ const Register: React.FC = () => {
                     <h1 className='text-4xl md:text-6xl'>In<span className='text-pop'>Time</span>Tasks</h1>
                     <p className='text-lg md:text-2xl'>Helping you stay on track, quick & easy, your workflow tool & notebook.</p>
                 </div>
-                <div className='flex flex-col items-center md:justify-center'>
-                    <h1 className="text-2xl font-bold mb-4">Register</h1>
-                    {error && <p className="text-red-500 text-center px-24 pb-4">{error}</p>}
-                    {success && <p className="text-green-500">{success}</p>}
+                <div className='relative flex flex-col items-center justify-start md:justify-center'>
+                    <Silk
+                        color='#CA620C'
+                        speed={5}
+                        scale={1.5}
+                        noiseIntensity={0}
+                        rotation={2.8}
+                        className='absolute inset-0 z-0 w-full h-full'
+                    />
                     <form 
                         onSubmit={handleRegister} 
                         className="
-                            flex flex-col space-y-4 bg-foreground p-8 rounded-lg w-5/6
+                            flex flex-col space-y-4 bg-foreground/90 p-8 rounded-lg w-5/6 z-10
                             md:w-4/6
                     ">
                         <div>
+                            <div className='flex flex-col items-center mb-4'>
+                                <h1 className="text-2xl font-bold mb-4">Register</h1>
+                                {error && <p className="text-red-500 text-center px-24 pb-4">{error}</p>}
+                                {success && <p className="text-green-500">{success}</p>}
+                            </div>
                             <label className="block text-sm font-medium">Username:</label>
                             <input
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-gray-300 rounded bg-background text-default"
                             />
                         </div>
                         <div>
@@ -106,7 +118,7 @@ const Register: React.FC = () => {
                                 value={email}
                                 autoComplete='email'
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-gray-300 rounded bg-background text-default"
                             />
                         </div>
                         <div>
@@ -115,7 +127,7 @@ const Register: React.FC = () => {
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-gray-300 rounded bg-background text-default"
                             />
                         </div>
                         <div>
@@ -124,7 +136,7 @@ const Register: React.FC = () => {
                                 type="password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-gray-300 rounded bg-background text-default"
                             />
                         </div>
                         <button

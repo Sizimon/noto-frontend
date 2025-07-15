@@ -28,7 +28,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 const data = await authAPI.me();
                 if (data && data.user) {
                     setIsAuthenticated(true);
-                    setUser(data.user);
+                    setUser({
+                        ...data.user,
+                        lastViewedTasks: Array.isArray(data.user.lastViewedTasks)
+                            ? data.user.lastViewedTasks.map(Number)
+                            : [],
+                    });
+                    console.log('User data:', {
+                        ...data.user,
+                        lastViewedTasks: Array.isArray(data.user.lastViewedTasks)
+                            ? data.user.lastViewedTasks.map(Number)
+                            : [],
+                    });
                 } else {
                     setIsAuthenticated(false);
                     setUser(null);
@@ -52,8 +63,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 throw new Error('No user data returned from API');
             }
 
-            setUser(data.user);
-            console.log('User data:', data.user);
+            setUser({
+                ...data.user,
+                lastViewedTasks: Array.isArray(data.user.lastViewedTasks)
+                    ? data.user.lastViewedTasks.map(Number)
+                    : [],
+            });
+            console.log('User data:', {
+                ...data.user,
+                lastViewedTasks: Array.isArray(data.user.lastViewedTasks)
+                    ? data.user.lastViewedTasks.map(Number)
+                    : [],
+            });
             setIsAuthenticated(true);
             return true;
         } catch (error) {
@@ -71,7 +92,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 throw new Error('No user data returned from API');
             }
 
-            setUser(data.user);
+            setUser({
+                ...data.user,
+                lastViewedTasks: Array.isArray(data.user.lastViewedTasks)
+                    ? data.user.lastViewedTasks.map(Number)
+                    : [],
+            });
             setIsAuthenticated(true);
             return true;
         } catch (error) {

@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import { useAuth } from '@/context/AuthProvider';
 import { ClipLoader } from 'react-spinners';
+import DarkModeToggle from '@/theme/DarkModeToggle';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -58,6 +59,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
+            <div className="absolute top-4 right-4 z-30">
+                <DarkModeToggle />
+            </div>
 
             <Navigation
                 sidebarOpen={sidebarOpen}
