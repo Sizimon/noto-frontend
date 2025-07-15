@@ -4,6 +4,8 @@ import { useTasks } from '@/context/TasksProvider';
 import { FaRegClock } from "react-icons/fa";
 import { useAuth } from '@/context/AuthProvider';
 import { handleTaskClick } from '../TaskInterface/TaskCard';
+import { FiFileText } from "react-icons/fi";
+import GlassIcon from '@/blocks/Components/GlassIcons/GlassIcons'
 
 
 const RecentlyViewed: React.FC = () => {
@@ -24,6 +26,14 @@ const RecentlyViewed: React.FC = () => {
         }
     }, [user, allTasks]);
 
+    if (cards.length === 0) {
+        return (
+            <div className='flex flex-col items-center justify-center p-4'>
+                <p className='text-gray-500'>No recently viewed tasks</p>
+            </div>
+        );
+    }
+
     return (
         <div className='
             flex flex-col bg-foreground p-4 rounded-lg shadow-lg w-11/12 my-4
@@ -33,33 +43,41 @@ const RecentlyViewed: React.FC = () => {
                 <FaRegClock className='text-sm' />
                 <p className='text-sm'>Recently viewed</p>
             </div>
-            <div className="flex flex-row items-center justify-start space-x-4 overflow-x-auto py-4 px-2">
+            <div className="flex flex-row items-center justify-start space-x-8 overflow-x-auto py-8 px-2">
                 {cards.map((card) => (
-                    <div
+                    <GlassIcon
                         key={card.id}
-                        className="
-                            flex flex-col items-center cursor-pointer
-                            transition-transform duration-200 hover:scale-105
-                        "
-                        title={card.title}
-                        onClick={() => {
-                            handleTaskClick(card, router, user, setUser); // Navigate to the task detail page
-                        }}
-                    >
-                        <div
-                            className="
-                                flex items-center justify-center
-                                w-20 h-20 md:w-28 md:h-28
-                                rounded-full bg-amber-600 shadow-lg
-                                overflow-hidden
-                                transition-all duration-200
-                            "
-                        >
-                            <span className="text-white text-xs font-bold text-center px-2 uppercase line-clamp-3">
-                                {card.title}
-                            </span>
-                        </div>
-                    </div>
+                        icon={<FiFileText className='text-2xl text-white' />}
+                        color='orange'
+                        label={card.title}
+                        customClass='cursor-pointer'
+                        onClick={() => handleTaskClick(card, router, user, setUser)}
+                    />
+                    // <div
+                    //     key={card.id}
+                    //     className="
+                    //         flex flex-col items-center cursor-pointer
+                    //         transition-transform duration-200 hover:scale-105
+                    //     "
+                    //     title={card.title}
+                    //     onClick={() => {
+                    //         handleTaskClick(card, router, user, setUser); // Navigate to the task detail page
+                    //     }}
+                    // >
+                    //     <div
+                    //         className="
+                    //             flex items-center justify-center
+                    //             w-20 h-20 md:w-28 md:h-28
+                    //             rounded-full bg-amber-600 shadow-lg
+                    //             overflow-hidden
+                    //             transition-all duration-200
+                    //         "
+                    //     >
+                    //         <span className="text-white text-xs font-bold text-center px-2 uppercase line-clamp-3">
+                    //             {card.title}
+                    //         </span>
+                    //     </div>
+                    // </div>
                 ))}
             </div>
         </div>

@@ -45,6 +45,7 @@ export default function TaskCard({
     const router = useRouter(); // Next.js router for navigation
     const [isInputOpen, setIsInputOpen] = useState(false); // State to manage the visibility of the input for adding tags
     const [newTag, setNewTag] = useState<string>(''); // State to hold the new tag input
+    console.log(card.type)
     return (
         
         <div // MAIN TASK CARD CONTAINER (CLICKABLE TO OPEN NOTE EDITOR)

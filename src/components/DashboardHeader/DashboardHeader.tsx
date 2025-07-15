@@ -9,7 +9,7 @@ import { useState, useMemo } from 'react';
 export default function DashboardHeader() {
     const { user } = useAuth();
     const { allTasks } = useTasks();
-    console.log('DashboardHeader user:', user);
+    // console.log('DashboardHeader user:', user);
     const [headerCompleted, setHeaderCompleted] = useState(false);
     const [subHeaderCompleted, setSubHeaderCompleted] = useState(false);
 
