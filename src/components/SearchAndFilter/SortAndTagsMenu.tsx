@@ -77,7 +77,7 @@ export default function SortAndTagsMenu({
 
                 {openMenu === 'sort' && (
                     <div
-                        className="absolute z-50 left-0 top-full mt-2 w-56 bg-background rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0 md:w-64"
+                        className="absolute z-50 left-1/2 -translate-x-1/2 top-full mt-2 w-52 md:w-60 bg-background rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0"
                         onMouseLeave={handleSortMenuToggle}
                     >
                         {/* Heading */}
@@ -138,7 +138,7 @@ export default function SortAndTagsMenu({
                 </button>
                 {openMenu === 'tags' && (
                     <div
-                        className="absolute z-50 left-0 top-full mt-2 w-56 bg-background rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0 md:w-64"
+                        className="absolute z-50 left-1/2 -translate-x-1/2 top-full mt-2 w-52 md:w-60 bg-background rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0"
                         onMouseLeave={handleTagsMenuToggle}
                     >
                         {/* Heading */}

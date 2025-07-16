@@ -56,7 +56,7 @@ const UserDashboard: React.FC = () => {
                 <DashboardHeader />
                 {allTasks.length > 0 ? (
                     <div className='
-                    bg-foreground w-11/12 p-4 rounded-lg
+                    bg-foreground w-11/12 py-4 px-2 md:px-4 rounded-lg
                     md:w-10/12
                 '>
                         <div

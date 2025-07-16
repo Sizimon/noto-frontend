@@ -1,5 +1,5 @@
 import { FaEllipsisVertical } from "react-icons/fa6";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import { Task } from "@/context/TasksProvider";
 
@@ -21,9 +21,9 @@ export function handleTaskClick(
     // Update lastViewedTasks in context (and optionally backend)
     if (user) {
         const cardId = card.id;
-        let lastViewedTasks = Array.isArray(user.lastViewedTasks) 
-        ? [...user.lastViewedTasks] 
-        : [];
+        let lastViewedTasks = Array.isArray(user.lastViewedTasks)
+            ? [...user.lastViewedTasks]
+            : [];
         lastViewedTasks = lastViewedTasks.filter((id: number) => id !== cardId);
         lastViewedTasks.unshift(cardId);
         if (lastViewedTasks.length > 10) lastViewedTasks = lastViewedTasks.slice(0, 10);
@@ -36,10 +36,10 @@ export function handleTaskClick(
 
 export default function TaskCard({
     card,
-    noteMenuOpen, 
+    noteMenuOpen,
 
     // Handlers
-    handleNoteMenuToggle, 
+    handleNoteMenuToggle,
     handleFavoriteToggle,
     handleCreateTag,
 }: any) {
@@ -48,39 +48,41 @@ export default function TaskCard({
     const router = useRouter(); // Next.js router for navigation
     const [isInputOpen, setIsInputOpen] = useState(false); // State to manage the visibility of the input for adding tags
     const [newTag, setNewTag] = useState<string>(''); // State to hold the new tag input
-    console.log(card.type)
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    // console.log(card.type)
     return (
-        
+
         <div // MAIN TASK CARD CONTAINER (CLICKABLE TO OPEN NOTE EDITOR)
             key={card.id}
             className={`
                 ${card.id === noteMenuOpen ? 'z-20' : 'hover:shadow-xl'}
-                grid grid-flow-col grid-cols-16 
+                grid grid-flow-col grid-cols-16 px-2 md:px-0 
                 items-center text-center mb-4 rounded-lg shadow-lg bg-background w-full cursor-pointer
                 transition-all duration-300 ease-in-out
                 
                 `}
             onClick={() => handleTaskClick(card, router, user, setUser)} // Click handler to open the note editor
         >
-            <div 
+            <div
                 className='grid grid-flow-col grid-cols-6 col-span-6 items-center text-center w-full h-full bg-background text-pop rounded-l-lg'>
-                <Header 
+                <Header
                     card={card}
                     handleFavoriteToggle={handleFavoriteToggle}
-                 />
+                />
             </div>
             <div className='relative flex flex-row justify-between items-center text-xs p-2 bg-background text-default w-full col-span-10 h-full rounded-r-lg'>
-                <div className="flex-1 flex-row mx-2 space-x-2"> 
-                        <Tags 
-                            card={card} 
-                            isInputOpen={isInputOpen} 
-                            setIsInputOpen={setIsInputOpen} 
-                            newTag={newTag} 
-                            setNewTag={setNewTag} 
-                            handleCreateTag={handleCreateTag}
-                        />
+                <div className="flex-1 flex-row mx-2 space-x-2">
+                    <Tags
+                        card={card}
+                        isInputOpen={isInputOpen}
+                        setIsInputOpen={setIsInputOpen}
+                        newTag={newTag}
+                        setNewTag={setNewTag}
+                        handleCreateTag={handleCreateTag}
+                    />
                 </div>
                 <button
+                    ref={buttonRef}
                     className='text-pop p-1 rounded-full cursor-pointer'
                     onClick={(e) => {
                         e.stopPropagation(); // Prevent the click from propagating to the card (card has onClick which opens the note)
@@ -93,6 +95,7 @@ export default function TaskCard({
                     <Menu // NOTE MENU COMPONENT
                         handleNoteMenuToggle={handleNoteMenuToggle}
                         card={card}
+                        anchorRef={buttonRef}
                     />
                 )}
             </div>

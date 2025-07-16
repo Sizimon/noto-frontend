@@ -6,6 +6,8 @@ import { Tag } from '@/context/TagsProvider'; // Adjust the import path as neces
 import { FaPlus } from 'react-icons/fa';
 import { useTags } from '@/context/TagsProvider'; // Importing the Tags context
 
+import SuggestedTags from './SuggestedTags';
+
 import { useHandleRemoveTag, useHandleCreateTag, useHandleAddExistingTag } from '@/utils/TagFunctions';
 
 export default function Tags({
@@ -20,6 +22,7 @@ export default function Tags({
         (tag: Tag) => !card.tags.some((t: Tag) => t.id === tag.id)
     );
 
+
     // console.log('Card Tags:', card.tags);
 
     const tagVariants = {
@@ -30,7 +33,8 @@ export default function Tags({
     };
     const handleRemoveTag = useHandleRemoveTag();
     const handleCreateTag = useHandleCreateTag();
-    const handleAddExistingTag = useHandleAddExistingTag();
+    // const handleAddExistingTag = useHandleAddExistingTag();
+    const inputRef = React.useRef<HTMLInputElement>(null);
     return (
         <div className='flex items-center justify-start'>
             <div className='flex space-x-2'>
@@ -50,15 +54,22 @@ export default function Tags({
                                 {tag.title}
                                 <motion.button
                                     type="button"
-                                    className="whitespace-nowrap overflow-hidden cursor-default"
+                                    className="ml-1 inline md:hidden" // always visible on mobile
                                     onClick={() => handleRemoveTag(card.id, tag.id)}
+                                >
+                                    <span className="text-xs">X</span>
+                                </motion.button>
+                                <motion.button
+                                    type="button"
+                                    className="hidden md:inline" // only visible on desktop (with hover animation)
                                     variants={{
                                         rest: { width: 0, opacity: 0 },
                                         hover: { width: 16, opacity: 1 },
                                     }}
                                     transition={{ duration: 0.2, ease: "easeInOut" }}
+                                    onClick={() => handleRemoveTag(card.id, tag.id)}
                                 >
-                                    <span className="text-xs ml-1">X</span>
+                                    <span className="text-xs">X</span>
                                 </motion.button>
                             </motion.span>
                         ))}
@@ -69,6 +80,7 @@ export default function Tags({
                         {isInputOpen ? (
                             <>
                                 <motion.input
+                                    ref={inputRef}
                                     key="tag-input"
                                     type="text"
                                     value={newTag}
@@ -94,46 +106,13 @@ export default function Tags({
                                 />
                                 <AnimatePresence>
                                     {availableTags.length > 0 && (
-                                        <motion.div
-                                            key="suggestions"
-                                            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                                            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                                            transition={{ duration: 0.18, ease: "easeInOut" }}
-                                            className="
-                                                absolute left-0 top-full z-50 bg-background border border-zinc-200 rounded-xl shadow-lg mt-1
-                                                flex flex-col w-max min-w-[120px] max-w-[220px] py-2 px-1
-                                            "
-                                            style={{
-                                                overflowY: "auto",
-                                                maxHeight: "200px",
-                                            }}
-                                        >
-                                            {availableTags.map((tag: Tag) => (
-                                                <button
-                                                    key={tag.id}
-                                                    className={`
-                                                        flex items-center px-3 py-1 my-0.5 rounded-lg transition
-                                                        ${tag.color} text-xs text-default font-medium
-                                                        hover:brightness-110 hover:scale-102 focus:outline-none
-                                                        truncate
-                                                    `}
-                                                    style={{
-                                                        maxWidth: "190px",
-                                                    }}
-                                                    title={tag.title}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleAddExistingTag(card.id, tag);
-                                                        setIsInputOpen(false);
-                                                        setNewTag('');
-                                                    }}
-                                                    type="button"
-                                                >
-                                                    {tag.title}
-                                                </button>
-                                            ))}
-                                        </motion.div>
+                                        <SuggestedTags
+                                            card={card}
+                                            availableTags={availableTags}
+                                            setIsInputOpen={setIsInputOpen}
+                                            setNewTag={setNewTag}
+                                            anchorRef={inputRef}
+                                        />
                                     )}
                                 </AnimatePresence>
                             </>

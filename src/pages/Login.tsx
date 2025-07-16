@@ -61,15 +61,15 @@ const Login: React.FC = () => {
                     <Silk
                         color='#CA620C'
                         speed={5}
-                        scale={1.5}
-                        noiseIntensity={0}
+                        scale={1}
+                        noiseIntensity={5}
                         rotation={2.8}
                         className='absolute inset-0 z-0 w-full h-full'
                     />
                     <form
                         onSubmit={handleLogin}
                         className="
-                            flex flex-col space-y-4 bg-foreground p-8 rounded-lg w-5/6 z-10
+                            flex flex-col space-y-4 bg-foreground/90 p-8 rounded-lg w-5/6 z-10
                             md:w-4/6                        ">
                         <div>
                             <div className='flex flex-col items-center mb-4'>

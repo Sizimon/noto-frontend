@@ -50,7 +50,7 @@ const AnimatedList: React.FC<AnimatedListProps> = ({
   return (
     <div className={`relative w-full ${className}`} style={style}>
       <div
-        className={`w-full p-4 ${
+        className={`w-full md:p-4 ${
           displayScrollbar
             ? "[&::-webkit-scrollbar]:w-[8px] [&::-webkit-scrollbar-track]:bg-[#060010] [&::-webkit-scrollbar-thumb]:bg-[#222] [&::-webkit-scrollbar-thumb]:rounded-[4px]"
             : "scrollbar-hide"

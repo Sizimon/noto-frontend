@@ -1,38 +1,58 @@
-import React from "react";
+import React, { useRef, useLayoutEffect, useState } from "react";
 import { useTheme } from "next-themes";
 
 const DarkModeToggle: React.FC = () => {
     const { theme, setTheme } = useTheme();
     const isDark = theme === "dark";
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    const ballRef = useRef<HTMLSpanElement>(null);
+    const [maxTranslate, setMaxTranslate] = useState(0);
 
     const toggleTheme = () => {
         setTheme(isDark ? "light" : "dark");
     };
 
+    useLayoutEffect(() => {
+        if (buttonRef.current && ballRef.current) {
+            const buttonRect = buttonRef.current.getBoundingClientRect();
+            const ballRect = ballRef.current.getBoundingClientRect();
+            const style = getComputedStyle(buttonRef.current);
+            const paddingLeft = parseFloat(style.paddingLeft);
+            const paddingRight = parseFloat(style.paddingRight);
+            setMaxTranslate(
+                buttonRect.width - ballRect.width - paddingLeft - paddingRight
+            );
+        }
+    }, [isDark]);
+
     return (
         <button
+            ref={buttonRef}
             onClick={toggleTheme}
             aria-label="Toggle dark mode"
             className={`cursor-pointer
-        w-20 h-8 md:w-28 md:h-10 rounded-full flex items-center px-1 md:px-2
-        bg-gradient-to-r from-slate-700 via-slate-800 to-yellow-200
-        transition-colors duration-500
-        relative
-        shadow-inner
-        group
-      `}
+                w-20 h-8 md:w-28 md:h-10 rounded-full flex items-center px-1 md:px-2
+                bg-gradient-to-r from-slate-700 via-slate-800 to-yellow-200
+                transition-colors duration-500
+                relative
+                shadow-inner
+                group
+            `}
         >
             <div className="absolute inset-0 rounded-full pointer-events-none" />
             <span
+                ref={ballRef}
                 className={`
-          transition-transform duration-500
-          ${isDark ? "translate-x-0" : "translate-x-8 md:translate-x-16"}
-          w-7 h-7 md:w-8 md:h-8 rounded-full
-          bg-transparent
-          flex items-center justify-center shadow-lg
-          relative z-10
-        `}
+                    transition-transform duration-500
+                    w-7 h-7 md:w-8 md:h-8 rounded-full
+                    bg-transparent
+                    flex items-center justify-center shadow-lg
+                    relative z-10
+                `}
                 style={{
+                    transform: isDark
+                        ? "translateX(0)"
+                        : `translateX(${maxTranslate}px)`,
                     transition: "transform 0.5s cubic-bezier(.4,2,.6,1)",
                 }}
             >

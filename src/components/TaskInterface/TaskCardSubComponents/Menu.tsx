@@ -1,18 +1,39 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
 import { useHandleDeleteTask } from '@/utils/TaskFunctions'; // Importing the hook to handle task deletion
 
 export default function Menu({
     card,
-    handleNoteMenuToggle
+    handleNoteMenuToggle,
+    anchorRef,
 }: any) {
     const handleDeleteTask = useHandleDeleteTask();
+    const menuRef = React.useRef<HTMLDivElement>(null);
+    const [coords, setCoords] = React.useState<{ top: number, left: number }>({ top: 0, left: 0 });
 
-    return (
+    useEffect(() => {
+        if (anchorRef?.current) {
+            const rect = anchorRef.current.getBoundingClientRect();
+            setCoords({
+                top: rect.bottom + window.scrollY,
+                left: rect.left + window.scrollX,
+            });
+        }
+    }, [anchorRef]);
+
+    return createPortal(
         <div
-            className="absolute right-0 top-10 bg-background shadow-xl rounded-xl w-44 z-50 border border-zinc-200 dark:border-zinc-800 cursor-default"
+            ref={menuRef}
+            style={{
+                position: 'absolute',
+                top: coords.top,
+                left: coords.left,
+                zIndex: 9999,
+            }}
+            className="bg-background shadow-xl rounded-xl w-44 border border-zinc-200 dark:border-zinc-800 cursor-default"
             onClick={e => e.stopPropagation()}
             onMouseLeave={() => handleNoteMenuToggle('')}
         >
@@ -36,6 +57,7 @@ export default function Menu({
                 {/* <button className="...">Edit</button> */}
                 {/* <button className="...">Duplicate</button> */}
             </div>
-        </div>
+        </div>,
+        typeof window !== 'undefined' ? document.body : (null as any) // Ensure the portal is only created in the browser
     )
 }
