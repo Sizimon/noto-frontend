@@ -1,15 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ClipLoader } from 'react-spinners';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/Layout';
 import { useAuth } from '@/context/AuthProvider';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Silk from '@/blocks/Backgrounds/Silk/Silk';
+import { useTheme } from 'next-themes';
+
+import DarkVeil from '@/blocks/Backgrounds/DarkVeil/DarkVeil';
+import { ClipLoader } from 'react-spinners';
+import NotoLogo from '@/components/Logo';
 
 
 const Login: React.FC = () => {
+    const { setTheme } = useTheme();
     const { login } = useAuth();
     const router = useRouter();
     const [usernameOrEmail, setUsernameOrEmail] = useState<string>('');
@@ -17,6 +21,10 @@ const Login: React.FC = () => {
     const [error, setError] = useState<string>('');
     const [success, setSuccess] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        setTheme("dark");
+    }, [setTheme]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,33 +55,32 @@ const Login: React.FC = () => {
     return (
         <Layout>
             <div className="
-                grid grid-col-1 grid-flow-row h-screen bg-background text-default
-                md:grid-cols-2 md:grid-flow-col
+                flex flex-col h-screen bg-background text-default w-full relative justify-center gap-2
             ">
-                <div className="
-                    flex flex-col text-center justify-end px-12 pb-12
-                    md:px-24 md:justify-center
-                ">
-                    <h1 className='text-4xl md:text-6xl'>In<span className='text-pop'>Time</span>Tasks</h1>
-                    <p className='text-lg md:text-2xl'>Helping you stay on track, quick & easy, your workflow tool & notebook.</p>
-                </div>
-                <div className='relative flex flex-col items-center justify-start md:justify-center'>
-                    <Silk
-                        color='#CA620C'
-                        speed={5}
-                        scale={1}
-                        noiseIntensity={5}
-                        rotation={2.8}
-                        className='absolute inset-0 z-0 w-full h-full'
+                <div className='absolute inset-0 z-0'>
+                    <DarkVeil
+                        speed={1}
+                        hueShift={215}
+                        noiseIntensity={0}
+                        scanlineFrequency={1}
+                        scanlineIntensity={0}
+                        warpAmount={1}
                     />
+                </div>
+                <div className="
+                    flex flex-col text-center justify-center z-10
+                ">
+                    <NotoLogo />
+                </div>
+                <div className='flex items-center justify-center z-10'>
                     <form
                         onSubmit={handleLogin}
                         className="
-                            flex flex-col space-y-4 bg-foreground/90 p-8 rounded-lg w-5/6 z-10
-                            md:w-4/6                        ">
+                            flex flex-col space-y-2 bg-foreground/90 py-4 px-8 rounded-lg w-5/6 z-10
+                            md:w-2/6 md:space-y-4                     ">
                         <div>
                             <div className='flex flex-col items-center mb-4'>
-                                <h1 className="text-2xl font-bold mb-4">Login</h1>
+                                <h1 className="text-lg md:text-2xl font-bold">Login</h1>
                                 {error && <p className="text-red-500 text-center px-24 pb-4">{error}</p>}
                                 {success && <p className="text-green-500">{success}</p>}
                             </div>
@@ -110,8 +117,7 @@ const Login: React.FC = () => {
                                 <button
                                     type="submit"
                                     className="
-                                px-4 py-2 bg-pop text-white rounded 
-                                hover:scale-102 transition-transform duration-300
+                                p-2 text-sm md:text-base bg-pop text-white rounded hover:scale-102 transition-transform duration-300
                             ">
                                     Login
                                 </button>

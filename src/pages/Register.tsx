@@ -1,15 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/Layout';
 import { useAuth } from '@/context/AuthProvider';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTheme } from 'next-themes';
 
-import Silk from '@/blocks/Backgrounds/Silk/Silk';
+import DarkVeil from '@/blocks/Backgrounds/DarkVeil/DarkVeil';
+import { ClipLoader } from 'react-spinners';
+import NotoLogo from '@/components/Logo';
 
 const Register: React.FC = () => {
     const { register } = useAuth();
+    const { setTheme } = useTheme();
+    const router = useRouter();
+
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -17,7 +23,10 @@ const Register: React.FC = () => {
     const [error, setError] = useState<string>('');
     const [success, setSuccess] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const router = useRouter();
+
+    useEffect(() => {
+        setTheme("dark");
+    }, [setTheme]);
 
 
     const handleRegister = async (e: React.FormEvent) => {
@@ -44,8 +53,8 @@ const Register: React.FC = () => {
             return;
         } // In the future check if email is already in use
 
-        if (username.length < 3) {
-            setError('Username must be at least 3 characters long.');
+        if (username.length < 3 || username.length > 20) {
+            setError('Username must be between 3 and 20 characters long.');
             setIsLoading(false);
             return;
         }
@@ -72,34 +81,33 @@ const Register: React.FC = () => {
     return (
         <Layout>
             <div className="
-            grid grid-cols-1 grid-flow-row h-screen bg-background text-default
-            md:grid-cols-2 md:grid-flow-col
+            flex flex-col h-screen bg-background text-default w-full relative justify-center gap-2
             ">
-                <div className="
-                    flex flex-col text-center justify-end px-12 pb-12
-                    md:px-24 md:justify-center
-                ">
-                    <h1 className='text-4xl md:text-6xl'>In<span className='text-pop'>Time</span>Tasks</h1>
-                    <p className='text-lg md:text-2xl'>Helping you stay on track, quick & easy, your workflow tool & notebook.</p>
-                </div>
-                <div className='relative flex flex-col items-center justify-start md:justify-center'>
-                    <Silk
-                        color='#CA620C'
-                        speed={5}
-                        scale={1.5}
+                <div className='absolute inset-0 z-0'>
+                    <DarkVeil
+                        speed={1}
+                        hueShift={215}
                         noiseIntensity={0}
-                        rotation={2.8}
-                        className='absolute inset-0 z-0 w-full h-full'
+                        scanlineFrequency={1}
+                        scanlineIntensity={0}
+                        warpAmount={1}
                     />
-                    <form 
-                        onSubmit={handleRegister} 
+                </div>
+                <div className="
+                    flex flex-col text-center justify-center z-10 px-12
+                ">
+                    <NotoLogo />
+                </div>
+                <div className='flex items-center justify-center z-10'>
+                    <form
+                        onSubmit={handleRegister}
                         className="
-                            flex flex-col space-y-4 bg-foreground/90 p-8 rounded-lg w-5/6 z-10
-                            md:w-4/6
+                            flex flex-col space-y-2 bg-foreground/90 py-4 px-8 rounded-lg w-5/6 z-10
+                            md:w-2/6 md:space-y-4
                     ">
                         <div>
                             <div className='flex flex-col items-center mb-4'>
-                                <h1 className="text-2xl font-bold mb-4">Register</h1>
+                                <h1 className="text-lg md:text-2xl font-bold">Register</h1>
                                 {error && <p className="text-red-500 text-center px-24 pb-4">{error}</p>}
                                 {success && <p className="text-green-500">{success}</p>}
                             </div>
@@ -141,11 +149,11 @@ const Register: React.FC = () => {
                         </div>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-pop text-white rounded hover:scale-102 transition-transform duration-300"
+                            className="p-2 text-sm md:text-base bg-pop text-white rounded hover:scale-102 transition-transform duration-300"
                         >
                             Register
                         </button>
-                        <p className="text-center">
+                        <p className="text-center text-sm md:text-base">
                             Already have an account? <Link href="/login" className="text-pop hover:underline">Login here</Link>
                         </p>
                     </form>

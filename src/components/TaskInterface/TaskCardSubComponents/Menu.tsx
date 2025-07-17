@@ -17,9 +17,16 @@ export default function Menu({
     useEffect(() => {
         if (anchorRef?.current) {
             const rect = anchorRef.current.getBoundingClientRect();
+            let left = rect.left + window.scrollX;
+            const menuWidth = 160; // w-40 = 160px
+            const viewportWidth = window.innerWidth;
+            // If the menu would overflow, adjust left
+            if (left + menuWidth > viewportWidth - 8) { // 8px margin
+                left = viewportWidth - menuWidth - 8;
+            }
             setCoords({
                 top: rect.bottom + window.scrollY,
-                left: rect.left + window.scrollX,
+                left,
             });
         }
     }, [anchorRef]);
@@ -33,7 +40,7 @@ export default function Menu({
                 left: coords.left,
                 zIndex: 9999,
             }}
-            className="bg-background shadow-xl rounded-xl w-44 border border-zinc-200 dark:border-zinc-800 cursor-default"
+            className="bg-background shadow-xl rounded-xl w-40 border border-zinc-200 dark:border-zinc-800 cursor-default"
             onClick={e => e.stopPropagation()}
             onMouseLeave={() => handleNoteMenuToggle('')}
         >

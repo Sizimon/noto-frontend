@@ -76,7 +76,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 bg-foreground text-default
                 transition-all duration-300
                 ${sidebarOpen ? 'w-64' : 'w-0'}
-                md:flex md:flex-col md: justify-between
+                flex flex-col justify-between
             `}
         >
             <div>
@@ -85,13 +85,12 @@ const Navigation: React.FC<NavigationProps> = ({
                     <ul className="space-y-2">
                         { isAuthenticated ? (
                         <ul className="space-y-2">
-                            <SidebarLink href="/">Home</SidebarLink>
-                            <SidebarLink href="/about">About</SidebarLink>
+                            <SidebarLink href="/landing">Home</SidebarLink>
+                            <SidebarLink href="/user-dashboard">Dashboard</SidebarLink>
                         </ul>
                         ) : (
                         <ul className="space-y-2">
-                            <SidebarLink href="/">Home</SidebarLink>
-                            <SidebarLink href="/about">About</SidebarLink>
+                            <SidebarLink href="/landing">Home</SidebarLink>
                             <SidebarLink href="/login">Login</SidebarLink>
                             <SidebarLink href="/register">Register</SidebarLink>
                         </ul>

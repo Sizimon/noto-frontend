@@ -11,7 +11,7 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-    const { isLoading } = useAuth();
+    const { isAuthenticated, isLoading } = useAuth();
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
     const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -59,17 +59,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
-            <div className="absolute top-4 right-4 z-30">
-                <DarkModeToggle />
-            </div>
-
+            {isAuthenticated && (
+                    <div className="absolute top-4 right-4 z-30">
+                    <DarkModeToggle />
+                </div>
+            )}
             <Navigation
                 sidebarOpen={sidebarOpen}
                 onToggleSidebar={toggleSidebar}
                 sidebarRef={sidebarRef}
             />
             <main
-                className={`flex transition-all duration-300 ${sidebarOpen ? 'ml-0 md:ml-64' : 'ml-0'}`}
+                className={`flex flex-col transition-all duration-300 ${sidebarOpen ? 'ml-0 md:ml-64' : 'ml-0'}`}
             >
                 {children}
             </main>
