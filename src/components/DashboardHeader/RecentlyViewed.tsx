@@ -43,16 +43,19 @@ const RecentlyViewed: React.FC = () => {
                 <FaRegClock className='text-sm' />
                 <p className='text-sm'>Recently viewed</p>
             </div>
-            <div className="flex flex-row items-center justify-start space-x-12 overflow-x-auto py-8 px-2">
+            <div className="flex flex-row items-center justify-start space-x-4 overflow-x-auto py-2 px-2">
                 {cards.map((card) => (
-                    <GlassIcon
-                        key={card.id}
-                        icon={<FiFileText className='text-2xl text-white' />}
-                        color='orange'
-                        label={card.title}
-                        customClass='cursor-pointer'
-                        onClick={() => handleTaskClick(card, router, user, setUser)}
-                    />
+                    <div
+                    key={card.id}
+                    onClick={() => handleTaskClick(card, router, user, setUser)}
+                    className="cursor-pointer bg-background rounded-xl p-4 transition border-1 border-transparent hover:border-amber-600 flex items-center space-x-2">
+                        <div className="bg-gradient-to-br from-orange-500 to-yellow-400 text-default p-2 rounded-lg">
+                            <FiFileText className="w-5 h-5" />
+                        </div>
+                        <div className="flex-1">
+                            <p className="text-default font-medium whitespace-nowrap">{card.title}</p>
+                        </div>
+                    </div>
                     // <div
                     //     key={card.id}
                     //     className="
