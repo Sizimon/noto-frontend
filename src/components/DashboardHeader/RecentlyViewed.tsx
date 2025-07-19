@@ -5,7 +5,6 @@ import { FaRegClock } from "react-icons/fa";
 import { useAuth } from '@/context/AuthProvider';
 import { handleTaskClick } from '../TaskInterface/TaskCard';
 import { FiFileText } from "react-icons/fi";
-import GlassIcon from '@/blocks/Components/GlassIcons/GlassIcons'
 
 
 const RecentlyViewed: React.FC = () => {
