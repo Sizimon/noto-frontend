@@ -85,7 +85,7 @@ export default function SortAndTagsMenu({
                             Sort Options
                         </div>
                         <div className="flex flex-col gap-2 px-2 py-2">
-                            <label className="flex items-center gap-2 text-xs cursor-pointer">
+                            <label className="flex items-center gap-2 text-sm cursor-pointer">
                                 <input
                                     type="radio"
                                     name="sort"
@@ -97,7 +97,7 @@ export default function SortAndTagsMenu({
                                 <FaSortAlphaDown className="text-pop" />
                                 <span>Alphabetical</span>
                             </label>
-                            <label className="flex items-center gap-2 text-xs cursor-pointer">
+                            <label className="flex items-center gap-2 text-sm cursor-pointer">
                                 <input
                                     type="radio"
                                     name="sort"
@@ -109,7 +109,7 @@ export default function SortAndTagsMenu({
                                 <FaRegClock className="text-pop" />
                                 <span>Newest First</span>
                             </label>
-                            <label className="flex items-center gap-2 text-xs cursor-pointer">
+                            <label className="flex items-center gap-2 text-sm cursor-pointer">
                                 <input
                                     type="radio"
                                     name="sort"
@@ -138,11 +138,11 @@ export default function SortAndTagsMenu({
                 </button>
                 {openMenu === 'tags' && (
                     <div
-                        className="absolute z-50 left-1/2 -translate-x-1/2 top-full mt-2 w-52 md:w-60 bg-background rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0"
+                        className="absolute z-50 left-1/2 -translate-x-1/2 top-full mt-2 max-h-[200px] overflow-y-auto w-52 md:w-60 bg-background rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 p-0"
                         onMouseLeave={handleTagsMenuToggle}
                     >
                         {/* Heading */}
-                        <div className="px-4 py-2 border-b border-zinc-200 dark:border-zinc-800 text-xs text-zinc-400 uppercase tracking-wider">
+                        <div className="sticky top-0 px-4 py-2 border-b bg-background border-zinc-200 dark:border-zinc-800 text-xs text-zinc-400 uppercase tracking-wider z-50">
                             Tag Filters
                         </div>
                         <div className="flex flex-col gap-1 px-2 py-2">

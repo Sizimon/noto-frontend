@@ -46,7 +46,7 @@ export default function Tags({
 
     return (
         <div className='flex items-center justify-start'>
-            <div className='flex space-x-2 w-full md:max-w-[300px] md:overflow-x-auto md:no-scrollbar'>
+            <div className='flex space-x-2 w-full md:overflow-x-auto md:no-scrollbar'>
                 {/* Tags or Input */}
                 <div className="flex-1 relative">
                     <AnimatePresence mode="wait" initial={false}>
@@ -59,7 +59,7 @@ export default function Tags({
                                     value={newTag}
                                     placeholder="Add a tag"
                                     className="
-                                        w-full p-1 bg-foreground text-amber-600 rounded-lg focus:outline-none
+                                        flex w-full md:w-2/6 justify-start p-1 bg-foreground text-amber-600 rounded-lg focus:outline-none
                                     "
                                     onChange={e => setNewTag(e.target.value)}
                                     onClick={e => e.stopPropagation()}
@@ -92,45 +92,35 @@ export default function Tags({
                             <>
                                 {/* Mobile: chips + dropdown */}
                                 <div className="flex flex-row items-center gap-1 md:hidden relative">
-                                    <AnimatePresence initial={false}>
                                         {visibleMobileTags.map((tag: Tag) => (
-                                            <motion.span
+                                            <span
                                                 key={tag.id}
-                                                className={`text-white px-2 py-1 ${tag.color} rounded-full cursor-default`}
-                                                variants={tagVariants}
-                                                initial="initial"
-                                                animate="rest"
-                                                exit="exit"
-                                                whileHover="hover"
+                                                className={`text-white px-2 py-1 ${tag.color} rounded-full cursor-default whitespace-nowrap overflow-hidden`}
                                                 onClick={e => e.stopPropagation()}
                                             >
                                                 {tag.title}
-                                                <motion.button
+                                                <button
                                                     type="button"
-                                                    className="ml-1 inline"
+                                                    className="ml-1"
                                                     onClick={() => handleRemoveTag(card.id, tag.id)}
                                                 >
                                                     <span className="text-xs">X</span>
-                                                </motion.button>
-                                            </motion.span>
+                                                </button>
+                                            </span>
                                         ))}
                                         {hiddenMobileCount > 0 && (
-                                            <motion.span
+                                            <span
                                                 ref={dropdownRef}
                                                 key="more"
                                                 className="px-2 py-1 bg-gray-700 rounded-full text-xs text-white cursor-pointer"
-                                                initial={{ opacity: 0, scale: 0.8 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                exit={{ opacity: 0, scale: 0.8 }}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setShowMobileDropdown(v => !v);
                                                 }}
                                             >
                                                 +{hiddenMobileCount}
-                                            </motion.span>
+                                            </span>
                                         )}
-                                    </AnimatePresence>
                                     <AnimatePresence>
                                         {showMobileDropdown && (
                                             <MobileTagDropdown
