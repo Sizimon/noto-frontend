@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import Layout from '../Layout';
 import { useTheme } from 'next-themes';
+import { useAuth } from '@/context/AuthProvider';
 import Link from 'next/link';
 import DarkVeil from '@/blocks/Backgrounds/DarkVeil/DarkVeil';
 import NotoLogo from '@/components/Logo';
@@ -24,6 +25,7 @@ const LandingBtn: React.FC<LandingBtnProps> = ({ href, children }) => {
 
 const Landing: React.FC = () => {
     const { setTheme } = useTheme();
+    const { isAuthenticated } = useAuth();
 
     useEffect(() => {
         setTheme("dark");
@@ -52,7 +54,9 @@ const Landing: React.FC = () => {
                         <p className="text-lg md:text-2xl italic">Organize your thoughts. Embed what matters.</p>
                     </div>
                     <div className='flex flex-row items-center justify-center z-10 space-x-4'>
-                        <LandingBtn href="/register">Get Started</LandingBtn>
+                        {!isAuthenticated && (
+                            <LandingBtn href="/register">Get Started</LandingBtn>
+                        )}
                         <button 
                         onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
                         className='cursor-pointer px-4 py-2 text-sm md:text-base bg-gray-800/90 text-default rounded-full hover:scale-102 transition-transform duration-300'>

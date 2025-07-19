@@ -19,9 +19,16 @@ export default function SuggestedTags({
     useEffect(() => {
             if (anchorRef?.current) {
                 const rect = anchorRef.current.getBoundingClientRect();
+                let left = rect.left + window.scrollX;
+                const menuWidth = 220;
+                const viewportWidth = window.innerWidth;
+                // If the menu would overflow, adjust left
+                if (left + menuWidth > viewportWidth - 8) { // 8px margin
+                    left = viewportWidth - menuWidth - 8;
+                }
                 setCoords({
                     top: rect.bottom + window.scrollY,
-                    left: rect.left + window.scrollX,
+                    left,
                 });
             }
         }, [anchorRef]);
