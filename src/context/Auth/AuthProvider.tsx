@@ -9,8 +9,8 @@ interface AuthContextType {
     isLoading: boolean;
     user: any;
     setUser: (user: any) => void;
-    login: (usernameOrEmail: string, password: string) => Promise<boolean>;
-    register: (username: string, email: string, password: string) => Promise<boolean>;
+    login: (usernameOrEmail: string, password: string) => Promise<{ success: boolean; error?: string }>;
+    register: (username: string, email: string, password: string) => Promise<{ success: boolean; error?: string }>;
     logout: () => void;
 }
 
@@ -54,7 +54,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         checkAuth();
     }, []);
 
-    const login = async (usernameOrEmail: string, password: string): Promise<boolean> => {
+    const login = async (usernameOrEmail: string, password: string): Promise<{ success: boolean; error?: string }> => {
         try {
             await authAPI.login(usernameOrEmail, password);
 
@@ -76,14 +76,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     : [],
             });
             setIsAuthenticated(true);
-            return true;
+            return { success: true };
         } catch (error) {
             console.error('Login error:', error);
-            return false; // Propagate error to caller
+            return { success: false, error: (error instanceof Error ? error.message : 'Login failed') };
         }
     };
 
-    const register = async (username: string, email: string, password: string): Promise<boolean> => {
+    const register = async (username: string, email: string, password: string): Promise<{ success: boolean; error?: string }> => {
         try {
             await authAPI.register(username, email, password);
 
@@ -99,10 +99,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     : [],
             });
             setIsAuthenticated(true);
-            return true;
+            return { success: true };
         } catch (error) {
             console.error('Register error:', error);
-            return false; // Propagate error to caller
+            return { success: false, error: (error instanceof Error ? error.message : 'Registration failed') };
         }
     };
 

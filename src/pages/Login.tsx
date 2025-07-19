@@ -36,20 +36,14 @@ const Login: React.FC = () => {
             setIsLoading(false);
             return;
         }
-        try {
-            const success = await login(usernameOrEmail, password);
-            if (success) {
-                setSuccess('Login successful! Redirecting...');
-                router.push('/user-dashboard');
-                return;
-            } else {
-                setError('Invalid username/email or password.');
-            }
-        } catch (err) {
-            setError('Login failed. Please check your credentials.');
-        } finally {
-            setIsLoading(false);
+        const result = await login(usernameOrEmail, password);
+        if (result.success) {
+            setSuccess('Login successful! Redirecting...');
+            router.push('/user-dashboard');
+        } else {
+            setError(result.error || 'Login failed.');
         }
+        setIsLoading(false);
     };
 
     return (

@@ -1,7 +1,7 @@
 const API_BASE_URL = 'http://localhost:5006/api';
 
 // API REQUEST WRAPPER
-const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
+const apiRequest = async (endpoint: string, options: RequestInit & { skip401Redirect?: boolean } = {}) => {
     const config: RequestInit = {
         headers: {
             'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
         // console.log('response status:', response.status);
         // console.log('response headers:', response.headers);
 
-        if (response.status === 401) {
+        if (response.status === 401 && !options.skip401Redirect) {
             // Redirect to login
             if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
                 window.location.href = '/login';
@@ -44,21 +44,22 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
         console.error('API request error:', error);
         throw error;
     }
-
 };
 
 
 // AUTH API ENDPOINTS
 export const authAPI = {
-    login: (usernameOrEmail: string, password: string) =>
+    login: (usernameOrEmail: string, password: string, skip401Redirect: boolean = true) =>
         apiRequest('/auth/login', {
             method: 'POST',
             body: JSON.stringify({ usernameOrEmail, password }),
+            skip401Redirect,
         }),
-    register: (username: string, email: string, password: string) =>
+    register: (username: string, email: string, password: string, skip401Redirect: boolean = true) =>
         apiRequest('/auth/register', {
             method: 'POST',
             body: JSON.stringify({ username, email, password }),
+            skip401Redirect,
         }),
     me: () =>
         apiRequest('/auth/me', {

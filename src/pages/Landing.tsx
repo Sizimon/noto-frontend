@@ -16,8 +16,18 @@ interface LandingBtnProps {
 const LandingBtn: React.FC<LandingBtnProps> = ({ href, children }) => {
     return (
         <Link
-        href={href}
-        className="cursor-pointer px-4 py-2 text-sm md:text-base bg-pop text-default rounded-full hover:scale-102 transition-transform duration-300">
+            href={href}
+            className="bg-amber-600/30
+            text-amber-500
+            backdrop-blur-md
+            shadow-md shadow-amber-500/50 
+            border-amber-500 border-2
+            duration-300 ease-in-out
+            rounded-full px-2 py-1
+            hover:bg-amber-700/60
+            hover:shadow-md
+            hover:scale-105
+            active:inset-shadow-sm active:inset-shadow-gray-900 active:shadow-xs">
             {children}
         </Link>
     );
@@ -34,37 +44,37 @@ const Landing: React.FC = () => {
     return (
         <Layout>
             {/* <div className="flex flex-col"> */}
-                <div className="
+            <div className="
                 flex flex-col h-screen bg-background text-default w-full relative justify-center gap-2
             ">
-                    <div className='absolute inset-0 z-0'>
-                        <DarkVeil
-                            speed={1}
-                            hueShift={215}
-                            noiseIntensity={0}
-                            scanlineFrequency={1}
-                            scanlineIntensity={0}
-                            warpAmount={1}
-                        />
-                    </div>
-                    <div className='flex flex-col text-center justify-center z-10 mb-2'>
-                        <NotoLogo />
-                    </div>
-                    <div className='flex flex-col text-center justify-center z-10 px-12 mb-4'>
-                        <p className="text-lg md:text-2xl italic">Organize your thoughts. Embed what matters.</p>
-                    </div>
-                    <div className='flex flex-row items-center justify-center z-10 space-x-4'>
-                        {!isAuthenticated && (
-                            <LandingBtn href="/register">Get Started</LandingBtn>
-                        )}
-                        <button 
+                <div className='absolute inset-0 z-0'>
+                    <DarkVeil
+                        speed={1}
+                        hueShift={215}
+                        noiseIntensity={0}
+                        scanlineFrequency={1}
+                        scanlineIntensity={0}
+                        warpAmount={1}
+                    />
+                </div>
+                <div className='flex flex-col text-center justify-center z-10 mb-2'>
+                    <NotoLogo />
+                </div>
+                <div className='flex flex-col text-center justify-center z-10 px-12 mb-4'>
+                    <p className="text-lg md:text-2xl italic">Organize your thoughts. Embed what matters.</p>
+                </div>
+                <div className='flex flex-row items-center justify-center z-10 space-x-4'>
+                    {!isAuthenticated && (
+                        <LandingBtn href="/register">Get Started</LandingBtn>
+                    )}
+                    <button
                         onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
                         className='cursor-pointer px-4 py-2 text-sm md:text-base bg-gray-800/90 text-default rounded-full hover:scale-102 transition-transform duration-300'>
-                            Learn More
-                        </button>
-                    </div>
+                        Learn More
+                    </button>
                 </div>
-                <AboutSection />
+            </div>
+            <AboutSection />
             {/* </div> */}
         </Layout>
     );
