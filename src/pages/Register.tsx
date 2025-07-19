@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Layout from '@/Layout';
-import { useAuth } from '@/context/AuthProvider';
+import { useAuth } from '@/context/Auth/AuthProvider';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';

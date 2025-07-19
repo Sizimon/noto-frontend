@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { tasksAPI } from '@/connections/api';
-import { Tag } from '@/context/TagsProvider'; // Adjust the import path as necessary
+import { Tag } from '@/context/Tags/TagsProvider'; // Adjust the import path as necessary
 
 // Defines what a Task should look like (may need to be adjusted in the future)
 export interface Task {

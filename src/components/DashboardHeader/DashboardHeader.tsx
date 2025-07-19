@@ -2,7 +2,7 @@
 
 import NotoLogo from '../Logo';
 import RecentlyViewed from './RecentlyViewed';
-import { useTasks } from '@/context/TasksProvider';
+import { useTasks } from '@/context/Tasks/TasksProvider';
 
 export default function DashboardHeader() {
     const { allTasks } = useTasks();

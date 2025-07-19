@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import Layout from '../Layout';
 import { useTheme } from 'next-themes';
-import { useAuth } from '@/context/AuthProvider';
+import { useAuth } from '@/context/Auth/AuthProvider';
 import Link from 'next/link';
 import DarkVeil from '@/blocks/Backgrounds/DarkVeil/DarkVeil';
 import NotoLogo from '@/components/Logo';

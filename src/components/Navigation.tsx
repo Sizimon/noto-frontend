@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthProvider';
+import { useAuth } from '@/context/Auth/AuthProvider';
 
 import { gsap } from 'gsap';
 

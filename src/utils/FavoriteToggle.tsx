@@ -1,4 +1,4 @@
-import { useTasks } from '@/context/TasksProvider';
+import { useTasks } from '@/context/Tasks/TasksProvider';
 
 export function useHandleFavoriteToggle() {
     const { allTasks, setAllTasks } = useTasks();

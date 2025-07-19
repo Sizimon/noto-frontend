@@ -2,9 +2,9 @@
 
 import React, { useState, useRef, use, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Tag } from '@/context/TagsProvider';
+import { Tag } from '@/context/Tags/TagsProvider';
 import { FaPlus } from 'react-icons/fa';
-import { useTags } from '@/context/TagsProvider';
+import { useTags } from '@/context/Tags/TagsProvider';
 import SuggestedTags from './SuggestedTags';
 import MobileTagDropdown from './MobileTagDropdown';
 import { useHandleRemoveTag, useHandleCreateTag } from '@/utils/TagFunctions';

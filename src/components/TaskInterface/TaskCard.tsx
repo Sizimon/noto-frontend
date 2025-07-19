@@ -1,12 +1,12 @@
 import { FaEllipsisVertical } from "react-icons/fa6";
 import React, { useState, useRef } from "react";
 
-import { Task } from "@/context/TasksProvider";
+import { Task } from "@/context/Tasks/TasksProvider";
 
 import Tags from "./TaskCardSubComponents/Tags";
 import Menu from "./TaskCardSubComponents/Menu";
 import Header from "./TaskCardSubComponents/Header";
-import { useAuth } from "@/context/AuthProvider";
+import { useAuth } from "@/context/Auth/AuthProvider";
 import { useRouter } from "next/navigation";
 
 export function handleTaskClick(

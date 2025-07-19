@@ -1,7 +1,7 @@
 'use client';
 
 import PrivateLayout from '@/layouts/PrivateLayout';
-import { useAuth } from '@/context/AuthProvider';
+import { useAuth } from '@/context/Auth/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 

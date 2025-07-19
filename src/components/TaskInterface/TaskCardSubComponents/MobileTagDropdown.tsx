@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
-import { Tag } from '@/context/TagsProvider';
+import { Tag } from '@/context/Tags/TagsProvider';
 
 export default function MobileTagDropdown({ card, handleRemoveTag, anchorRef }: any) {
     const menuRef = useRef<HTMLDivElement>(null);

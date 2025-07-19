@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FaRegStickyNote } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { tasksAPI } from '@/connections/api';
-import { useAuth } from '@/context/AuthProvider';
+import { useAuth } from '@/context/Auth/AuthProvider';
 
 const TASK_TYPES = [
     { type: 'note', label: 'Notepad', icon: <FaRegStickyNote className='text-4xl text-amber-600' /> },

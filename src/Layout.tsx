@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
-import { useAuth } from '@/context/AuthProvider';
+import { useAuth } from '@/context/Auth/AuthProvider';
 import { ClipLoader } from 'react-spinners';
 import DarkModeToggle from '@/theme/DarkModeToggle';
 

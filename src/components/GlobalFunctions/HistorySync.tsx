@@ -3,9 +3,9 @@
 import { useEffect, useRef } from "react";
 import { userAPI } from "@/connections/api";
 import { tasksAPI } from "@/connections/api";
-import { useTasks } from "@/context/TasksProvider";
-import { useTags } from "@/context/TagsProvider";
-import { useAuth } from "@/context/AuthProvider";
+import { useTasks } from "@/context/Tasks/TasksProvider";
+import { useTags } from "@/context/Tags/TagsProvider";
+import { useAuth } from "@/context/Auth/AuthProvider";
 
 const HistorySync = () => {
     const { user } = useAuth();

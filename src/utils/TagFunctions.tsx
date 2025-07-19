@@ -1,8 +1,8 @@
 'use client';
 
-import { useTasks } from '../context/TasksProvider';
-import { useTags } from '../context/TagsProvider';
-import { Tag } from '../context/TagsProvider';
+import { useTasks } from '../context/Tasks/TasksProvider';
+import { useTags } from '../context/Tags/TagsProvider';
+import { Tag } from '../context/Tags/TagsProvider';
 import { tasksAPI } from '../connections/api';
 
 const colors = [

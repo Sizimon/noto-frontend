@@ -2,9 +2,9 @@
 
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState, useRef } from 'react';
-import { useTasks } from '@/context/TasksProvider';
+import { useTasks } from '@/context/Tasks/TasksProvider';
 import dynamic from 'next/dynamic';
-import { Task } from '@/context/TasksProvider'; // Adjust the import path as necessary
+import { Task } from '@/context/Tasks/TasksProvider'; // Adjust the import path as necessary
 
 const TipTapEditor = dynamic(() => import('@/components/TipTapEditor'), {
     ssr: false,

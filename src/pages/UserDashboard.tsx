@@ -11,7 +11,7 @@ import CreateTaskModal from '../components/CreateTaskModal';
 
 import StarBorder from '@/blocks/Animations/StarBorder/StarBorder';
 
-import { useTasks } from '../context/TasksProvider';
+import { useTasks } from '../context/Tasks/TasksProvider';
 
 const UserDashboard: React.FC = () => {
     // CONTEXT HOOKS

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTasks } from '@/context/TasksProvider';
+import { useTasks } from '@/context/Tasks/TasksProvider';
 import { FaRegClock } from "react-icons/fa";
-import { useAuth } from '@/context/AuthProvider';
+import { useAuth } from '@/context/Auth/AuthProvider';
 import { handleTaskClick } from '../TaskInterface/TaskCard';
 import { FiFileText } from "react-icons/fi";
 

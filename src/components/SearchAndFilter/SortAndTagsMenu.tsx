@@ -4,10 +4,10 @@ import React, { useState, useEffect } from "react";
 import { FaSortAlphaDown, FaRegClock, FaStar, FaCaretDown } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 
-import { Tag } from '@/context/TagsProvider'; // Importing the Tag type from TagsProvider context
-import { Task } from '@/context/TasksProvider'; // Importing the Task type from TasksProvider context
-import { useTags } from "@/context/TagsProvider";
-import { useTasks } from "@/context/TasksProvider";
+import { Tag } from '@/context/Tags/TagsProvider'; // Importing the Tag type from TagsProvider context
+import { Task } from '@/context/Tasks/TasksProvider'; // Importing the Task type from TasksProvider context
+import { useTags } from "@/context/Tags/TagsProvider";
+import { useTasks } from "@/context/Tasks/TasksProvider";
 import { useHandleDeleteTag } from "@/utils/TagFunctions";
 
 

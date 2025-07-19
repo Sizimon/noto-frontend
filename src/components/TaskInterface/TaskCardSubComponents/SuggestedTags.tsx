@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
-import { Tag } from '@/context/TagsProvider'; // Adjust the import path as necessary
+import { Tag } from '@/context/Tags/TagsProvider'; // Adjust the import path as necessary
 import { useHandleAddExistingTag } from '@/utils/TagFunctions';
 
 export default function SuggestedTags({
