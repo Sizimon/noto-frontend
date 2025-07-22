@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 
 import DarkVeil from '@/blocks/Backgrounds/DarkVeil/DarkVeil';
-import { ClipLoader } from 'react-spinners';
+// import { ClipLoader } from 'react-spinners';
 import NotoLogo from '@/components/Logo';
 
 const Register: React.FC = () => {

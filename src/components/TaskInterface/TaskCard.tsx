@@ -1,3 +1,5 @@
+'use client';
+
 import { FaEllipsisVertical } from "react-icons/fa6";
 import React, { useState, useRef } from "react";
 

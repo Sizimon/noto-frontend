@@ -1,4 +1,4 @@
-import UserDashboard from '@/pages/UserDashboard';
+import UserDashboard from '@/sections/UserDashboard';
 
 export default function UserDashboardPage() {
   return (
