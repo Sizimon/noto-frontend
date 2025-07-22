@@ -9,6 +9,8 @@ interface AuthContextType {
     isLoading: boolean;
     user: any;
     setUser: (user: any) => void;
+    initialLastViewedTasks: number[];
+    setInitialLastViewedTasks: (tasks: number[]) => void;
     login: (usernameOrEmail: string, password: string) => Promise<{ success: boolean; error?: string }>;
     register: (username: string, email: string, password: string) => Promise<{ success: boolean; error?: string }>;
     logout: () => void;
@@ -20,6 +22,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [user, setUser] = useState<any>(null);
+    const [initialLastViewedTasks, setInitialLastViewedTasks] = useState<number[]>([]);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -34,12 +37,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                             ? data.user.lastViewedTasks.map(Number)
                             : [],
                     });
-                    console.log('User data:', {
-                        ...data.user,
-                        lastViewedTasks: Array.isArray(data.user.lastViewedTasks)
-                            ? data.user.lastViewedTasks.map(Number)
-                            : [],
-                    });
+                    // console.log('User data:', {
+                    //     ...data.user,
+                    //     lastViewedTasks: Array.isArray(data.user.lastViewedTasks)
+                    //         ? data.user.lastViewedTasks.map(Number)
+                    //         : [],
+                    // });
+                    setInitialLastViewedTasks(Array.isArray(data.user.lastViewedTasks) ? data.user.lastViewedTasks.map(Number) : []);
                 } else {
                     setIsAuthenticated(false);
                     setUser(null);
@@ -119,6 +123,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             isLoading,
             user,
             setUser,
+            initialLastViewedTasks,
+            setInitialLastViewedTasks,
             login,
             register,
             logout

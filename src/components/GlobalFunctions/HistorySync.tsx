@@ -8,8 +8,9 @@ import { useTags } from "@/context/Tags/TagsProvider";
 import { useAuth } from "@/context/Auth/AuthProvider";
 
 const HistorySync = () => {
-    const { user } = useAuth();
+    const { user, initialLastViewedTasks, setInitialLastViewedTasks } = useAuth();
     const userRef = useRef(user); // Store user in a ref to avoid stale closure issues
+    const initialLastViewedTasksRef = useRef(initialLastViewedTasks); // Store initialLastViewedTasks in a ref to avoid stale closure issues
 
     const { allTasks } = useTasks();
     const allTasksRef = useRef(allTasks); // Store allTasks in a ref to avoid stale closure issues
@@ -23,23 +24,40 @@ const HistorySync = () => {
     // This ensures that the latest tasks are always available in the interval callback
     useEffect(() => {
         userRef.current = user;
+        initialLastViewedTasksRef.current = initialLastViewedTasks;
         allTasksRef.current = allTasks;
         removedTagsRef.current = removedTags;
         pendingTagsRef.current = pendingTags;
         tagsRef.current = tags;
-    }, [user, allTasks, removedTags, pendingTags, tags]);
+    }, [user, allTasks, removedTags, pendingTags, tags, initialLastViewedTasks]);
 
     // console.log('All found tags:', tags);
     // console.log('Pending tags:', pendingTags);
     // console.log('Removed tags:', removedTags);
 
+    // Function to compare two arrays for equality including order
+    function arraysEqual(a?: number[], b?: number[]) {
+        if (!a || !b) return false;
+        if (a.length !== b.length) return false;
+        for (let i = 0; i < a.length; i++) {
+            if (a[i] !== b[i]) return false;
+        }
+        return true;
+    }
+
     useEffect(() => {
         const interval = setInterval(async () => {
             // SYNC LAST VIEWED TASKS FROM CONTEXT TO THE SERVER
             const currentUser = userRef.current;
+            // console.log(initialLastViewedTasksRef.current, currentUser?.lastViewedTasks);
+            if (arraysEqual(initialLastViewedTasksRef.current, currentUser?.lastViewedTasks)) {
+                return;
+            }
             if (currentUser && Array.isArray(currentUser.lastViewedTasks)) {
                 try {
                     await userAPI.updateLastViewed(currentUser.lastViewedTasks);
+                    setInitialLastViewedTasks(currentUser.lastViewedTasks);
+                    initialLastViewedTasksRef.current = currentUser.lastViewedTasks; // Update the ref to the new last viewed tasks
                 } catch (err) {
                     console.error('Failed to sync lastViewedTasks:', err);
                 }
