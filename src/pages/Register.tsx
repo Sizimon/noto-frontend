@@ -61,21 +61,14 @@ const Register: React.FC = () => {
         // In the future check if username is already taken
 
         // Call API to register user
-        try {
-            const success = await register(username, email, password);
-            if (success) {
-                setSuccess('Registration successful! Redirecting...');
-                setTimeout(() => {
-                    router.push('/user-dashboard');
-                }, 2000);
-            } else {
-                setError('Registration failed. Please try again.');
-            }
-        } catch (err) {
-            setError('Registration failed. Please try again.');
-        } finally {
-            setIsLoading(false);
+        const result = await register(username, email, password);
+        if (result.success) {
+            setSuccess('Registration successful! Redirecting...');
+            router.push('/user-dashboard');
+        } else {
+            setError(result.error || 'Registration failed.');
         }
+        setIsLoading(false);
     };
 
     return (
