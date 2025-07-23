@@ -20,7 +20,7 @@ const apiRequest = async (endpoint: string, options: RequestInit & { skip401Redi
 
         if (response.status === 401 && !options.skip401Redirect) {
             // Redirect to login
-            if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+            if (typeof window !== 'undefined' && window.location.pathname !== '/noto/login') {
                 window.location.href = '/noto/login';
                 return;
             }

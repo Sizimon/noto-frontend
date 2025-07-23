@@ -13,7 +13,8 @@ export default function Home() {
       if (isAuthenticated) {
         router.push('/user-dashboard');
       } else {
-        if (window.location.pathname === '/noto' || window.location.pathname === '/noto/') {
+        const currentPath = window.location.pathname;
+        if (currentPath === '/noto' || currentPath === '/noto/') {
           router.push('/landing');
         }
       }
