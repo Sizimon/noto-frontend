@@ -13,7 +13,9 @@ export default function Home() {
       if (isAuthenticated) {
         router.push('/user-dashboard');
       } else {
-        router.push('/landing');
+        if (window.location.pathname === '/noto' || window.location.pathname === '/noto/') {
+          router.push('/landing');
+        }
       }
     }
   }, [isAuthenticated, isLoading, router]);
