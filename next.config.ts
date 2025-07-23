@@ -10,23 +10,8 @@ const nextConfig: NextConfig = {
     return config;
   },
   eslint: {
-  ignoreDuringBuilds: true,
-},
-async redirects() {
-  return [
-    {
-      source: '/',
-      destination: '/noto/landing',
-      basePath: false,
-      permanent: false,
-    },
-    {
-      source: '/noto',
-      destination: '/noto/landing',
-      permanent: false,
-    }
-  ]
-}
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
