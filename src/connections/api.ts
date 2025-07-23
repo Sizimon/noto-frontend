@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5006/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '/noto-backend/api';
 
 // API REQUEST WRAPPER
 const apiRequest = async (endpoint: string, options: RequestInit & { skip401Redirect?: boolean } = {}) => {
