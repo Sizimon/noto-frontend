@@ -51,6 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             } catch (error) {
                 setIsAuthenticated(false);
                 setUser(null);
+                console.error('Error fetching user data:', error);
             } finally {
                 setIsLoading(false);
             }
