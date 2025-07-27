@@ -58,7 +58,7 @@ export default function TaskCard({
             key={card.id}
             className={`
                 ${card.id === noteMenuOpen ? 'z-20' : 'hover:shadow-xl'}
-                grid grid-flow-col grid-cols-16 px-2 md:px-0 
+                grid grid-flow-col grid-cols-16 p-4 md:px-0 
                 items-center text-center mb-4 rounded-lg shadow-lg bg-background w-full cursor-pointer
                 transition-all duration-300 ease-in-out
                 
