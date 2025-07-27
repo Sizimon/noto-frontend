@@ -42,7 +42,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     }, [sidebarOpen]);
 
     return (
-        <div className="flex-1 h-screen relative">
+        <div className="flex-1 h-dvh relative">
             {/* Loading Overlay */}
             {isLoading && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">

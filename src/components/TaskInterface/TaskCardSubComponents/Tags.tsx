@@ -59,7 +59,7 @@ export default function Tags({
                                     value={newTag}
                                     placeholder="Add a tag"
                                     className="
-                                        flex w-full md:w-2/6 justify-start p-1 bg-foreground text-amber-600 rounded-lg focus:outline-none
+                                        flex w-full md:w-2/6 justify-start p-1 bg-foreground text-amber-600 rounded-lg focus:outline-none text-base
                                     "
                                     onChange={e => setNewTag(e.target.value)}
                                     onClick={e => e.stopPropagation()}
@@ -112,7 +112,7 @@ export default function Tags({
                                             <span
                                                 ref={dropdownRef}
                                                 key="more"
-                                                className="px-2 py-1 bg-gray-700 rounded-full text-xs text-white cursor-pointer"
+                                                className="px-2 py-1 bg-gray-700 rounded-full text-base text-white cursor-pointer"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setShowMobileDropdown(v => !v);

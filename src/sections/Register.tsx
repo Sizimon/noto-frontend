@@ -74,7 +74,7 @@ const Register: React.FC = () => {
     return (
         <Layout>
             <div className="
-            flex flex-col h-screen bg-background text-default w-full relative justify-center gap-2
+            flex flex-col h-dvh bg-background text-default w-full relative justify-center gap-2
             ">
                 <div className='absolute inset-0 z-0'>
                     <DarkVeil

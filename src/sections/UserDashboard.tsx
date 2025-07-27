@@ -50,8 +50,7 @@ const UserDashboard: React.FC = () => {
     return (
         <Layout>
             <div className="
-                flex flex-col w-full text-default items-center justify-center min-h-screen bg-background py-12
-            
+                flex flex-col w-full text-default items-center justify-center min-h-dvh bg-background py-12
             ">
                 <DashboardHeader />
                 {allTasks.length > 0 ? (

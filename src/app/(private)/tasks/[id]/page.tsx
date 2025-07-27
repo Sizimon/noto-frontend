@@ -70,7 +70,7 @@ export default function TaskPage() {
 
     return (
         <div className="
-            flex flex-col items-center justify-start min-h-screen p-4 w-full bg-background pt-12
+            flex flex-col items-center justify-start min-h-dvh p-4 w-full bg-background pt-12
             ">
             <div className='
             flex items-center justify-center w-full max-w-3xl
