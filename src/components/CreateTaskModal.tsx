@@ -19,7 +19,7 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
         try {
             const newTask = await tasksAPI.create(type);
             handleModalClose();
-            window.location.href = `/tasks/${newTask.id}`;
+            window.location.href = `/noto/tasks/${newTask.id}`;
             setUser((prevUser: any) => ({
                 ...prevUser,
                 lastViewedTasks: [...prevUser.lastViewedTasks, newTask.id]
