@@ -24,7 +24,7 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-dvh">
+      <div className="flex items-center justify-center min-h-lvh">
         <div>Loading...</div>
       </div>
     );

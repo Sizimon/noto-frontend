@@ -98,6 +98,7 @@ body {
 
 .ProseMirror code {
   color: #ea580c !important;
+  font-size: small;
 }
 
 .ProseMirror h1 { font-size: 2rem; font-weight: bold; margin: 1em 0 0.5em 0; }

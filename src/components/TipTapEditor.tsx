@@ -124,7 +124,7 @@ export default function TipTapEditor({ content, onChange }: TipTapEditorProps) {
             <EditorContent 
                 editor={editor} 
                 className="
-                    bg-background text-default p-4 rounded-lg text-sm
+                    bg-background text-default p-4 rounded-lg text-base
                     md:text-lg
                 "/>
         </div>
