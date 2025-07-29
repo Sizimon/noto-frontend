@@ -112,7 +112,7 @@ export default function Tags({
                                             <span
                                                 ref={dropdownRef}
                                                 key="more"
-                                                className="px-2 py-1 bg-gray-700 rounded-full text-base text-white cursor-pointer"
+                                                className="px-2 py-1 bg-gray-700 rounded-full text-xs text-white cursor-pointer"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setShowMobileDropdown(v => !v);
