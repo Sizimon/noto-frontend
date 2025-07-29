@@ -39,26 +39,32 @@ export default function MobileTagDropdown({ card, handleRemoveTag, anchorRef }: 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.18, ease: "easeInOut" }}
-            className="absolute left-0 top-full mt-2 z-50 bg-background rounded-xl shadow-lg py-2 px-2 w-44"
+            className="absolute left-0 top-full z-50 bg-background rounded-xl shadow-lg mt-2 border-1 border-zinc-200 dark:border-zinc-800
+                flex flex-col gap-1 max-h-[160px] overflow-hidden w-36"
         >
-            {card.tags.map((tag: Tag) => (
-                <div
-                    key={tag.id}
-                    className={`flex items-center justify-between mb-1 px-2 py-1 rounded ${tag.color} text-xs text-white`}
-                >
-                    <span className="truncate">{tag.title}</span>
-                    <button
-                        type="button"
-                        className="ml-2"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handleRemoveTag(card.id, tag.id);
-                        }}
+            <div className="sticky top-0 p-2 border-b bg-background border-zinc-200 dark:border-zinc-800 text-xs text-zinc-400 uppercase tracking-wider z-10">
+                Note Tags
+            </div>
+            <div className='py-1 px-2 overflow-y-auto'>
+                {card.tags.map((tag: Tag) => (
+                    <div
+                        key={tag.id}
+                        className={`flex items-center justify-between mb-1 px-2 py-1 rounded ${tag.color} text-xs text-white`}
                     >
-                        <span className="text-xs">X</span>
-                    </button>
-                </div>
-            ))}
+                        <span className="truncate">{tag.title}</span>
+                        <button
+                            type="button"
+                            className="ml-2"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleRemoveTag(card.id, tag.id);
+                            }}
+                        >
+                            <span className="text-xs">X</span>
+                        </button>
+                    </div>
+                ))}
+            </div>
         </motion.div>,
         typeof window !== 'undefined' ? document.body : (null as any) // Ensure the portal is only created in the browser
     );
