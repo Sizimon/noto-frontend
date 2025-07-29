@@ -42,38 +42,40 @@ export default function SuggestedTags({
                 exit={{ opacity: 0, scale: 0.95, y: -10 }}
                 transition={{ duration: 0.18, ease: "easeInOut" }}
                 className="
-                absolute left-0 top-full z-50 bg-background/95 rounded-xl shadow-lg mt-2 border-1 border-zinc-200 dark:border-zinc-800
-                grid grid-flow-row grid-cols-2 md:grid-cols-3 gap-1 max-h-[200px] overflow-y-auto w-max max-w-[220px] md:max-w-[300px] py-1 px-1
+                absolute left-0 top-full z-50 bg-background rounded-xl shadow-lg mt-2 border-1 border-zinc-200 dark:border-zinc-800
+                flex flex-col overflow-hidden w-max max-w-[220px] md:max-w-[300px]
             "
             >
-                <div className="sticky top-0 col-span-2 md:col-span-3 p-2 border-b bg-background border-zinc-200 dark:border-zinc-800 text-xs text-zinc-400 uppercase tracking-wider">
+                <div className="sticky top-0 p-2 border-b bg-background border-zinc-200 dark:border-zinc-800 text-xs text-zinc-400 uppercase tracking-wider z-10">
                     Available Tags
                 </div>
-                {availableTags.map((tag: Tag) => (
-                    <button
-                        key={tag.id}
-                        className={`
-                        items-center px-3 py-1 my-0.5 rounded-lg transition cursor-pointer
-                        hover:bg-${tag.color}/80 focus:bg-${tag.color}/
-                        ${tag.color} text-xs text-default font-medium
-                        hover:brightness-110 hover:scale-102 focus:outline-none
-                        truncate
-                    `}
-                        style={{
-                            maxWidth: "190px",
-                        }}
-                        title={tag.title}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handleAddExistingTag(card.id, tag);
-                            setIsInputOpen(false);
-                            setNewTag('');
-                        }}
-                        type="button"
-                    >
-                        {tag.title}
-                    </button>
-                ))}
+                <div className='grid grid-flow-row grid-cols-2 md:grid-cols-3 gap-1 py-1 px-2 overflow-y-auto max-h-[160px] w-full'>
+                    {availableTags.map((tag: Tag) => (
+                        <button
+                            key={tag.id}
+                            className={`
+                                items-center px-3 py-1 my-0.5 rounded-lg transition cursor-pointer
+                                hover:bg-${tag.color}/80 focus:bg-${tag.color}/
+                                ${tag.color} text-xs text-default font-medium
+                                hover:brightness-110 hover:scale-102 focus:outline-none
+                                truncate
+                            `}
+                            style={{
+                                maxWidth: "190px",
+                            }}
+                            title={tag.title}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleAddExistingTag(card.id, tag);
+                                setIsInputOpen(false);
+                                setNewTag('');
+                            }}
+                            type="button"
+                        >
+                            {tag.title}
+                        </button>
+                    ))}
+                </div>
             </motion.div>
         </div>,
         typeof window !== 'undefined' ? document.body : (null as any) // Ensure the portal is only created in the browser
