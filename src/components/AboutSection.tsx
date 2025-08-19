@@ -10,6 +10,9 @@ export default function AboutSection() {
           <h2 className="text-2xl font-semibold mb-3 text-orange-500">What is <code>noto()</code>?</h2>
           <p className="text-gray-300">
             <code>noto()</code> is a developer-friendly notepad app built for ideas, tags, and media. It’s designed to be fast, flexible, and minimal — your home for organized thoughts and curated content.
+          </p> <br />
+          <p className="text-gray-300">
+            Try it out with a test user by logging in as:<br /> User: <code className="text-amber-600">testuser</code><br />Password: <code className="text-amber-600">test123@</code>
           </p>
         </div>
 
