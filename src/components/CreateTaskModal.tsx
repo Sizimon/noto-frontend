@@ -1,12 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+
 import { motion } from 'framer-motion';
+
 import { FaRegStickyNote } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { ClipLoader } from 'react-spinners';
+
 import { tasksAPI } from '@/connections/api';
 import { useAuth } from '@/context/Auth/AuthProvider';
+import { useTasks } from '@/context/Tasks/TasksProvider';
+
 
 const TASK_TYPES = [
     { type: 'note', label: 'Notepad', icon: <FaRegStickyNote className='text-4xl text-amber-600' /> },
@@ -14,20 +20,23 @@ const TASK_TYPES = [
 ];
 
 export default function CreateTaskModal({ handleModalClose }: { handleModalClose: () => void }) {
+    const [loading, setLoading] = useState(false);
     const { user, setUser } = useAuth();
+    const { refreshTasks } = useTasks();
     const router = useRouter();
 
     const handleTypeSelect = async (type: string) => {
         try {
+            setLoading(true);
             const newTask = await tasksAPI.create(type);
-            handleModalClose();
-            router.push(`/noto/tasks/${newTask.id}`);
+            refreshTasks(); // Refresh tasks after creating a new task
+            router.push(`/tasks/${newTask.id}`);
             setUser((prevUser: any) => ({
                 ...prevUser,
                 lastViewedTasks: [...prevUser.lastViewedTasks, newTask.id]
             }));
-
         } catch (error) {
+            setLoading(false);
             console.error('Error creating task:', error);
             alert('Failed to create task. Please try again.');
         }
@@ -38,6 +47,11 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
                 className='fixed inset-0 flex items-center justify-center bg-black/70 z-50'
                 onClick={handleModalClose}
             >
+                {loading && (
+                    <div className='absolute inset-0 flex items-center justify-center bg-black/70 z-50'>
+                        <ClipLoader color="#ffffff" loading={loading} size={50} />
+                    </div>
+                )}
                 <motion.div
                     className='relative bg-background text-default rounded-2xl shadow-2xl p-8 w-11/12 max-w-md'
                     onClick={e => e.stopPropagation()}
