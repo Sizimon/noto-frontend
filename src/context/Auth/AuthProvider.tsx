@@ -31,18 +31,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 const data = await authAPI.me();
                 if (data && data.user) {
                     setIsAuthenticated(true);
+                    
                     setUser({
                         ...data.user,
                         lastViewedTasks: Array.isArray(data.user.lastViewedTasks)
                             ? data.user.lastViewedTasks.map(Number)
                             : [],
                     });
-                    // console.log('User data:', {
-                    //     ...data.user,
-                    //     lastViewedTasks: Array.isArray(data.user.lastViewedTasks)
-                    //         ? data.user.lastViewedTasks.map(Number)
-                    //         : [],
-                    // });
+
                     setInitialLastViewedTasks(Array.isArray(data.user.lastViewedTasks) ? data.user.lastViewedTasks.map(Number) : []);
                 } else {
                     setIsAuthenticated(false);
