@@ -118,7 +118,6 @@ const UserDashboard: React.FC = () => {
                 <CreateTaskModal
                     handleModalClose={() => {
                         setShowModal(false);
-                        refreshTasks(); // Refresh tasks after creating a new task
                     }}
                 />
             )}

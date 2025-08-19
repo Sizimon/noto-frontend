@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FaRegStickyNote } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { tasksAPI } from '@/connections/api';
 import { useAuth } from '@/context/Auth/AuthProvider';
+import { useTasks } from '@/context/Tasks/TasksProvider';
+import { ClipLoader } from 'react-spinners';
 
 const TASK_TYPES = [
     { type: 'note', label: 'Notepad', icon: <FaRegStickyNote className='text-4xl text-amber-600' /> },
@@ -12,71 +14,79 @@ const TASK_TYPES = [
 ];
 
 export default function CreateTaskModal({ handleModalClose }: { handleModalClose: () => void }) {
+    const [loading, setLoading] = useState(false);
     const { user, setUser } = useAuth();
+    const { refreshTasks } = useTasks();
     const router = useRouter();
 
     const handleTypeSelect = async (type: string) => {
         try {
+            setLoading(true);
             const newTask = await tasksAPI.create(type);
-            handleModalClose();
+            refreshTasks(); // Refresh tasks after creating a new task
             router.push(`/tasks/${newTask.id}`);
             setUser((prevUser: any) => ({
                 ...prevUser,
                 lastViewedTasks: [...prevUser.lastViewedTasks, newTask.id]
             }));
-
         } catch (error) {
+            setLoading(false);
             console.error('Error creating task:', error);
             alert('Failed to create task. Please try again.');
         }
     };
 
     return (
-            <div
-                className='fixed inset-0 flex items-center justify-center bg-black/70 z-50'
-                onClick={handleModalClose}
+        <div
+            className='fixed inset-0 flex items-center justify-center bg-black/70 z-50'
+            onClick={handleModalClose}
+        >
+            {loading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/70 z-50">
+                    <ClipLoader color="#fbbf24" size={64} />
+                </div>
+            )}
+            <motion.div
+                className='relative bg-background text-default rounded-2xl shadow-2xl p-8 w-11/12 max-w-md'
+                onClick={e => e.stopPropagation()}
             >
-                <motion.div
-                    className='relative bg-background text-default rounded-2xl shadow-2xl p-8 w-11/12 max-w-md'
-                    onClick={e => e.stopPropagation()}
+                {/* Close Button */}
+                <button
+                    className="absolute top-4 right-4 text-zinc-400 hover:text-red-600 transition-colors text-2xl cursor-pointer"
+                    onClick={handleModalClose}
+                    aria-label="Close"
                 >
-                    {/* Close Button */}
-                    <button
-                        className="absolute top-4 right-4 text-zinc-400 hover:text-red-600 transition-colors text-2xl cursor-pointer"
-                        onClick={handleModalClose}
-                        aria-label="Close"
-                    >
-                        <IoMdClose />
-                    </button>
-                    <h1 className='text-pop text-3xl font-extralight mb-6 text-center tracking-wide'>
-                        Select Editor Type
-                    </h1>
-                    <div className='flex flex-col gap-4'>
-                        {TASK_TYPES.map((task) => (
-                            <motion.button
-                                key={task.type}
-                                className='
+                    <IoMdClose />
+                </button>
+                <h1 className='text-pop text-3xl font-extralight mb-6 text-center tracking-wide'>
+                    Select Editor Type
+                </h1>
+                <div className='flex flex-col gap-4'>
+                    {TASK_TYPES.map((task) => (
+                        <motion.button
+                            key={task.type}
+                            className='
                                     flex flex-row items-center justify-start gap-4 cursor-pointer
                                     px-5 py-3 rounded-lg border border-zinc-200 dark:border-zinc-700
                                     bg-foreground
                                     w-full
                                 '
-                                whileHover={{
-                                    scale: 1.025,
-                                    backgroundColor: "rgba(251,191,36,0.08)", // subtle amber highlight
-                                    boxShadow: "0 4px 16px rgba(251,191,36,0.10)"
-                                }}
-                                whileTap={{ scale: 0.98 }}
-                                onClick={() => handleTypeSelect(task.type)}
-                            >
-                                <span className="mr-2">{task.icon}</span>
-                                <span className='text-base font-base uppercase tracking-wider'>
-                                    {task.label}
-                                </span>
-                            </motion.button>
-                        ))}
-                    </div>
-                </motion.div>
-            </div>
-        );
+                            whileHover={{
+                                scale: 1.025,
+                                backgroundColor: "rgba(251,191,36,0.08)", // subtle amber highlight
+                                boxShadow: "0 4px 16px rgba(251,191,36,0.10)"
+                            }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => handleTypeSelect(task.type)}
+                        >
+                            <span className="mr-2">{task.icon}</span>
+                            <span className='text-base font-base uppercase tracking-wider'>
+                                {task.label}
+                            </span>
+                        </motion.button>
+                    ))}
+                </div>
+            </motion.div>
+        </div>
+    );
 }
