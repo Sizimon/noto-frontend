@@ -18,12 +18,17 @@ const apiRequest = async (endpoint: string, options: RequestInit & { skip401Redi
         // console.log('response status:', response.status);
         // console.log('response headers:', response.headers);
 
-        if (response.status === 401 && !options.skip401Redirect) {
-            // Redirect to login
-            if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
-                window.location.href = '/login';
-                return;
-            }
+        // if (response.status === 401 && !options.skip401Redirect) {
+        //     // Redirect to login
+        //     if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+        //         window.location.href = '/login';
+        //         return;
+        //     }
+        // }
+
+        if (response.status === 401) {
+            // Just throw an error, let the caller handle it
+            throw new Error('Unauthorized');
         }
 
         if (!response.ok) {
@@ -75,7 +80,7 @@ export const authAPI = {
 
 export const tasksAPI = {
     // TASKS API's
-    create: (type: string) => 
+    create: (type: string) =>
         apiRequest('/tasks', {
             method: 'POST',
             body: JSON.stringify({ type }),
@@ -125,12 +130,12 @@ export const tasksAPI = {
             method: 'DELETE',
             credentials: 'include', // Include cookies for session management
         }),
-    };
+};
 
 export const userAPI = {
     updateLastViewed: (data: [any]) => apiRequest('/user/last-viewed', {
         method: 'PUT',
-        body: JSON.stringify({ lastViewedTasks: data}),
+        body: JSON.stringify({ lastViewedTasks: data }),
         credentials: 'include', // Include cookies for session management
     }),
 };
