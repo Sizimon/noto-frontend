@@ -46,8 +46,8 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
                     >
                         <IoMdClose />
                     </button>
-                    <h1 className='text-pop text-3xl font-extrabold mb-6 text-center uppercase tracking-wide'>
-                        Create New Task
+                    <h1 className='text-pop text-3xl font-extralight mb-6 text-center tracking-wide'>
+                        Select Editor Type
                     </h1>
                     <div className='flex flex-col gap-4'>
                         {TASK_TYPES.map((task) => (
@@ -57,9 +57,6 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
                                     flex flex-row items-center justify-start gap-4 cursor-pointer
                                     px-5 py-3 rounded-lg border border-zinc-200 dark:border-zinc-700
                                     bg-foreground
-                                    shadow-sm hover:shadow-md
-                                    transition-all duration-200
-                                    focus:outline-none focus:ring-2 focus:ring-amber-600
                                     w-full
                                 '
                                 whileHover={{
@@ -71,7 +68,7 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
                                 onClick={() => handleTypeSelect(task.type)}
                             >
                                 <span className="mr-2">{task.icon}</span>
-                                <span className='text-base font-semibold uppercase tracking-wider'>
+                                <span className='text-base font-base uppercase tracking-wider'>
                                     {task.label}
                                 </span>
                             </motion.button>
