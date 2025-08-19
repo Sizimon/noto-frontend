@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FaRegStickyNote } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
@@ -12,12 +13,13 @@ const TASK_TYPES = [
 
 export default function CreateTaskModal({ handleModalClose }: { handleModalClose: () => void }) {
     const { user, setUser } = useAuth();
+    const router = useRouter();
 
     const handleTypeSelect = async (type: string) => {
         try {
             const newTask = await tasksAPI.create(type);
             handleModalClose();
-            window.location.href = `/tasks/${newTask.id}`;
+            router.push(`/tasks/${newTask.id}`);
             setUser((prevUser: any) => ({
                 ...prevUser,
                 lastViewedTasks: [...prevUser.lastViewedTasks, newTask.id]
