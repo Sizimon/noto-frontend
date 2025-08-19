@@ -18,12 +18,16 @@ const apiRequest = async (endpoint: string, options: RequestInit & { skip401Redi
         // console.log('response status:', response.status);
         // console.log('response headers:', response.headers);
 
-        if (response.status === 401 && !options.skip401Redirect) {
-            // Redirect to login
-            if (typeof window !== 'undefined' && window.location.pathname !== '/noto/login/') {
-                window.location.href = '/noto/login/';
-                return;
-            }
+        // if (response.status === 401 && !options.skip401Redirect) {
+        //     // Redirect to login
+        //     if (typeof window !== 'undefined' && window.location.pathname !== '/noto/login/') {
+        //         window.location.href = '/noto/login/';
+        //         return;
+        //     }
+        // }
+        
+        if (response.status === 401) {
+            throw new Error('Unauthorized');
         }
 
         if (!response.ok) {
