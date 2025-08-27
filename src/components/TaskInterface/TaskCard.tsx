@@ -1,5 +1,7 @@
 import { FaEllipsisVertical } from "react-icons/fa6";
 import React, { useState, useRef } from "react";
+import { FaPlus } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 import { Task } from "@/context/Tasks/TasksProvider";
 
@@ -63,34 +65,68 @@ export default function TaskCard({
                 `}
             onClick={() => handleTaskClick(card, router, user, setUser)} // Click handler to open the note editor
         >
-            <div
-                className='grid grid-flow-col grid-cols-6 col-span-6 items-center text-center w-full h-full bg-background text-pop rounded-l-lg'>
+            <div className='flex flex-row col-span-6 items-center justify-start text-center w-full h-full bg-background text-pop rounded-l-lg px-4'>
                 <Header
                     card={card}
                     handleFavoriteToggle={handleFavoriteToggle}
                 />
             </div>
-            <div className='relative flex flex-row justify-between items-center text-xs p-2 bg-background text-default w-full col-span-10 h-full rounded-r-lg'>
-                <div className="flex-1 flex-row mx-2 space-x-2">
-                    <Tags
-                        card={card}
-                        isInputOpen={isInputOpen}
-                        setIsInputOpen={setIsInputOpen}
-                        newTag={newTag}
-                        setNewTag={setNewTag}
-                        handleCreateTag={handleCreateTag}
-                    />
+            <div className="flex flex-row items-center overflow-x-auto justify-start col-span-6 h-full text-xs">
+                <Tags
+                    card={card}
+                    isInputOpen={isInputOpen}
+                    setIsInputOpen={setIsInputOpen}
+                    newTag={newTag}
+                    setNewTag={setNewTag}
+                    handleCreateTag={handleCreateTag}
+                />
+            </div>
+            <div className='relative flex flex-row justify-end items-center text-xs p-2 bg-background text-default min-w-0 col-span-4 h-full rounded-r-lg'>
+                <div className="flex flex-row space-x-4 items-center justify-center">
+                    <motion.button
+                        type="button"
+                        className="flex items-center p-1 text-pop rounded-lg overflow-hidden focus:outline-none cursor-default"
+                        whileHover="hover"
+                        initial="rest"
+                        animate="rest"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsInputOpen(!isInputOpen);
+                        }}
+                    >
+                        <motion.span
+                            variants={{
+                                rest: { rotate: 0 },
+                                hover: { rotate: 360 },
+                            }}
+                            transition={{ duration: 0.5 }}
+                            className="flex items-center"
+                        >
+                            <FaPlus className="text-sm" />
+                        </motion.span>
+                        <motion.span
+                            variants={{
+                                rest: { width: 0, opacity: 0, marginLeft: 0 },
+                                hover: { width: "auto", opacity: 1, marginLeft: 8 },
+                            }}
+                            transition={{ duration: 0.4, ease: "easeInOut" }}
+                            className="whitespace-nowrap overflow-hidden"
+                            style={{ display: "inline-block" }}
+                        >
+                            Add Tags
+                        </motion.span>
+                    </motion.button>
+                    <button
+                        ref={buttonRef}
+                        className='text-pop p-1 rounded-full cursor-pointer'
+                        onClick={(e) => {
+                            e.stopPropagation(); // Prevent the click from propagating to the card (card has onClick which opens the note)
+                            handleNoteMenuToggle(card.id);
+                        }}
+                    >
+                        <FaEllipsisVertical className="text-xl" />
+                    </button>
                 </div>
-                <button
-                    ref={buttonRef}
-                    className='text-pop p-1 rounded-full cursor-pointer'
-                    onClick={(e) => {
-                        e.stopPropagation(); // Prevent the click from propagating to the card (card has onClick which opens the note)
-                        handleNoteMenuToggle(card.id);
-                    }}
-                >
-                    <FaEllipsisVertical className="text-xl" />
-                </button>
                 {card.id === noteMenuOpen && (
                     <Menu // NOTE MENU COMPONENT
                         handleNoteMenuToggle={handleNoteMenuToggle}
