@@ -166,7 +166,7 @@ export default function SortAndTagsMenu({
                                                 className="accent-pop"
                                             />
                                             <span
-                                                className={`flex truncate px-2 py-1 rounded text-xs text-default ${tag.color}`}
+                                                className={`flex truncate px-2 py-1 rounded text-xs text-zinc-100 ${tag.color}`}
                                             >
                                                 {tag.title}
                                             </span>

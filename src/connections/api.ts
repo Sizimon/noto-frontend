@@ -79,7 +79,7 @@ export const authAPI = {
 
 export const tasksAPI = {
     // TASKS API's
-    create: (type: string) => 
+    create: (type: string) =>
         apiRequest('/tasks', {
             method: 'POST',
             body: JSON.stringify({ type }),
@@ -129,12 +129,12 @@ export const tasksAPI = {
             method: 'DELETE',
             credentials: 'include', // Include cookies for session management
         }),
-    };
+};
 
 export const userAPI = {
     updateLastViewed: (data: [any]) => apiRequest('/user/last-viewed', {
         method: 'PUT',
-        body: JSON.stringify({ lastViewedTasks: data}),
+        body: JSON.stringify({ lastViewedTasks: data }),
         credentials: 'include', // Include cookies for session management
     }),
 };

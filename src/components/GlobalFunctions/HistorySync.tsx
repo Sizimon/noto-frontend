@@ -20,7 +20,7 @@ const HistorySync = () => {
     const removedTagsRef = useRef(removedTags); // Store removedTags in a ref to avoid stale closure issues
     const pendingTagsRef = useRef(pendingTags); // Store pendingTags in a ref to avoid stale closure issues
 
-    // Update the ref whenever allTasks changes
+    // Update the ref whenever dependencies changes
     // This ensures that the latest tasks are always available in the interval callback
     useEffect(() => {
         userRef.current = user;

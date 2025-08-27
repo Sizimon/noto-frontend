@@ -48,7 +48,7 @@ export default function Tags({
         <div className='flex items-center justify-start'>
             <div className='flex space-x-2 w-full md:overflow-x-auto md:no-scrollbar'>
                 {/* Tags or Input */}
-                <div className="flex-1 relative">
+                <div className="flex relative">
                     <AnimatePresence mode="wait" initial={false}>
                         {isInputOpen ? (
                             <>
@@ -59,7 +59,7 @@ export default function Tags({
                                     value={newTag}
                                     placeholder="Add a tag"
                                     className="
-                                        flex w-full md:w-2/6 justify-start p-1 bg-foreground text-amber-600 rounded-lg focus:outline-none text-base
+                                        flex w-full justify-start p-1 bg-foreground text-amber-600 rounded-lg focus:outline-none
                                     "
                                     onChange={e => setNewTag(e.target.value)}
                                     onClick={e => e.stopPropagation()}
@@ -132,7 +132,7 @@ export default function Tags({
                                     </AnimatePresence>
                                 </div>
                                 {/* Desktop: all tags as chips */}
-                                <div className="hidden md:flex items-center overflow-x-auto whitespace-nowrap no-scrollbar gap-1">
+                                <div className="hidden md:flex items-center w-full whitespace-nowrap no-scrollbar gap-1">
                                     <AnimatePresence initial={false}>
                                         {card.tags.map((tag: Tag) => (
                                             <motion.span
@@ -173,40 +173,6 @@ export default function Tags({
                         )}
                     </AnimatePresence>
                 </div>
-                {/* Add Tag Button */}
-                <motion.button
-                    type="button"
-                    className="flex items-center p-1 text-pop rounded-lg overflow-hidden focus:outline-none cursor-default"
-                    whileHover="hover"
-                    initial="rest"
-                    animate="rest"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setIsInputOpen(!isInputOpen);
-                    }}
-                >
-                    <motion.span
-                        variants={{
-                            rest: { rotate: 0 },
-                            hover: { rotate: 360 },
-                        }}
-                        transition={{ duration: 0.5 }}
-                        className="flex items-center"
-                    >
-                        <FaPlus className="text-sm" />
-                    </motion.span>
-                    <motion.span
-                        variants={{
-                            rest: { width: 0, opacity: 0, marginLeft: 0 },
-                            hover: { width: "auto", opacity: 1, marginLeft: 8 },
-                        }}
-                        transition={{ duration: 0.4, ease: "easeInOut" }}
-                        className="whitespace-nowrap overflow-hidden"
-                        style={{ display: "inline-block" }}
-                    >
-                        Add Tags
-                    </motion.span>
-                </motion.button>
             </div>
         </div>
     );

@@ -13,7 +13,6 @@ import { tasksAPI } from '@/connections/api';
 import { useAuth } from '@/context/Auth/AuthProvider';
 import { useTasks } from '@/context/Tasks/TasksProvider';
 
-
 const TASK_TYPES = [
     { type: 'note', label: 'Notepad', icon: <FaRegStickyNote className='text-4xl text-amber-600' /> },
     // Add more types here if needed
@@ -64,8 +63,8 @@ export default function CreateTaskModal({ handleModalClose }: { handleModalClose
                 >
                     <IoMdClose />
                 </button>
-                <h1 className='text-pop text-3xl font-extralight mb-6 text-center uppercase tracking-wide'>
-                    Create New Task
+                <h1 className='text-pop text-3xl font-extralight mb-6 text-center tracking-wide'>
+                    Select Editor Type
                 </h1>
                 <div className='flex flex-col gap-4'>
                     {TASK_TYPES.map((task) => (

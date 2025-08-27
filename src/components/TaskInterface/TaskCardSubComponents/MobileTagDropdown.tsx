@@ -13,7 +13,7 @@ export default function MobileTagDropdown({ card, handleRemoveTag, anchorRef }: 
         if (anchorRef?.current) {
             const rect = anchorRef.current.getBoundingClientRect();
             let left = rect.left + window.scrollX;
-            const menuWidth = 160; // w-40 = 160px
+            const menuWidth = 144; // w-36 = 144px
             const viewportWidth = window.innerWidth;
             // If the menu would overflow, adjust left
             if (left + menuWidth > viewportWidth - 8) { // 8px margin
