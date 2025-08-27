@@ -56,7 +56,7 @@ export default function SuggestedTags({
                             className={`
                                 items-center px-3 py-1 my-0.5 rounded-lg transition cursor-pointer
                                 hover:bg-${tag.color}/80 focus:bg-${tag.color}/
-                                ${tag.color} text-xs text-default font-medium
+                                ${tag.color} text-xs text-zinc-100 font-medium
                                 hover:brightness-110 hover:scale-102 focus:outline-none
                                 truncate
                             `}

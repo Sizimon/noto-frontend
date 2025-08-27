@@ -173,40 +173,6 @@ export default function Tags({
                         )}
                     </AnimatePresence>
                 </div>
-                {/* Add Tag Button */}
-                {/* <motion.button
-                    type="button"
-                    className="flex items-center p-1 text-pop rounded-lg overflow-hidden focus:outline-none cursor-default"
-                    whileHover="hover"
-                    initial="rest"
-                    animate="rest"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setIsInputOpen(!isInputOpen);
-                    }}
-                >
-                    <motion.span
-                        variants={{
-                            rest: { rotate: 0 },
-                            hover: { rotate: 360 },
-                        }}
-                        transition={{ duration: 0.5 }}
-                        className="flex items-center"
-                    >
-                        <FaPlus className="text-sm" />
-                    </motion.span>
-                    <motion.span
-                        variants={{
-                            rest: { width: 0, opacity: 0, marginLeft: 0 },
-                            hover: { width: "auto", opacity: 1, marginLeft: 8 },
-                        }}
-                        transition={{ duration: 0.4, ease: "easeInOut" }}
-                        className="whitespace-nowrap overflow-hidden"
-                        style={{ display: "inline-block" }}
-                    >
-                        Add Tags
-                    </motion.span>
-                </motion.button> */}
             </div>
         </div>
     );
