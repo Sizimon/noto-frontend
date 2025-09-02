@@ -15,17 +15,6 @@ const apiRequest = async (endpoint: string, options: RequestInit & { skip401Redi
         console.log(`Making API request to: ${API_BASE_URL}${endpoint}`, config);
         const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
-        // console.log('response status:', response.status);
-        // console.log('response headers:', response.headers);
-
-        // if (response.status === 401 && !options.skip401Redirect) {
-        //     // Redirect to login
-        //     if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
-        //         window.location.href = '/login';
-        //         return;
-        //     }
-        // }
-
         if (response.status === 401) {
             // Just throw an error, let the caller handle it
             throw new Error('Unauthorized');
