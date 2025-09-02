@@ -36,32 +36,14 @@ const Login: React.FC = () => {
             setIsLoading(false);
             return;
         }
-
-        // Check if there's a redirect parameter in the URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const redirectUrl = urlParams.get('redirect');
-
-        try {
-            const result = await login(usernameOrEmail, password);
-
-            if (result && result.success) {
-                setSuccess('Login successful! Redirecting...');
-
-                if (redirectUrl) {
-                    // This is a login from Clip Curator - redirect back
-                    window.location.href = redirectUrl;
-                } else {
-                    // Normal Noto login - go to dashboard
-                    router.push('/user-dashboard');
-                }
-            } else if (result && result.error) {
-                setError(result.error);
-            }
-        } catch (error) {
-            setError('An unexpected error occurred.');
-        } finally {
-            setIsLoading(false);
+        const result = await login(usernameOrEmail, password);
+        if (result.success) {
+            setSuccess('Login successful! Redirecting...');
+            router.push('/user-dashboard');
+        } else {
+            setError(result.error || 'Login failed.');
         }
+        setIsLoading(false);
     };
 
     return (
