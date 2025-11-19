@@ -46,9 +46,9 @@ export default function Tags({
 
     return (
         <div className='flex items-center justify-start'>
-            <div className='flex space-x-2 w-full md:overflow-x-auto md:no-scrollbar'>
+            <div className='flex space-x-2 w-full'>
                 {/* Tags or Input */}
-                <div className="flex relative">
+                <div className="flex relative w-full">
                     <AnimatePresence mode="wait" initial={false}>
                         {isInputOpen ? (
                             <>
@@ -91,36 +91,36 @@ export default function Tags({
                         ) : (
                             <>
                                 {/* Mobile: chips + dropdown */}
-                                <div className="flex flex-row items-center gap-1 md:hidden relative">
-                                        {visibleMobileTags.map((tag: Tag) => (
-                                            <span
-                                                key={tag.id}
-                                                className={`text-white px-2 py-1 ${tag.color} rounded-full cursor-default whitespace-nowrap overflow-hidden`}
-                                                onClick={e => e.stopPropagation()}
+                                <div className="flex flex-row items-center gap-1 relative">
+                                    {visibleMobileTags.map((tag: Tag) => (
+                                        <span
+                                            key={tag.id}
+                                            className={`text-white px-2 py-1 ${tag.color} rounded-full cursor-default whitespace-nowrap overflow-hidden`}
+                                            onClick={e => e.stopPropagation()}
+                                        >
+                                            {tag.title}
+                                            <button
+                                                type="button"
+                                                className="ml-1"
+                                                onClick={() => handleRemoveTag(card.id, tag.id)}
                                             >
-                                                {tag.title}
-                                                <button
-                                                    type="button"
-                                                    className="ml-1"
-                                                    onClick={() => handleRemoveTag(card.id, tag.id)}
-                                                >
-                                                    <span className="text-xs">X</span>
-                                                </button>
-                                            </span>
-                                        ))}
-                                        {hiddenMobileCount > 0 && (
-                                            <span
-                                                ref={dropdownRef}
-                                                key="more"
-                                                className="px-2 py-1 bg-gray-700 rounded-full text-xs text-white cursor-pointer"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setShowMobileDropdown(v => !v);
-                                                }}
-                                            >
-                                                +{hiddenMobileCount}
-                                            </span>
-                                        )}
+                                                <span className="text-xs">X</span>
+                                            </button>
+                                        </span>
+                                    ))}
+                                    {hiddenMobileCount > 0 && (
+                                        <span
+                                            ref={dropdownRef}
+                                            key="more"
+                                            className="px-2 py-1 bg-gray-700 rounded-full text-xs text-white cursor-pointer"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setShowMobileDropdown(v => !v);
+                                            }}
+                                        >
+                                            +{hiddenMobileCount}
+                                        </span>
+                                    )}
                                     <AnimatePresence>
                                         {showMobileDropdown && (
                                             <MobileTagDropdown
@@ -129,44 +129,6 @@ export default function Tags({
                                                 anchorRef={dropdownRef}
                                             />
                                         )}
-                                    </AnimatePresence>
-                                </div>
-                                {/* Desktop: all tags as chips */}
-                                <div className="hidden md:flex items-center w-full whitespace-nowrap no-scrollbar gap-1">
-                                    <AnimatePresence initial={false}>
-                                        {card.tags.map((tag: Tag) => (
-                                            <motion.span
-                                                key={tag.id}
-                                                className={`text-white px-2 py-1 ${tag.color} rounded-full cursor-default`}
-                                                variants={tagVariants}
-                                                initial="initial"
-                                                animate="rest"
-                                                exit="exit"
-                                                whileHover="hover"
-                                                onClick={e => e.stopPropagation()}
-                                            >
-                                                {tag.title}
-                                                <motion.button
-                                                    type="button"
-                                                    className="ml-1 inline md:hidden"
-                                                    onClick={() => handleRemoveTag(card.id, tag.id)}
-                                                >
-                                                    <span className="text-xs">X</span>
-                                                </motion.button>
-                                                <motion.button
-                                                    type="button"
-                                                    className="hidden md:inline"
-                                                    variants={{
-                                                        rest: { width: 0, opacity: 0 },
-                                                        hover: { width: 16, opacity: 1 },
-                                                    }}
-                                                    transition={{ duration: 0.2, ease: "easeInOut" }}
-                                                    onClick={() => handleRemoveTag(card.id, tag.id)}
-                                                >
-                                                    <span className="text-xs">X</span>
-                                                </motion.button>
-                                            </motion.span>
-                                        ))}
                                     </AnimatePresence>
                                 </div>
                             </>

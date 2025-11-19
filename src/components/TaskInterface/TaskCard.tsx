@@ -1,5 +1,5 @@
 import { FaEllipsisVertical } from "react-icons/fa6";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -51,7 +51,7 @@ export default function TaskCard({
     const [isInputOpen, setIsInputOpen] = useState(false); // State to manage the visibility of the input for adding tags
     const [newTag, setNewTag] = useState<string>(''); // State to hold the new tag input
     const buttonRef = useRef<HTMLButtonElement>(null);
-    // console.log(card.type)
+
     return (
 
         <div // MAIN TASK CARD CONTAINER (CLICKABLE TO OPEN NOTE EDITOR)
@@ -71,7 +71,7 @@ export default function TaskCard({
                     handleFavoriteToggle={handleFavoriteToggle}
                 />
             </div>
-            <div className="flex flex-row items-center overflow-x-auto justify-start col-span-6 h-full text-xs">
+            <div className="flex flex-row items-center overflow-x-auto justify-start col-span-6 h-full text-xs no-scrollbar">
                 <Tags
                     card={card}
                     isInputOpen={isInputOpen}

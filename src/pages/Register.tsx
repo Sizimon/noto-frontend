@@ -74,7 +74,7 @@ const Register: React.FC = () => {
     return (
         <Layout>
             <div className="
-            flex flex-col h-screen bg-background text-default w-full relative justify-center gap-2
+            flex flex-col h-screen bg-background text-default w-full relative justify-center gap-2 uwq:!gap-4
             ">
                 <div className='absolute inset-0 z-0'>
                     <DarkVeil
@@ -96,7 +96,7 @@ const Register: React.FC = () => {
                         onSubmit={handleRegister}
                         className="
                             flex flex-col space-y-2 bg-foreground/90 py-4 px-8 rounded-lg w-5/6 z-10
-                            md:w-2/6 md:space-y-4
+                            md:w-2/8 uwq:!w-1/6 md:space-y-4
                     ">
                         <div>
                             <div className='flex flex-col items-center mb-4'>

@@ -37,12 +37,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                             ? data.user.lastViewedTasks.map(Number)
                             : [],
                     });
-                    // console.log('User data:', {
-                    //     ...data.user,
-                    //     lastViewedTasks: Array.isArray(data.user.lastViewedTasks)
-                    //         ? data.user.lastViewedTasks.map(Number)
-                    //         : [],
-                    // });
                     setInitialLastViewedTasks(Array.isArray(data.user.lastViewedTasks) ? data.user.lastViewedTasks.map(Number) : []);
                 } else {
                     setIsAuthenticated(false);
