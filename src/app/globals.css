@@ -71,6 +71,7 @@
 }
 
 @theme inline {
+  --breakpoint-uwq: 3439px;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-pop: var(--pop);

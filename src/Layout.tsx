@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { CiMenuBurger } from "react-icons/ci";
 import Navigation from '@/components/Navigation';
 import { useAuth } from '@/context/Auth/AuthProvider';
 import { ClipLoader } from 'react-spinners';
@@ -55,9 +56,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 onClick={toggleSidebar}
             >
                 {/* Hamburger icon */}
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+                <CiMenuBurger className='w-6 h-6 uwq:w-10 uwq:h-10' />
             </button>
             {isAuthenticated && (
                     <div className="absolute top-4 right-4 z-30">
