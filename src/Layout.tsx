@@ -52,7 +52,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             )}
             {/* Mobile Hamburger Button */}
             <button
-                className="absolute top-4 left-4 z-30 p-2 text-default rounded cursor-pointer"
+                className="fixed top-4 left-4 z-30 p-2 text-default rounded cursor-pointer"
                 onClick={toggleSidebar}
             >
                 {/* Hamburger icon */}
