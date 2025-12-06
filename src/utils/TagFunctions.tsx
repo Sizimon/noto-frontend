@@ -107,43 +107,12 @@ export function useHandleAddExistingTag() {
     };
 }
 
-
-// export function useHandleRemoveTag() {
-//     const { allTasks, setAllTasks } = useTasks();
-//     const { pendingTags, addRemovedTag, clearPendingTags } = useTags();
-
-//     return (taskId: number, tagId: number) => {
-//         const task = allTasks.find(task => task.id === taskId);
-//         const originalTags = task?.tags || [];
-
-//         // If the tag is in pending tags, clear it (undo pending add)
-//         if (pendingTags[taskId]?.some((tag: Tag) => tag.id === tagId)) {
-//             clearPendingTags(taskId, tagId);
-//         } else {
-//             // Otherwise, mark it for removal (to be synced)
-//             const tagToRemove = originalTags.find((tag: Tag) => tag.id === tagId);
-//             if (tagToRemove) {
-//                 addRemovedTag(taskId, tagToRemove);
-//             }
-//         }
-
-//         // Remove the tag from the task's tags array and mark task as dirty
-//         const newTags = originalTags.filter((tag: Tag) => tag.id !== tagId);
-//         const updatedTasks = allTasks.map(task =>
-//             task.id === taskId
-//                 ? { ...task, tags: newTags, dirty: true }
-//                 : task
-//         );
-//         setAllTasks(updatedTasks);
-//     };
-// }
-
 export function useHandleRemoveTag() {
     const { clearPendingTags, addRemovedTag } = useTags();
     const { allTasks, setAllTasks } = useTasks();
 
     return useCallback(async (taskId: number, tagId: number) => {
-        console.log('🏷️ Removing tag:', { taskId, tagId }); // Add this
+        // console.log('🏷️ Removing tag:', { taskId, tagId }); 
         
         // Find the tag to mark as removed
         const task = allTasks.find(t => t.id === taskId);
@@ -175,7 +144,7 @@ export function useHandleRemoveTag() {
         addRemovedTag(taskId, tagToRemove);
         clearPendingTags(taskId, tagId);
         
-        console.log('🏷️ Tag marked for removal:', { taskId, tagId, tagTitle: tagToRemove.title }); // Add this
+        // console.log('🏷️ Tag marked for removal:', { taskId, tagId, tagTitle: tagToRemove.title });
     }, [allTasks, setAllTasks, addRemovedTag, clearPendingTags]);
 }
 

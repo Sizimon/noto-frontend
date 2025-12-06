@@ -6,7 +6,6 @@ import { tasksAPI } from "@/connections/api";
 import { useTasks } from "@/context/Tasks/TasksProvider";
 import { useTags } from "@/context/Tags/TagsProvider";
 import { useAuth } from "@/context/Auth/AuthProvider";
-import { clear } from "console";
 
 const HistorySync = () => {
     const { user, initialLastViewedTasks, setInitialLastViewedTasks } = useAuth();
@@ -49,11 +48,11 @@ const HistorySync = () => {
             const currentPendingTags = pendingTagsRef.current;
             const currentUser = userRef.current;
 
-            console.log('🔄 HistorySync running:', {
-                tasksCount: tasks?.length || 0,
-                removedTagsCount: Object.values(currentRemovedTags).reduce((total, tags) => total + tags.length, 0),
-                pendingTagsCount: Object.values(currentPendingTags).reduce((total, tags) => total + tags.length, 0)  
-            });
+            // console.log('🔄 HistorySync running:', {
+            //     tasksCount: tasks?.length || 0,
+            //     removedTagsCount: Object.values(currentRemovedTags).reduce((total, tags) => total + tags.length, 0),
+            //     pendingTagsCount: Object.values(currentPendingTags).reduce((total, tags) => total + tags.length, 0)  
+            // });
 
             // SYNC LAST VIEWED TASKS
             if (!arraysEqual(initialLastViewedTasksRef.current, currentUser?.lastViewedTasks)) {
@@ -78,11 +77,11 @@ const HistorySync = () => {
                                 const removed = currentRemovedTags[taskId];
                                 const pending = currentPendingTags[taskId];
 
-                                console.log('🔄 Syncing task:', {
-                                    taskId,
-                                    removedCount: removed?.length || 0,
-                                    pendingCount: pending?.length || 0
-                                });
+                                // console.log('🔄 Syncing task:', {
+                                //     taskId,
+                                //     removedCount: removed?.length || 0,
+                                //     pendingCount: pending?.length || 0
+                                // });
 
                                 // Track if all operations succeed
                                 let allOperationsSucceeded = true;
@@ -96,7 +95,7 @@ const HistorySync = () => {
 
                                 // Handle pending tags
                                 if (pending && pending.length > 0) {
-                                    console.log('➕ Adding pending tags to server:', pending.map(t => t.title));
+                                    // console.log('➕ Adding pending tags to server:', pending.map(t => t.title));
 
                                     const results = await Promise.allSettled(
                                         pending.map(async (tag) => {
@@ -128,7 +127,7 @@ const HistorySync = () => {
 
                                 // Handle removed tags
                                 if (removed && removed.length > 0) {
-                                    console.log('🗑️ Removing tags from server:', removed.map(t => t.title));
+                                    // console.log('🗑️ Removing tags from server:', removed.map(t => t.title));
 
                                     const results = await Promise.allSettled(
                                         removed.map(async (tag) => {
