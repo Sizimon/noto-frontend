@@ -60,8 +60,12 @@ export const TagsProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }));
 
   const refreshTags = async () => {
-    const data = await tasksAPI.getAllTags();
-    setTags(data); // Adjust according to your API response
+    try {
+      const data = await tasksAPI.getAllTags();
+      setTags(data);
+    } catch (error) {
+      console.error('Error refreshing tags:', error);
+    }
   };
 
   useEffect(() => { refreshTags(); }, []);
