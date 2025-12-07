@@ -15,7 +15,7 @@ import { useTasks } from '../context/Tasks/TasksProvider';
 
 const UserDashboard: React.FC = () => {
     // CONTEXT HOOKS
-    const { allTasks, refreshTasks } = useTasks();
+    const { allTasks } = useTasks();
     // ------------------------------------------
 
     const [showModal, setShowModal] = useState<boolean>(false); // State to control the visibility of the Create Task modal
