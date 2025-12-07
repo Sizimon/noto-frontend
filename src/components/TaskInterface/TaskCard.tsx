@@ -1,5 +1,5 @@
 import { FaEllipsisVertical } from "react-icons/fa6";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { FaPlus } from "react-icons/fa";
 import { motion } from "framer-motion";
 
