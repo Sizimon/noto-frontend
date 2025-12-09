@@ -31,10 +31,6 @@ const HistorySync = () => {
         tagsRef.current = tags;
     }, [user, allTasks, removedTags, pendingTags, tags, initialLastViewedTasks]);
 
-    // console.log('All found tags:', tags);
-    // console.log('Pending tags:', pendingTags);
-    // console.log('Removed tags:', removedTags);
-
     // Function to compare two arrays for equality including order
     function arraysEqual(a?: number[], b?: number[]) {
         if (!a || !b) return false;
@@ -47,81 +43,135 @@ const HistorySync = () => {
 
     useEffect(() => {
         const interval = setInterval(async () => {
-            // SYNC LAST VIEWED TASKS FROM CONTEXT TO THE SERVER
+            const tasks = allTasksRef.current;
+            const currentRemovedTags = removedTagsRef.current;
+            const currentPendingTags = pendingTagsRef.current;
             const currentUser = userRef.current;
-            // console.log(initialLastViewedTasksRef.current, currentUser?.lastViewedTasks);
-            if (arraysEqual(initialLastViewedTasksRef.current, currentUser?.lastViewedTasks)) {
-                return;
-            }
-            if (currentUser && Array.isArray(currentUser.lastViewedTasks)) {
-                try {
-                    await userAPI.updateLastViewed(currentUser.lastViewedTasks);
-                    setInitialLastViewedTasks(currentUser.lastViewedTasks);
-                    initialLastViewedTasksRef.current = currentUser.lastViewedTasks; // Update the ref to the new last viewed tasks
-                } catch (err) {
-                    console.error('Failed to sync lastViewedTasks:', err);
+
+            // console.log('🔄 HistorySync running:', {
+            //     tasksCount: tasks?.length || 0,
+            //     removedTagsCount: Object.values(currentRemovedTags).reduce((total, tags) => total + tags.length, 0),
+            //     pendingTagsCount: Object.values(currentPendingTags).reduce((total, tags) => total + tags.length, 0)  
+            // });
+
+            // SYNC LAST VIEWED TASKS
+            if (!arraysEqual(initialLastViewedTasksRef.current, currentUser?.lastViewedTasks)) {
+                if (currentUser && Array.isArray(currentUser.lastViewedTasks)) {
+                    try {
+                        await userAPI.updateLastViewed(currentUser.lastViewedTasks);
+                        setInitialLastViewedTasks(currentUser.lastViewedTasks);
+                        initialLastViewedTasksRef.current = currentUser.lastViewedTasks;
+                    } catch (err) {
+                        console.error('Failed to sync lastViewedTasks:', err);
+                    }
                 }
             }
 
-            // SYNC ALL DIRTY TASKS FROM CONTEXT TO THE SERVER
-            const tasks = allTasksRef.current;
+            // SYNC ALL DIRTY TASKS
             if (tasks && tasks.length > 0) {
                 await Promise.all(
                     tasks.map(async (task) => {
                         try {
                             if (task.dirty) {
                                 const taskId = task.id;
-                                const removed = removedTagsRef.current[taskId];
-                                const pendingTags = pendingTagsRef.current[taskId];
+                                const removed = currentRemovedTags[taskId];
+                                const pending = currentPendingTags[taskId];
+
+                                // console.log('🔄 Syncing task:', {
+                                //     taskId,
+                                //     removedCount: removed?.length || 0,
+                                //     pendingCount: pending?.length || 0
+                                // });
+
+                                // Track if all operations succeed
+                                let allOperationsSucceeded = true;
+
+                                // Sync basic task data
                                 await tasksAPI.edit(task.id, {
                                     title: task.title,
                                     content: task.content,
                                     is_favorite: task.is_favorite,
                                 });
 
-                                // console.log('Syncing task:', taskId, 'pendingTags:', pendingTags);
-                                // This ensures that any new tags are created before removing any existing ones
-                                if (pendingTags && pendingTags.length > 0) {
-                                    await Promise.all(
-                                        pendingTags.map(async (tag) => {
-                                            // Only add tags that have a real ID
+                                // Handle pending tags
+                                if (pending && pending.length > 0) {
+                                    // console.log('➕ Adding pending tags to server:', pending.map(t => t.title));
+
+                                    const results = await Promise.allSettled(
+                                        pending.map(async (tag) => {
                                             if (tag.id) {
-                                                await tasksAPI.addExistingTag(taskId, tag.id);
+                                                try {
+                                                    await tasksAPI.addExistingTag(taskId, tag.id);
+                                                    clearPendingTags(taskId, tag.id); // Fixed: was clearRemovedTags
+                                                    return { success: true, tagId: tag.id };
+                                                } catch (error) {
+                                                    console.error('Failed to add existing tag:', tag.id, error);
+                                                    return { success: false, tagId: tag.id, error };
+                                                }
+                                            } else {
+                                                clearPendingTags(taskId, tag.id); // Fixed: was clearRemovedTags
+                                                return { success: true, tagId: tag.id };
                                             }
-                                            clearPendingTags(taskId, tag.id);
                                         })
                                     );
-                                    refreshTags(); // Refresh tags after adding
+
+                                    const pendingSucceeded = results.every(result =>
+                                        result.status === 'fulfilled' && result.value.success
+                                    );
+
+                                    if (!pendingSucceeded) {
+                                        console.warn('Some pending tag operations failed for task:', taskId);
+                                        allOperationsSucceeded = false;
+                                    }
                                 }
 
-                                // console.log('Syncing task:', taskId, 'removedTags:', removed);
-                                // This ensures that any tags that were removed in the UI are also removed on the server
-
+                                // Handle removed tags
                                 if (removed && removed.length > 0) {
-                                    await Promise.all(
+                                    // console.log('🗑️ Removing tags from server:', removed.map(t => t.title));
+
+                                    const results = await Promise.allSettled(
                                         removed.map(async (tag) => {
-                                            // Only remove tags that have a real ID
                                             if (tag.id) {
-                                                await tasksAPI.removeTag(taskId, tag.id);
+                                                try {
+                                                    await tasksAPI.removeTag(taskId, tag.id);
+                                                    clearRemovedTags(taskId, tag.id);
+                                                    return { success: true, tagId: tag.id };
+                                                } catch (error) {
+                                                    console.error('Failed to remove tag:', tag.id, error);
+                                                    return { success: false, tagId: tag.id, error };
+                                                }
+                                            } else {
+                                                clearRemovedTags(taskId, tag.id);
+                                                return { success: true, tagId: tag.id };
                                             }
-                                            clearRemovedTags(taskId, tag.id);
                                         })
                                     );
-                                    refreshTags();
+
+                                    const removedSucceeded = results.every(result =>
+                                        result.status === 'fulfilled' && result.value.success
+                                    );
+
+                                    if (!removedSucceeded) {
+                                        console.warn('Some tag removals failed for task:', taskId);
+                                        allOperationsSucceeded = false;
+                                    }
                                 }
-                                task.dirty = false; // Reset dirty flag after syncing
+
+                                // Only reset dirty flag if ALL operations succeeded
+                                if (allOperationsSucceeded) {
+                                    task.dirty = false;
+                                }
                             }
                         } catch (err) {
-                            console.error('Failed to sync task:', task.id, err);
+                            console.error('❌ Failed to sync task:', task.id, err);
                         }
-
                     })
                 );
             }
-        }, 5000); // Sync every 5 seconds
+        }, 5000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [clearPendingTags, clearRemovedTags, setInitialLastViewedTasks]); // Add dependencies
     return null; // This component does not render anything
 }
 

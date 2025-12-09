@@ -1,7 +1,7 @@
 'use client';
 
 import { FaEllipsisVertical } from "react-icons/fa6";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { FaPlus } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -47,7 +47,6 @@ export default function TaskCard({
     handleFavoriteToggle,
     handleCreateTag,
 }: any) {
-    console.log(card);
     const { user, setUser } = useAuth(); // Context hook to access user data
     const router = useRouter(); // Next.js router for navigation
     const [isInputOpen, setIsInputOpen] = useState(false); // State to manage the visibility of the input for adding tags

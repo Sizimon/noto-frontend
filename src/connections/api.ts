@@ -79,6 +79,12 @@ export const tasksAPI = {
             method: 'GET',
             credentials: 'include', // Include cookies for session management
         }),
+    getById: (id: number) => {
+        return apiRequest(`/tasks/fetch/${id}`, {
+            method: 'GET',
+            credentials: 'include', // Include cookies for session management
+        });
+    },
     edit: (id: number, data: any) =>
         apiRequest(`/tasks/edit/${id}`, {
             method: 'PUT',

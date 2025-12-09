@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState, useRef, use, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tag } from '@/context/Tags/TagsProvider';
-import { FaPlus } from 'react-icons/fa';
 import { useTags } from '@/context/Tags/TagsProvider';
 import SuggestedTags from './SuggestedTags';
 import MobileTagDropdown from './MobileTagDropdown';
@@ -90,7 +89,7 @@ export default function Tags({
                             </>
                         ) : (
                             <>
-                                {/* Mobile: chips + dropdown */}
+                                {/* Universal Tags Display */}
                                 <div className="flex flex-row items-center gap-1 relative">
                                     {visibleMobileTags.map((tag: Tag) => (
                                         <span
